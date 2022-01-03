@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/04 04:18:32 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/04 04:38:35 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include "libft.h"
+#include <stdbool.h>
 
 static void	handle_ctrl_c(int signum)
 {
@@ -29,42 +30,53 @@ static void	handle_ctrl_c(int signum)
 	rl_redisplay();
 }
 
-char	*ft_strcat(char *dest, char *src)
-{
-	while (*dest)
-		dest++;
-	while (*src)
-		*dest++ = *src++;
-	return (dest);
-}
-
-int	cd(char *line)
+static int	cd(char *line)
 {
 	if (ft_strnstr(line, "cd ", ft_strlen(line)) == line)
-		return (!chdir(line + 3));
+	{
+		if (chdir(line + 3))
+		{
+			perror(line);
+			return (-1);
+		}
+		return (1);
+	}
 	return (0);
+}
+
+static char	*prompt(char *buf, size_t size, bool has_error)
+{
+	int	len;
+
+	ft_strlcpy(buf, "minishell:", size);
+	len = ft_strlen(buf);
+	getcwd(buf + len, size - len);
+	if (has_error)
+		ft_strlcat(buf, "! ", size);
+	else
+		ft_strlcat(buf, "> ", size);
+	return (buf);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
-	char	ctrl_d;
+	bool	is_ctrl_d;
 	char	cwd[512];
+	bool	has_error;
 
 	(void) argc;
 	(void) argv;
 	(void) env;
-	ft_strlcpy(cwd, "minishell:", 512);
+	has_error = false;
 	signal(SIGINT, handle_ctrl_c);
 	while (1)
 	{
-		getcwd(cwd + 10, 500);
-		ft_strlcat(cwd, "> ", 512);
-		line = readline(cwd);
-		ctrl_d = line == NULL;
-		if (ctrl_d)
+		line = readline(prompt(cwd, 512, has_error));
+		is_ctrl_d = line == NULL;
+		if (is_ctrl_d)
 			return (free(line), EXIT_SUCCESS);
-		cd(line);
+		has_error = cd(line) == -1;
 		add_history(line);
 		free(line);
 	}
