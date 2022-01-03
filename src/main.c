@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
+/*   Updated: 2022/01/04 04:18:32 by Koh              ###   ########.kl       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -35,11 +49,12 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	char	ctrl_d;
-	char	cwd[512] = {"minishell:"};
+	char	cwd[512];
 
 	(void) argc;
 	(void) argv;
 	(void) env;
+	ft_strlcpy(cwd, "minishell:", 512);
 	signal(SIGINT, handle_ctrl_c);
 	while (1)
 	{
