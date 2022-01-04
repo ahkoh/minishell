@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/04 04:38:35 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/04 10:15:44 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 #include "libft.h"
 #include <stdbool.h>
 
-static void	handle_ctrl_c(int signum)
+static void	handle_ctrl_c_slash(int signum)
 {
-	(void) signum;
+	if (signum == SIGINT)
+	{
+		(void)"TODO: kill child process";
+	}
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -69,7 +72,8 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 	(void) env;
 	has_error = false;
-	signal(SIGINT, handle_ctrl_c);
+	signal(SIGINT, handle_ctrl_c_slash);
+	signal(SIGQUIT, handle_ctrl_c_slash);
 	while (1)
 	{
 		line = readline(prompt(cwd, 512, has_error));
