@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/04 10:15:44 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/05 10:49:15 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,48 @@
 #include "libft.h"
 #include <stdbool.h>
 
-static void	handle_ctrl_c_slash(int signum)
+int	ft_execute(char *command, char **env);
+
+/* setup signals, handle CtrlC, ignore Ctrl\ */
+static void	handle_signals(int signum)
 {
-	if (signum == SIGINT)
+	if (signum != SIGINT)
 	{
-		(void)"TODO: kill child process";
+		signal(SIGINT, handle_signals);
+		signal(SIGQUIT, SIG_IGN);
+		return ;
 	}
-	printf("\n");
+	(void)"TODO: kill child process";
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-static int	cd(char *line)
+/* add_history if neither duplicate nor empty */
+static void	new_history(char *line)
 {
-	if (ft_strnstr(line, "cd ", ft_strlen(line)) == line)
+	static char	buf[512];
+	const int	size = sizeof(buf);
+
+	if (line && *line && ft_strncmp(buf, line, size))
 	{
-		if (chdir(line + 3))
-		{
-			perror(line);
-			return (-1);
-		}
-		return (1);
+		add_history(line);
+		ft_strlcpy(buf, line, size);
 	}
-	return (0);
 }
 
-static char	*prompt(char *buf, size_t size, bool has_error)
+/* prompt with cwd and react to $? */
+static char	*prompt(int errno)
 {
-	int	len;
+	static char	buf[512];
+	const int	size = sizeof(buf);
+	int			len;
 
 	ft_strlcpy(buf, "minishell:", size);
 	len = ft_strlen(buf);
 	getcwd(buf + len, size - len);
-	if (has_error)
+	if (errno)
 		ft_strlcat(buf, "! ", size);
 	else
 		ft_strlcat(buf, "> ", size);
@@ -64,24 +72,20 @@ static char	*prompt(char *buf, size_t size, bool has_error)
 int	main(int argc, char **argv, char **env)
 {
 	char	*line;
-	bool	is_ctrl_d;
-	char	cwd[512];
-	bool	has_error;
+	int		last_error;
 
 	(void) argc;
 	(void) argv;
 	(void) env;
-	has_error = false;
-	signal(SIGINT, handle_ctrl_c_slash);
-	signal(SIGQUIT, handle_ctrl_c_slash);
+	last_error = false;
+	handle_signals(true);
 	while (1)
 	{
-		line = readline(prompt(cwd, 512, has_error));
-		is_ctrl_d = line == NULL;
-		if (is_ctrl_d)
-			return (free(line), EXIT_SUCCESS);
-		has_error = cd(line) == -1;
-		add_history(line);
+		line = readline(prompt(last_error));
+		if (line == NULL)
+			break ;
+		last_error = ft_execute(line, env);
+		new_history(line);
 		free(line);
 	}
 	return (EXIT_SUCCESS);
