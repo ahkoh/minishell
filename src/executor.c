@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/05 11:14:03 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/05 11:20:12 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static bool	is_empty(char *line)
 		if (!ft_isspace(*line++))
 			return (false);
 	}
-
 	return (true);
 }
 
