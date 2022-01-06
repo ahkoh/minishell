@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/05 10:49:15 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/06 09:04:22 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,23 @@
 
 int	ft_execute(char *command, char **env);
 
-/* setup signals, handle CtrlC, ignore Ctrl\ */
-static void	handle_signals(int signum)
+static void	reprompt(int signum)
 {
-	if (signum != SIGINT)
-	{
-		signal(SIGINT, handle_signals);
-		signal(SIGQUIT, SIG_IGN);
-		return ;
-	}
-	(void)"TODO: kill child process";
-	write(STDOUT_FILENO, "\n", 1);
+	(void)signum;
+	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-/* add_history if neither duplicate nor empty */
-static void	new_history(char *line)
+static bool	is_empty(char *line)
 {
-	static char	buf[512];
-	const int	size = sizeof(buf);
-
-	if (line && *line && ft_strncmp(buf, line, size))
+	while (*line)
 	{
-		add_history(line);
-		ft_strlcpy(buf, line, size);
+		if (!ft_isspace(*line++))
+			return (false);
 	}
+	return (true);
 }
 
 /* prompt with cwd and react to $? */
@@ -74,18 +64,22 @@ int	main(int argc, char **argv, char **env)
 	char	*line;
 	int		last_error;
 
-	(void) argc;
 	(void) argv;
-	(void) env;
+	if (argc > 1)
+		return (ft_putendl_fd("Error: No parameter expected", 2), 1);
 	last_error = false;
-	handle_signals(true);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGINT, reprompt);
 		line = readline(prompt(last_error));
+		signal(SIGINT, SIG_IGN);
 		if (line == NULL)
 			break ;
+		if (is_empty(line))
+			continue ;
 		last_error = ft_execute(line, env);
-		new_history(line);
+		add_history(line);
 		free(line);
 	}
 	return (EXIT_SUCCESS);
