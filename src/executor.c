@@ -6,7 +6,7 @@
 /*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/06 09:01:10 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/06 11:16:19 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static int	execute(char *line, char **env, int fi, int fo)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		dup2(fi, 0);
-		dup2(fo, 1);
+		dup2(fi, STDIN_FILENO);
+		dup2(fo, STDOUT_FILENO);
 		return (px_execfile(line, env));
 	}
-	if (fi != 0)
+	if (fi != STDIN_FILENO)
 		close(fi);
-	if (fo != 1)
+	if (fo != STDOUT_FILENO)
 		close(fo);
 	waitpid(pid, &ret, 0);
 	return (ret);
@@ -69,13 +69,13 @@ static int	execute_pipe(char *line, char **env)
 
 	i = 0;
 	cmds = ft_split(line, '|');
-	fi = 0;
+	fi = STDIN_FILENO;
 	while (cmds[i])
 	{
 		if (cmds[i + 1])
 			pipe(p);
 		else
-			p[1] = 1;
+			p[1] = STDOUT_FILENO;
 		ret = execute(cmds[i], env, fi, p[1]);
 		fi = p[0];
 		i++;
