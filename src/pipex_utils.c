@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/05 11:01:46 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/07 12:33:29 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,19 @@ int	px_execfile(char *command, char **env)
 	char	*fp;
 
 	argv = ft_split(command, ' ');
-	fp = px_get_fp(argv[0], env);
+	fp = px_get_fp(*argv, env);
 	if (fp)
 		execve(fp, argv, env);
-	if (!fp || (errno == 2 && !ft_strchr(command, '/')))
-		ft_printf_fd(2, "pipex: command not found: %s\n", command);
+	if (!fp || (errno == 2 && !ft_strchr(*argv, '/')))
+		ft_printf_fd(2, "pipex: command not found: %s\n", *argv);
 	else
-		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), command);
+		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), *argv);
 	ft_split_free(&argv);
 	free(fp);
+	if (!fp || errno == 2)
+		return (127);
+	if (errno == 13)
+		return (126);
 	return (EXIT_FAILURE);
 }
 
