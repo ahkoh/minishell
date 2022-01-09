@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/07 13:29:07 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/09 13:58:05 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include "libft.h"
 #include <stdbool.h>
+#include "minishell.h"
 
 int	ft_execute(char *command, char **env);
 
@@ -43,7 +44,7 @@ static bool	is_empty(char *line)
 }
 
 /* prompt with cwd and react to $? */
-static char	*prompt(int last_exit_status)
+static char	*get_prompt(int last_exit_status)
 {
 	static char	buf[512];
 	const int	size = sizeof(buf);
@@ -59,30 +60,42 @@ static char	*prompt(int last_exit_status)
 	return (buf);
 }
 
-int	main(int argc, char **argv, char **env)
+static int	repl(char **env)
 {
-	char	*line;
-	int		last_exit_status;
+	t_prompt	prompt;
+	t_cmd		*cmd;
 
-	(void) argv;
-	if (argc > 1)
-		return (ft_putendl_fd("Error: No parameter expected", 2), EXIT_FAILURE);
-	last_exit_status = EXIT_SUCCESS;
-	signal(SIGQUIT, SIG_IGN);
+	prompt.env = init_env(env);
+	prompt.e_status = EXIT_SUCCESS;
 	while (1)
 	{
 		signal(SIGINT, reprompt);
-		line = readline(prompt(last_exit_status));
+		prompt.full_cmds = readline(get_prompt(prompt.e_status));
 		signal(SIGINT, SIG_IGN);
-		if (line == NULL)
+		if (prompt.full_cmds == NULL)
 			break ;
-		if (!is_empty(line))
+		if (!is_empty(prompt.full_cmds))
 		{
-			last_exit_status = ft_execute(line, env);
-			add_history(line);
-			printf("$?=%d\n", last_exit_status);
+			get_cmds(&cmd, &prompt);
+			prompt.e_status = execute_pipeline(&cmd, &prompt);
+			add_history(prompt.full_cmds);
+			if (prompt.e_status == 130)
+				printf("\n");
+			printf("[$?=%d]", prompt.e_status);
 		}
-		free(line);
+		free(prompt.full_cmds);
 	}
-	return (EXIT_SUCCESS);
+	return (prompt.e_status);
+}
+
+/* Bash returns the exit status of the last command executed */
+/* or exits with a non-zero value when a syntax error occurs */
+int	main(int argc, char **argv, char **env)
+{
+	if (argc > 1 && argv)
+		return (ft_putendl_fd("Error: No parameter expected", 2), EXIT_FAILURE);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
+	return (repl(env));
 }

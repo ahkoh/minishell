@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Koh <skoh@student.42kl.edu.my>             +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/07 13:26:15 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/09 13:57:39 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,75 +16,9 @@
 #include <stdbool.h>
 #include "libft.h"
 #include <signal.h>
+#include "minishell.h"
 
-int	px_execfile(char *command, char **env);
-
-static int	cd(char *line)
-{
-	if (ft_strnstr(line, "cd ", ft_strlen(line)) == line)
-	{
-		if (chdir(line + 3))
-		{
-			perror(line);
-			return (-1);
-		}
-		return (1);
-	}
-	return (0);
-}
-
-/* 0 success, otherwise wstatus/errno */
-static int	execute(char *line, char **env, int fi, int fo)
-{
-	int	pid;
-	int	ret;
-
-	ret = cd(line);
-	if (ret)
-		return (ret == -1);
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		dup2(fi, STDIN_FILENO);
-		dup2(fo, STDOUT_FILENO);
-		ret = px_execfile(line, env);
-		exit(ret);
-	}
-	if (fi != STDIN_FILENO)
-		close(fi);
-	if (fo != STDOUT_FILENO)
-		close(fo);
-	return (pid);
-}
-
-/* execute pipe separated cmds */
-static int	execute_pipe(char *line, char **env)
-{
-	char	**cmds;
-	int		i;
-	int		fi;
-	int		p[2];
-	int		pid;
-
-	i = 0;
-	cmds = ft_split(line, '|');
-	fi = STDIN_FILENO;
-	while (cmds[i])
-	{
-		if (cmds[i + 1])
-			pipe(p);
-		else
-			p[1] = STDOUT_FILENO;
-		pid = execute(cmds[i], env, fi, p[1]);
-		fi = p[0];
-		i++;
-	}
-	ft_split_free(&cmds);
-	return (pid);
-}
-
-static int	ft_waitpid(int pid)
+static int	wait_exit_status(int pid)
 {
 	int	ret;
 	int	status;
@@ -102,27 +36,110 @@ static int	ft_waitpid(int pid)
 	return (ret);
 }
 
-/* execute semicolons separated lines */
-int	ft_execute(char *line, char **env)
+/* command is either built-in or executable file */
+/* executable returns pid for waitpid() to get exit status */
+/* built-in returns EXIT_SUCCESS/FAILURE/2(incorrect usage) as exit status */
+static int	execute_command(char **argv, char **env, int fi, int fo)
 {
-	int		ret;
-	char	**cmds;
-	int		i;
-	int		last_pid;
+	int	pid;
+	int	exit_status;
 
-	ret = EXIT_SUCCESS;
-	cmds = ft_split(line, ';');
-	i = -1;
-	while (cmds[++i])
+	if (execute_builtins(argv, env, &exit_status))
+		return (exit_status);
+	pid = fork();
+	if (pid == 0)
 	{
-		last_pid = execute_pipe(cmds[i], env);
-		if (last_pid > 1)
-			ret = ft_waitpid(last_pid);
-		else
-			ret = last_pid;
-		while (wait(NULL) > 0)
-			;
+		signal(SIGINT, SIG_DFL);
+		dup2(fi, STDIN_FILENO);
+		dup2(fo, STDOUT_FILENO);
+		exit_status = px_execfile(argv, env);
+		exit(exit_status);
 	}
-	ft_split_free(&cmds);
-	return (ret);
+	if (fi != STDIN_FILENO)
+		close(fi);
+	if (fo != STDOUT_FILENO)
+		close(fo);
+	return (pid);
 }
+
+int	execute_pipeline(t_cmd **cmd, t_prompt *prompt)
+{
+	int		i;
+	int		fi;
+	int		p[2];
+	int		last_pid;
+	int		exit_status;
+
+	last_pid = EXIT_SUCCESS;
+	fi = STDIN_FILENO;
+	i = -1;
+	while (++i < prompt->total_cmd)
+	{
+		if (i + 1 < prompt->total_cmd)
+			pipe(p);
+		else
+			p[1] = STDOUT_FILENO;
+		last_pid = execute_command((*cmd)[i].arg, prompt->env, fi, p[1]);
+		fi = p[0];
+	}
+	if (last_pid > 2)
+		exit_status = wait_exit_status(last_pid);
+	else
+		exit_status = last_pid;
+	while (wait(NULL) > 0)
+		;
+	return (exit_status);
+}
+
+/* Execute a pipeline */
+/* A pipeline is a sequence of one or more commands separated by | */
+/* The return status of a pipeline is the exit status of the last command */
+// static int	execute_pipeline(char *line, char **env)
+// {
+// 	char	**commands;
+// 	int		i;
+// 	int		fi;
+// 	int		p[2];
+// 	int		pid;
+
+// 	i = 0;
+// 	commands = ft_split(line, '|');
+// 	fi = STDIN_FILENO;
+// 	while (commands[i])
+// 	{
+// 		if (commands[i + 1])
+// 			pipe(p);
+// 		else
+// 			p[1] = STDOUT_FILENO;
+// 		pid = execute_command(commands[i], env, fi, p[1]);
+// 		fi = p[0];
+// 		i++;
+// 	}
+// 	ft_split_free(&commands);
+// 	return (pid);
+// }
+
+/* execute semicolons separated lines */
+// int	ft_execute(char *line, char **env)
+// {
+// 	int		exit_status;
+// 	char	**pipelines;
+// 	int		i;
+// 	int		last_pid;
+
+// 	exit_status = EXIT_SUCCESS;
+// 	pipelines = ft_split(line, ';');
+// 	i = -1;
+// 	while (pipelines[++i])
+// 	{
+// 		last_pid = execute_pipeline(pipelines[i], env);
+// 		if (last_pid > 2)
+// 			exit_status = wait_exit_status(last_pid);
+// 		else
+// 			exit_status = last_pid;
+// 		while (wait(NULL) > 0)
+// 			;
+// 	}
+// 	ft_split_free(&pipelines);
+// 	return (exit_status);
+// }

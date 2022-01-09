@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/07 12:33:29 by Koh              ###   ########.kl       */
+/*   Updated: 2022/01/09 13:58:20 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,10 @@ static char	*px_get_fp(const char *filename, char **env)
 
 // exe-file without path must exist in env-path or Command-not-found
 // exe-file with path will use errno
-int	px_execfile(char *command, char **env)
+int	px_execfile(char **argv, char **env)
 {
-	char	**argv;
 	char	*fp;
 
-	argv = ft_split(command, ' ');
 	fp = px_get_fp(*argv, env);
 	if (fp)
 		execve(fp, argv, env);
@@ -71,7 +69,6 @@ int	px_execfile(char *command, char **env)
 		ft_printf_fd(2, "pipex: command not found: %s\n", *argv);
 	else
 		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), *argv);
-	ft_split_free(&argv);
 	free(fp);
 	if (!fp || errno == 2)
 		return (127);
