@@ -6,11 +6,9 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/09 13:58:05 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:35:46 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <unistd.h>
 
 #include <stdio.h>
 #include <readline/readline.h>
@@ -19,10 +17,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include "libft.h"
-#include <stdbool.h>
 #include "minishell.h"
-
-int	ft_execute(char *command, char **env);
 
 static void	reprompt(int signum)
 {
@@ -33,17 +28,8 @@ static void	reprompt(int signum)
 	rl_redisplay();
 }
 
-static bool	is_empty(char *line)
-{
-	while (*line)
-	{
-		if (!ft_isspace(*line++))
-			return (false);
-	}
-	return (true);
-}
-
 /* prompt with cwd and react to $? */
+// todo consider buf 512 limit
 static char	*get_prompt(int last_exit_status)
 {
 	static char	buf[512];
@@ -74,10 +60,10 @@ static int	repl(char **env)
 		signal(SIGINT, SIG_IGN);
 		if (prompt.full_cmds == NULL)
 			break ;
-		if (!is_empty(prompt.full_cmds))
+		if (!ft_isempty(prompt.full_cmds))
 		{
 			get_cmds(&cmd, &prompt);
-			prompt.e_status = execute_pipeline(&cmd, &prompt);
+			prompt.e_status = execute_pipeline(cmd, &prompt);
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");

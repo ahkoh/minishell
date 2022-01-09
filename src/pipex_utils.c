@@ -6,12 +6,11 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/09 13:58:20 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:35:01 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include <fcntl.h>
+#include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
@@ -29,6 +28,7 @@ static char	**px_get_env_paths(char **env)
 	return (NULL);
 }
 
+// todo replace access()
 static char	*px_get_fp(const char *filename, char **env)
 {
 	char		**paths;
@@ -66,44 +66,13 @@ int	px_execfile(char **argv, char **env)
 	if (fp)
 		execve(fp, argv, env);
 	if (!fp || (errno == 2 && !ft_strchr(*argv, '/')))
-		ft_printf_fd(2, "pipex: command not found: %s\n", *argv);
+		ft_printf_fd(2, "minishell: command not found: %s\n", *argv);
 	else
-		ft_printf_fd(2, "pipex: %s: %s\n", strerror(errno), *argv);
+		ft_printf_fd(2, "minishell: %s: %s\n", strerror(errno), *argv);
 	free(fp);
 	if (!fp || errno == 2)
 		return (127);
 	if (errno == 13)
 		return (126);
 	return (EXIT_FAILURE);
-}
-
-static int	px_openfile(char *filename, int stdio, int is_bonus)
-{
-	int	fd;
-
-	if (stdio == STDOUT_FILENO && !is_bonus)
-		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (stdio == STDOUT_FILENO && is_bonus)
-		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else
-		fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (ft_printf_fd(STDERR_FILENO, "pipex: %s: %s\n",
-				strerror(errno), filename), 0);
-	dup2(fd, stdio);
-	close(fd);
-	return (1);
-}
-
-int	px_replace_stdio(int *io, char *infile, char *outfile, int is_bonus)
-{
-	if (io[0])
-		dup2(io[0], STDIN_FILENO);
-	else if (!px_openfile(infile, STDIN_FILENO, is_bonus))
-		return (0);
-	if (io[1])
-		dup2(io[1], STDOUT_FILENO);
-	else if (!px_openfile(outfile, STDOUT_FILENO, is_bonus))
-		return (0);
-	return (1);
 }

@@ -6,18 +6,18 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/09 13:53:26 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:37:17 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
-#include "../libft/libft.h"
+#include "libft.h"
 #include "minishell.h"
 
 static bool	cd(char **argv, int *exit_status)
 {
-	if (ft_strncmp(argv[0], "cd", ft_strlen(argv[0])) == 0)
+	if (ft_strcmp(argv[0], "cd") == 0)
 	{
 		if (!argv[1] || argv[2])
 			*exit_status = 2;

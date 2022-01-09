@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 15:52:56 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/09 11:31:41 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:36:33 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
-#include "../libft/libft.h"
+#include "libft.h"
 
 typedef struct s_cmd
 {
@@ -34,31 +34,32 @@ typedef struct s_prompt
 	int total_cmd;
 }			t_prompt;
 
-void ft_strreplace(char **cmd, char *replace, int size_search, int search_index)
+int ft_strreplace(char **cmd, char *replace, int size_search, int search_index)
 {
 	int b;
 	int c;
-	int d;
 	char *new_str;
 
 	new_str = malloc(sizeof(char) *
 		(ft_strlen((*cmd)) - size_search + ft_strlen(replace) + 1));
 	b = -1;
 	c = -1;
-	d = -1;
 	while ((*cmd)[++b] != '\0')
 	{
 		if (b == search_index)
 		{
-			while (replace[++d] != '\0')
-				new_str[++c] = replace[d];
+			while (*replace != '\0')
+				new_str[++c] = *(replace++);
 			b += size_search;
 		}
+		if ((*cmd)[b] == '\0')
+			break;
 		new_str[++c] = (*cmd)[b];
 	}
 	new_str[++c] = '\0';
 	free((*cmd));
 	(*cmd) = new_str;
+	return (1);
 }
 
 char *find_env(char *cmd, t_prompt *prompt, int len)
@@ -84,17 +85,15 @@ char *find_env(char *cmd, t_prompt *prompt, int len)
 	return (NULL);
 }
 
-void expand_env(t_cmd **cmd, t_prompt *prompt, int a, int b)
+int expand_env(t_cmd **cmd, t_prompt *prompt, int a, int b)
 {
 	int tmp;
 	int env_len;
 	char *replace;
 
 	b++;
-	// if ((*cmd)[a].cmd[b] == '$')
-	// 	ft_strreplace(&((*cmd)[a].cmd), ft_itoa(getpid()), 2, b - 1);
 	if ((*cmd)[a].cmd[b] == '?')
-		ft_strreplace(&((*cmd)[a].cmd), ft_itoa(prompt->e_status), 2, b - 1);
+		return (ft_strreplace(&((*cmd)[a].cmd), ft_itoa(prompt->e_status), 2, b - 1));
 	else
 	{
 		env_len = 1;
@@ -106,10 +105,11 @@ void expand_env(t_cmd **cmd, t_prompt *prompt, int a, int b)
 		}
 		replace = find_env(&((*cmd)[a].cmd[tmp]), prompt, env_len);
 		if (replace != NULL && env_len > 1)
-			ft_strreplace(&((*cmd)[a].cmd), replace, env_len, tmp - 1);
+			return (ft_strreplace(&((*cmd)[a].cmd), replace, env_len, tmp - 1));
 		else if (replace == NULL && env_len > 1)
-			ft_strreplace(&((*cmd)[a].cmd), "", env_len, tmp - 1);
+			return (ft_strreplace(&((*cmd)[a].cmd), "", env_len, tmp - 1));
 	}
+	return (0);
 }
 
 void expand_cmd(t_cmd **cmd, t_prompt *prompt)
@@ -126,8 +126,11 @@ void expand_cmd(t_cmd **cmd, t_prompt *prompt)
 		while ((*cmd)[a].cmd[b] != '\0')
 		{
 			if ((*cmd)[a].cmd[b] == '$' && opened == 1)
-				expand_env(cmd, prompt, a, b);
-			if ((*cmd)[a].cmd[b] == '\'')
+			{
+				if (expand_env(cmd, prompt, a, b) == 1)
+					break;
+			}
+			else if ((*cmd)[a].cmd[b] == '\'')
 				opened *= -1;
 			b++;
 		}
@@ -392,10 +395,10 @@ void ft_subsplit(t_cmd **cmd, int a, char *s)
 		check_operator(s[var.y], &var, &((*cmd)[a].is_operator[var.x]));
 		while (!(is_whitespace(s[var.y])) && s[var.y] != '\0' || var.is_opened == true)
 		{
-			if (check_quote_status(s[var.y], &var) == -1)
-				;
-			else if (check_operator(s[var.y], &var, &((*cmd)[a].is_operator[var.x + 1])))
+			if (check_operator(s[var.y], &var, &((*cmd)[a].is_operator[var.x + 1])))
 				break;
+			else if (check_quote_status(s[var.y], &var) == -1)
+				;
 			else
 				(*cmd)[a].arg[var.x][++var.i] = s[var.y];
 			var.y++;
@@ -448,24 +451,18 @@ char **init_env(char **envp)
 	return (env);
 }
 
-int main2(int ac, char **av, char **envp)
-{
-	t_prompt prompt;
-	t_cmd *cmd;
+// int main(int ac, char **av, char **envp)
+// {
+// 	t_prompt prompt;
+// 	t_cmd *cmd;
 
-	prompt.env = init_env(envp);
-	prompt.e_status = 0;
-	while (1)
-	{
-		prompt.full_cmds = readline("Text: ");
-		get_cmds(&cmd, &prompt);
-		free(prompt.full_cmds);
-	}
-	return (0);
-}
-
-
-// < : redirection has to split out
-// "" : can connect to front and back when not whitespace (seems to be fixed)
-// add a bool to check if operator is in quote
-// clean up the ft_split
+// 	prompt.env = init_env(envp);
+// 	prompt.e_status = 0;
+// 	while (1)
+// 	{
+// 		prompt.full_cmds = readline("Text: ");
+// 		get_cmds(&cmd, &prompt);
+// 		free(prompt.full_cmds);
+// 	}
+// 	return (0);
+// }
