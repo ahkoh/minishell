@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 00:47:22 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/10 01:25:59 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 09:31:00 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	redirect(t_cmd *cmd, int count)
 			if (!cmd->is_operator[i] && ++arg_i)
 				continue ;
 			operator = ft_shift(cmd->arg + arg_i);
-			if (!cmd->is_operator[i + 1])
+			if (!cmd->is_operator[i + 1] && ++i)
 			{
 				fp = ft_shift(cmd->arg + arg_i);
 				if (fp)

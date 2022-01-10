@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/10 01:35:01 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:43:31 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	px_execfile(char **argv, char **env)
 	else
 		ft_printf_fd(2, "minishell: %s: %s\n", strerror(errno), *argv);
 	free(fp);
-	if (!fp || errno == 2)
+	if (!fp || errno == ENOENT)
 		return (127);
-	if (errno == 13)
+	if (errno == EACCES)
 		return (126);
 	return (EXIT_FAILURE);
 }
