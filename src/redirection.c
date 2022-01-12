@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 00:47:22 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 11:40:04 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 18:16:05 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,13 @@ int	open_redirections(t_cmd *cmd)
 		if (!cmd->is_operator[operator_idx] && ++arg_idx)
 			continue ;
 		operator = ft_shift(cmd->arg + arg_idx);
-		fp = ft_shift(cmd->arg + arg_idx);
-		openfile(cmd, operator, fp);
-		free(fp);
+		if (!cmd->is_operator[operator_idx + 1] && ++operator_idx)
+		{
+			fp = ft_shift(cmd->arg + arg_idx);
+			if (fp)
+				openfile(cmd, operator, fp);
+			free(fp);
+		}
 		free(operator);
 	}
 	return (cmd->infile != -1);

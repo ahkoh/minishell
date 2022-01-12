@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/12 10:58:43 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 18:42:49 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_prompt(int last_exit_status)
 	return (buf);
 }
 
-// static char	*freadline(void *a) {(void)a; return ft_strdup("cat<a>a");}
+// static char	*freadline(void *a) {(void)a; return ft_strdup("cat >a >b>c");}
 // todo undo ctrl+d auto-newline
 static int	repl(char **env)
 {
