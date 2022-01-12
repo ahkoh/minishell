@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/10 01:35:26 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 12:53:40 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ bool	ft_isempty(char *line);
 bool	execute_builtins(char **argv, char **env, int *exit_status);
 //pipex_utils
 int		px_execfile(char **argv, char **env);
+//heredoc
+int		handle_heredocs(t_cmd *cmd, int count);
 //redirect
-void	redirect(t_cmd *cmd, int count);
+int		open_redirections(t_cmd *cmd);
 //executor
-int		execute_pipeline(t_cmd *cmd, t_prompt *prompt);
+int		execute_line(t_cmd *cmd, t_prompt *prompt);
 
 #endif

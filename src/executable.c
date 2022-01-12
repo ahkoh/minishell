@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/10 01:43:31 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 11:43:22 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+
+// locate executable, handle file exist/permission & execve error
 
 static char	**px_get_env_paths(char **env)
 {
@@ -66,9 +68,9 @@ int	px_execfile(char **argv, char **env)
 	if (fp)
 		execve(fp, argv, env);
 	if (!fp || (errno == 2 && !ft_strchr(*argv, '/')))
-		ft_printf_fd(2, "minishell: command not found: %s\n", *argv);
+		ft_printf_fd(2, "minishell: %s: command not found\n", *argv);
 	else
-		ft_printf_fd(2, "minishell: %s: %s\n", strerror(errno), *argv);
+		ft_printf_fd(2, "minishell: %s: %s\n", *argv, strerror(errno));
 	free(fp);
 	if (!fp || errno == ENOENT)
 		return (127);

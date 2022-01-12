@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/10 01:36:56 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 11:38:04 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include <signal.h>
 #include "libft.h"
 #include "minishell.h"
+
+// first step is heredoc, then need to consider single built-in changes env
+// parent will setup & cleanup pipe() for pipelines with builtins & executables
+// pipeline split into fork() where rediction(dup2) & execve() may success/fail
 
 /* wait all children, get exit status from last_pid, support built-in exit */
 /* last_pid can be built-in exit-code 0/1/2 */
@@ -56,24 +60,28 @@ static	void	close_fd(int f1, int f2)
 /* executable returns pid for waitpid() to get exit status */
 /* built-in returns EXIT_SUCCESS/FAILURE/2(incorrect usage) as exit status */
 /* minishell ignore ctrl+c, but forked cmd will react to ctrl+c */
-static int	execute_command(char **argv, char **env, int fi, int fo)
+static int	execute_redirect(t_cmd *cmd, char **env)
 {
 	int	pid;
 	int	exit_status;
 
-	if (execute_builtins(argv, env, &exit_status))
-		return (exit_status);
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		dup2(fi, STDIN_FILENO);
-		dup2(fo, STDOUT_FILENO);
-		close_fd(fi, fo);
-		exit_status = px_execfile(argv, env);
+		if (!open_redirections(cmd))
+			exit_status = EXIT_FAILURE;
+		else
+		{
+			dup2(cmd->infile, STDIN_FILENO);
+			dup2(cmd->outfile, STDOUT_FILENO);
+			close_fd(cmd->infile, cmd->outfile);
+			if (execute_builtins(cmd->arg, env, &exit_status))
+				exit(exit_status);
+			exit_status = px_execfile(cmd->arg, env);
+		}
 		exit(exit_status);
 	}
-	close_fd(fi, fo);
 	return (pid);
 }
 
@@ -85,7 +93,6 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 	int		p[2];
 	int		last_pid;
 
-	redirect(cmd, prompt->total_cmd);
 	last_pid = EXIT_SUCCESS;
 	fi = STDIN_FILENO;
 	cnt = prompt->total_cmd;
@@ -95,14 +102,37 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 			pipe(p);
 		else
 			p[1] = STDOUT_FILENO;
-		if (!cmd->infile)
+		if (cmd->infile)
+			close_fd(fi, 0);
+		else
 			cmd->infile = fi;
-		if (!cmd->outfile)
-			cmd->outfile = p[1];
-		last_pid = execute_command(cmd->arg, prompt->env,
-				cmd->infile, cmd->outfile);
+		cmd->outfile = p[1];
+		last_pid = execute_redirect(cmd, prompt->env);
+		close_fd(fi, p[1]);
 		fi = p[0];
 		cmd++;
 	}
 	return (wait_exit_status(last_pid));
+}
+
+// todo single built-in run local, export can redirect!!
+int	execute_line(t_cmd *cmd, t_prompt *prompt)
+{
+	const char	*builtins[] = {"cd", "exit", "unset", "export", NULL};
+	int			i;
+
+	if (!handle_heredocs(cmd, prompt->total_cmd))
+		return (EXIT_FAILURE);
+	if (prompt->total_cmd == 1)
+	{
+		i = -1;
+		while (builtins[++i])
+		{
+			if (ft_strcmp(builtins[i], cmd->arg[0]) != 0)
+				continue ;
+			execute_builtins(cmd->arg, prompt->env, &prompt->e_status);
+			return (prompt->e_status);
+		}
+	}
+	return (execute_pipeline(cmd, prompt));
 }

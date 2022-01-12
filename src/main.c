@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/10 01:35:46 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 10:58:43 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	reprompt(int signum)
 }
 
 /* prompt with cwd and react to $? */
+/* compare export PS1='[$?]$LOGNAME:$(pwd)> ' */
 // todo consider buf 512 limit
 static char	*get_prompt(int last_exit_status)
 {
@@ -46,14 +47,15 @@ static char	*get_prompt(int last_exit_status)
 	return (buf);
 }
 
+// static char	*freadline(void *a) {(void)a; return ft_strdup("cat<a>a");}
+// todo undo ctrl+d auto-newline
 static int	repl(char **env)
 {
 	t_prompt	prompt;
 	t_cmd		*cmd;
 
-	prompt.env = init_env(env);
-	prompt.e_status = EXIT_SUCCESS;
-	while (1)
+	prompt = (t_prompt){.env = init_env(env), .e_status = EXIT_SUCCESS};
+	while (true)
 	{
 		signal(SIGINT, reprompt);
 		prompt.full_cmds = readline(get_prompt(prompt.e_status));
@@ -63,7 +65,7 @@ static int	repl(char **env)
 		if (!ft_isempty(prompt.full_cmds))
 		{
 			get_cmds(&cmd, &prompt);
-			prompt.e_status = execute_pipeline(cmd, &prompt);
+			prompt.e_status = execute_line(cmd, &prompt);
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");
@@ -71,6 +73,8 @@ static int	repl(char **env)
 		}
 		free(prompt.full_cmds);
 	}
+	ft_split_free(&prompt.env);
+	printf("exit\n");
 	return (prompt.e_status);
 }
 
