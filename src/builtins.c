@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 02:58:36 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 03:45:17 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // todo free(everything)?
 static bool	quit(char **argv, int *exit_status)
 {
-	if (ft_strcmp("exit", argv[0]) == 0)
+	if (ft_strcmp(argv[0], "exit") == 0)
 	{
 		printf("exit\n");
 		*exit_status = EXIT_SUCCESS;
@@ -82,11 +82,15 @@ static bool	echo(char **argv, int *exit_status)
 	return (false);
 }
 
-/* exit_status = 0/1/2 => success/failure/syntax-error */
-/* return true if is a built-in command, otherwise false */
+// run built-in if matched and no-cmd
+// exit_status = 0/1/2 => success/failure/syntax-error
+// return true if is a built-in command, otherwise false
 bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status)
 {
-	return (cd(argv, exit_status)
+	*exit_status = EXIT_SUCCESS;
+	return (
+		*argv == NULL
+		|| cd(argv, exit_status)
 		|| pwd(argv, exit_status)
 		|| echo(argv, exit_status)
 		|| quit(argv, exit_status)

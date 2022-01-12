@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 03:00:33 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 03:54:38 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 		i = -1;
 		while (builtins[++i])
 		{
-			if (ft_strcmp(builtins[i], cmd->arg[0]) != 0)
+			if (cmd->arg[0] && ft_strcmp(builtins[i], cmd->arg[0]) != 0)
 				continue ;
 			execute_builtins(cmd->arg, prompt, &prompt->e_status);
 			return (prompt->e_status);
