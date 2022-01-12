@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 12:53:40 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 03:08:37 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ typedef struct s_prompt
 //get_cmd
 char	**init_env(char **envp);
 void	get_cmds(t_cmd **cmd, t_prompt *prompt);
+void	free_cmds(t_cmd **cmd, int total_cmd);
 //utils
 void	*ft_shift(void *pointer_array);
 int		ft_strcmp(const char *s1, const char *s2);
 bool	ft_isempty(char *line);
 //builtins
-bool	execute_builtins(char **argv, char **env, int *exit_status);
+bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status);
+//environment
+bool	execute_environments(char **argv, t_prompt *prompt, int *exit_status);
 //pipex_utils
 int		px_execfile(char **argv, char **env);
 //heredoc

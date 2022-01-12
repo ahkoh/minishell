@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/12 11:38:04 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 03:00:33 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static	void	close_fd(int f1, int f2)
 /* executable returns pid for waitpid() to get exit status */
 /* built-in returns EXIT_SUCCESS/FAILURE/2(incorrect usage) as exit status */
 /* minishell ignore ctrl+c, but forked cmd will react to ctrl+c */
-static int	execute_redirect(t_cmd *cmd, char **env)
+static int	execute_redirect(t_cmd *cmd, t_prompt *prompt)
 {
 	int	pid;
 	int	exit_status;
@@ -76,9 +76,9 @@ static int	execute_redirect(t_cmd *cmd, char **env)
 			dup2(cmd->infile, STDIN_FILENO);
 			dup2(cmd->outfile, STDOUT_FILENO);
 			close_fd(cmd->infile, cmd->outfile);
-			if (execute_builtins(cmd->arg, env, &exit_status))
+			if (execute_builtins(cmd->arg, prompt, &exit_status))
 				exit(exit_status);
-			exit_status = px_execfile(cmd->arg, env);
+			exit_status = px_execfile(cmd->arg, prompt->env);
 		}
 		exit(exit_status);
 	}
@@ -107,7 +107,7 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 		else
 			cmd->infile = fi;
 		cmd->outfile = p[1];
-		last_pid = execute_redirect(cmd, prompt->env);
+		last_pid = execute_redirect(cmd, prompt);
 		close_fd(fi, p[1]);
 		fi = p[0];
 		cmd++;
@@ -130,7 +130,7 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 		{
 			if (ft_strcmp(builtins[i], cmd->arg[0]) != 0)
 				continue ;
-			execute_builtins(cmd->arg, prompt->env, &prompt->e_status);
+			execute_builtins(cmd->arg, prompt, &prompt->e_status);
 			return (prompt->e_status);
 		}
 	}

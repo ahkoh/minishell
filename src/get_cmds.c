@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 15:52:56 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/10 01:36:33 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 02:44:03 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "libft.h"
 
 typedef struct s_cmd
@@ -59,7 +60,7 @@ int ft_strreplace(char **cmd, char *replace, int size_search, int search_index)
 	new_str[++c] = '\0';
 	free((*cmd));
 	(*cmd) = new_str;
-	return (1);
+	return (size_search);
 }
 
 char *find_env(char *cmd, t_prompt *prompt, int len)
@@ -116,21 +117,24 @@ void expand_cmd(t_cmd **cmd, t_prompt *prompt)
 {
 	int a;
 	int b;
+	char quote;
 	int opened;
 
 	a = 0;
 	while (a < prompt->total_cmd)
 	{
 		b = 0;
-		opened = 1;
+		opened = -1;
 		while ((*cmd)[a].cmd[b] != '\0')
 		{
-			if ((*cmd)[a].cmd[b] == '$' && opened == 1)
+			if ((*cmd)[a].cmd[b] == '$' && (opened == -1 || opened == 1 && quote == '"'))
+				b += expand_env(cmd, prompt, a, b);
+			else if (opened == -1 && ((*cmd)[a].cmd[b] == '\'' || (*cmd)[a].cmd[b] == '"' ))
 			{
-				if (expand_env(cmd, prompt, a, b) == 1)
-					break;
+				quote = (*cmd)[a].cmd[b];
+				opened *= -1;
 			}
-			else if ((*cmd)[a].cmd[b] == '\'')
+			else if (opened == 1 && (*cmd)[a].cmd[b] == quote)
 				opened *= -1;
 			b++;
 		}
@@ -288,7 +292,7 @@ int get_total_split(char *s)
 	var.is_opened = false;
 	while (s[var.i] != '\0' && is_whitespace(s[var.i]))
 		var.i++;
-	if (var.i == 0)
+	if (var.i == 0 && s[var.i] != '\0')
 	{
 		check_quote_status(s[var.i], &var);
 		var.i++;
@@ -423,14 +427,49 @@ void split_arg(t_cmd **cmd, t_prompt *prompt)
 	}
 }
 
-
-void get_cmds(t_cmd **cmd, t_prompt *prompt)
+void free_cmds(t_cmd **cmd, int total_cmd)
 {
+	int a;
+	int b;
+
+	a = 0;
+	while (a < total_cmd)
+	{
+		b = 0;
+		while ((*cmd)[a].arg[b] != NULL)
+		{
+			free((*cmd)[a].arg[b]);
+			b++;
+		}
+		free((*cmd)[a].arg);
+		free((*cmd)[a].is_operator);
+		free((*cmd)[a].cmd);
+		a++;
+	}
+	free((*cmd));
+	*cmd = NULL;
+}
+
+int get_cmds(t_cmd **cmd, t_prompt *prompt)
+{
+	int a;
+
 	prompt->total_cmd = count_total_cmd(prompt->full_cmds);
 	*cmd = malloc(sizeof(t_cmd) * (prompt->total_cmd));
 	split_cmds(cmd, prompt, prompt->full_cmds);
 	expand_cmd(cmd, prompt);
 	split_arg(cmd, prompt);
+	a = 0;
+	while (a < prompt->total_cmd)
+	{
+		if (prompt->total_cmd > 1 && (*cmd)[a].arg[0] == NULL)
+		{
+			write(1, "bash: syntax error near unexpected token `|'\n", 45);
+			return (0);
+		}
+		a++;
+	}
+	return (1);
 }
 
 char **init_env(char **envp)
@@ -451,6 +490,186 @@ char **init_env(char **envp)
 	return (env);
 }
 
+
+static void	*ft_shift(void *pointer_array)
+{
+	void	*first;
+	void	**array;
+
+	array = (void **)pointer_array;
+	first = *array;
+	while (*array)
+	{
+		*array = *(array + 1);
+		array++;
+	}
+	return (first);
+}
+
+int mini_unset(t_prompt *prompt, char **argv)
+{
+	int a;
+	int b;
+	int i;
+	char *replace;
+
+	a = 0;
+	while (argv[a] != NULL)
+	{
+		i = 0;
+		while (prompt->env[i])
+		{
+			b = 0;
+			while (argv[a][b])
+			{
+				if (prompt->env[i][b] != argv[a][b])
+					break;
+				b++;
+			}
+			if (ft_isdigit(argv[a][b]) || (!ft_isalnum(argv[a][b]) && argv[a][b] != '='))
+			{
+				printf("unset: '%s': not a valid identifier\n", argv[a]);
+				prompt->e_status = 1;
+			}
+			if (argv[a][b] == '\0' && prompt->env[i][b] == '=')
+			{
+				free(ft_shift(prompt->env + i));
+				break;
+			}
+			i++;
+		}
+		a++;
+	}
+	return (0);
+}
+
+int mini_env(t_prompt *prompt)
+{
+	int a;
+
+	a = 0;
+	while (prompt->env[a])
+	{
+		printf("%s\n", prompt->env[a]);
+		a++;
+	}
+	return (0);
+}
+
+void add_env(t_prompt *prompt, char *s, int len)
+{
+	int a;
+	int b;
+
+	a = 0;
+	while (prompt->env[a] != NULL)
+	{
+		b = 0;
+		while (s[b] != '=')
+		{
+			if (prompt->env[a][b] != s[b])
+				break;
+			b++;
+		}
+		if (s[b] == '=' && prompt->env[a][b] == '=')
+			free(ft_shift(prompt->env + a));
+		else
+			a++;
+	}
+	prompt->env[a] = ft_strdup(s);
+}
+
+void swap(char **s1, char **s2)
+{
+    char *tmp;
+
+    tmp = *s1;
+    *s1 = *s2;
+    *s2 = tmp;
+}
+
+int partition(char **av, int low, int high)
+{
+    char *string_pivot = av[high];
+    int x = low;
+    int y = low;
+
+    while (y <= high - 1)
+    {
+        if (ft_strcmp(av[y], string_pivot) < 0)
+        {
+            swap(&av[x], &av[y]);
+            x++;
+        }
+        y++;
+    }
+    swap(&av[x], &av[high]);
+    return (x);
+}
+
+void string_quicksort(char **av, int low, int high)
+{
+    int p;
+
+    if (low < high)
+    {
+        p = partition(av, low, high);
+        string_quicksort(av, low, p - 1);
+        string_quicksort(av, p + 1, high);
+    }
+}
+
+void display_ordered_env(char **env)
+{
+	int a;
+
+	a = 0;
+	while (env[a])
+		a++;
+	string_quicksort(env, 0, a - 1);
+	a = 0;
+	while (env[a])
+	{
+		printf("declare -x  %s\n", env[a]);
+		a++;
+	}
+}
+
+
+
+int mini_export(t_prompt *prompt, char **argv)
+{
+	int a;
+	int b;
+
+	a = 0;
+	while (argv[a])
+	{
+		b = 0;
+		if (!ft_isdigit(argv[a][b]))
+		{
+			while (argv[a][b] != '\0')
+			{
+				if (!ft_isalnum(argv[a][b]) && argv[a][b] != '_')
+					break;
+				b++;
+			}
+		}
+		if (ft_isdigit(argv[a][b]) || (!ft_isalnum(argv[a][b]) && argv[a][b] != '='))
+		{
+			printf("export: '%s': not a valid identifier\n", argv[a]);
+			prompt->e_status = 1;
+		}
+		if (argv[a][b] == '=' && b != 0)
+			add_env(prompt ,argv[a], b);
+		a++;
+	}
+	if (a == 0)
+		display_ordered_env(prompt->env);
+	mini_env(prompt);
+	return (0);
+}
+
 // int main(int ac, char **av, char **envp)
 // {
 // 	t_prompt prompt;
@@ -462,7 +681,23 @@ char **init_env(char **envp)
 // 	{
 // 		prompt.full_cmds = readline("Text: ");
 // 		get_cmds(&cmd, &prompt);
+// 		mini_export(&prompt, cmd[0].arg);
+// 		free_cmds(&cmd, prompt.total_cmd);
 // 		free(prompt.full_cmds);
+// 		//system("leaks a.out");
 // 	}
 // 	return (0);
 // }
+
+
+
+//export : reorder after no argv
+
+//(needs more testing)
+//      , erro : first index is numbers;
+//			   : has special characters;
+
+
+//(needs to do testing)
+//unset, error : first index is number;
+//			   : has special characters;

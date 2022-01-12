@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/12 11:38:47 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/13 03:00:49 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ objs	= src/main.o \
 		  src/get_cmds.o \
 		  src/utils.o \
 		  src/redirection.o \
-		  src/heredoc.o
+		  src/heredoc.o \
+		  src/environment.o
 
 LDLIBS	= libft/libft.a readline-7.0/lib/*.a -lncurses
 LDFLAGS = -fsanitize=address -g3

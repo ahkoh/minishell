@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 18:51:23 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 02:58:36 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ static bool	echo(char **argv, int *exit_status)
 
 /* exit_status = 0/1/2 => success/failure/syntax-error */
 /* return true if is a built-in command, otherwise false */
-bool	execute_builtins(char **argv, char **env, int *exit_status)
+bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status)
 {
-	(void)env;
 	return (cd(argv, exit_status)
 		|| pwd(argv, exit_status)
 		|| echo(argv, exit_status)
-		|| quit(argv, exit_status));
+		|| quit(argv, exit_status)
+		|| execute_environments(argv, prompt, exit_status));
 }

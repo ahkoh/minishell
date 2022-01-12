@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/12 18:42:49 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 03:10:56 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char	*get_prompt(int last_exit_status)
 	const int	size = sizeof(buf);
 	int			len;
 
+	printf("[$?=%d]", last_exit_status);
 	ft_strlcpy(buf, "minishell:", size);
 	len = ft_strlen(buf);
 	getcwd(buf + len, size - len);
@@ -69,7 +70,7 @@ static int	repl(char **env)
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");
-			printf("[$?=%d]", prompt.e_status);
+			free_cmds(&cmd, prompt.total_cmd);
 		}
 		free(prompt.full_cmds);
 	}
