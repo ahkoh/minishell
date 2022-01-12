@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 18:42:27 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/12 18:51:23 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include "libft.h"
 #include "minishell.h"
 
-// todo just dummy, it does not exit!!!!
+// todo free(everything)?
 static bool	quit(char **argv, int *exit_status)
 {
 	if (ft_strcmp("exit", argv[0]) == 0)
 	{
+		printf("exit\n");
 		*exit_status = EXIT_SUCCESS;
 		if (argv[1])
 		{
@@ -28,6 +29,7 @@ static bool	quit(char **argv, int *exit_status)
 				"minishell: exit: no argument expected\n");
 			*exit_status = 1;
 		}
+		exit(*exit_status);
 		return (true);
 	}
 	return (false);
