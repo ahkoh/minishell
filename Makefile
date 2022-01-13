@@ -6,21 +6,19 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/13 18:38:35 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/13 19:13:45 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 incs	= -I includes -I libft -I readline-7.0/include
 objs	= src/main.o \
-		  src/pipeline.o \
-		  src/executable.o \
-		  src/builtin.o \
-		  src/get_cmds.o \
-		  src/utils.o \
-		  src/redirection.o \
-		  src/heredoc.o \
-		  src/fd_helper.o \
+		  src/executor/pipeline.o \
+		  src/executor/executable.o \
+		  src/executor/utils.o \
+		  src/executor/redirection.o \
+		  src/executor/heredoc.o \
+		  src/executor/fd_helper.o \
 		  src/builtin/cd.o \
 		  src/builtin/echo.o \
 		  src/builtin/env.o \
@@ -28,7 +26,9 @@ objs	= src/main.o \
 		  src/builtin/export.o \
 		  src/builtin/pwd.o \
 		  src/builtin/unset.o \
-		  src/builtin/debug.o
+		  src/builtin/debug.o \
+		  src/builtin/builtin.o \
+		  src/get_cmds.o \
 
 libft	= libft/libft.a
 LDLIBS	= readline-7.0/lib/*.a -lncurses
@@ -59,7 +59,7 @@ norm:
 	norminette src
 
 $(libft):
-	make -C libft LDFLAGS=$(LDFLAGS)
+	make -C libft
 
 $(objs): |readline-7.0
 
