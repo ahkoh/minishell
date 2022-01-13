@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 00:47:22 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 18:16:05 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 09:35:17 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // one failed redirection will stop the single command execution with errormsg
 
 // close existing fd before assigning to a new fd
-static void	set_fd(int *cur_fd, int new_fd)
+void	set_fd(int *cur_fd, int new_fd)
 {
 	if (*cur_fd > STDERR_FILENO)
 		close(*cur_fd);

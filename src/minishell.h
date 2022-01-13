@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 03:08:37 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 09:50:07 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ bool	execute_environments(char **argv, t_prompt *prompt, int *exit_status);
 //pipex_utils
 int		px_execfile(char **argv, char **env);
 //heredoc
-int		handle_heredocs(t_cmd *cmd, int count);
+bool	handle_heredocs(t_cmd *cmd, int count);
 //redirect
 int		open_redirections(t_cmd *cmd);
+void	set_fd(int *cur_fd, int new_fd);
 //executor
 int		execute_line(t_cmd *cmd, t_prompt *prompt);
 
