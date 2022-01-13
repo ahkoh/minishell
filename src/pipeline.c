@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 03:54:38 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 18:35:59 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,6 @@ static int	wait_exit_status(int last_pid)
 	return (exit_status);
 }
 
-/* helper to close 1 or 2 fd by open(), avoiding STDIN/OUT/ERR */
-static	void	close_fd(int f1, int f2)
-{
-	if (f1 > STDERR_FILENO)
-		close(f1);
-	if (f2 > STDERR_FILENO)
-		close(f2);
-}
-
 /* command is either built-in or executable file */
 /* executable returns pid for waitpid() to get exit status */
 /* built-in returns EXIT_SUCCESS/FAILURE/2(incorrect usage) as exit status */
@@ -75,7 +66,7 @@ static int	execute_redirect(t_cmd *cmd, t_prompt *prompt)
 		{
 			dup2(cmd->infile, STDIN_FILENO);
 			dup2(cmd->outfile, STDOUT_FILENO);
-			close_fd(cmd->infile, cmd->outfile);
+			fd_close(cmd->infile, cmd->outfile);
 			if (execute_builtins(cmd->arg, prompt, &exit_status))
 				exit(exit_status);
 			exit_status = px_execfile(cmd->arg, prompt->env);
@@ -103,12 +94,12 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 		else
 			p[1] = STDOUT_FILENO;
 		if (cmd->infile)
-			close_fd(fi, 0);
+			fd_close(fi, 0);
 		else
 			cmd->infile = fi;
 		cmd->outfile = p[1];
 		last_pid = execute_redirect(cmd, prompt);
-		close_fd(fi, p[1]);
+		fd_close(fi, p[1]);
 		fi = p[0];
 		cmd++;
 	}
@@ -116,23 +107,25 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 }
 
 // todo single built-in run local, export can redirect!!
+// return last command exit-status
 int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
-	const char	*builtins[] = {"cd", "exit", "unset", "export", NULL};
-	int			i;
+	bool	is_handled;
 
 	if (!handle_heredocs(cmd, prompt->total_cmd))
 		return (EXIT_FAILURE);
 	if (prompt->total_cmd == 1)
 	{
-		i = -1;
-		while (builtins[++i])
-		{
-			if (cmd->arg[0] && ft_strcmp(builtins[i], cmd->arg[0]) != 0)
-				continue ;
-			execute_builtins(cmd->arg, prompt, &prompt->e_status);
+		if (!open_redirections(cmd))
+			return (EXIT_FAILURE);
+		fd_swap(&cmd->infile, STDIN_FILENO);
+		fd_swap(&cmd->outfile, STDOUT_FILENO);
+		is_handled = execute_builtins(cmd->arg, prompt, &prompt->e_status);
+		fd_swap(&cmd->infile, STDIN_FILENO);
+		fd_swap(&cmd->outfile, STDOUT_FILENO);
+		fd_close(cmd->infile, cmd->outfile);
+		if (is_handled)
 			return (prompt->e_status);
-		}
 	}
 	return (execute_pipeline(cmd, prompt));
 }

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 15:52:56 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 02:44:03 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 15:13:01 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,22 +488,6 @@ char **init_env(char **envp)
 		a++;
 	}
 	return (env);
-}
-
-
-static void	*ft_shift(void *pointer_array)
-{
-	void	*first;
-	void	**array;
-
-	array = (void **)pointer_array;
-	first = *array;
-	while (*array)
-	{
-		*array = *(array + 1);
-		array++;
-	}
-	return (first);
 }
 
 int mini_unset(t_prompt *prompt, char **argv)

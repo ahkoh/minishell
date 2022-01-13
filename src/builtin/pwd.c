@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 23:43:11 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 15:04:41 by skoh             ###   ########.fr       */
+/*   Created: 2022/01/13 15:23:39 by skoh              #+#    #+#             */
+/*   Updated: 2022/01/13 16:20:35 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include "libft.h"
+#include "minishell.h"
 
-bool	ft_isempty(char *line)
+bool	pwd(char **argv, t_prompt *prompt, int *exit_status)
 {
-	while (*line)
-	{
-		if (!ft_isspace(*line++))
-			return (false);
-	}
-	return (true);
-}
+	char	*s;
 
-void	ft_split_free(char ***tab)
-{
-	int	i;
-
-	if (*tab)
+	(void)prompt;
+	if (ft_strcmp(argv[0], "pwd") == 0)
 	{
-		i = 0;
-		while ((*tab)[i])
-			free((*tab)[i++]);
-		free(*tab);
-		*tab = NULL;
+		*exit_status = EXIT_SUCCESS;
+		s = getcwd(NULL, 0);
+		printf("%s\n", s);
+		free(s);
+		return (true);
 	}
+	return (false);
 }

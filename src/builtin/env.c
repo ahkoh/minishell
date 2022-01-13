@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 23:43:11 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 15:04:41 by skoh             ###   ########.fr       */
+/*   Created: 2022/01/13 03:07:29 by skoh              #+#    #+#             */
+/*   Updated: 2022/01/13 16:20:59 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
 
-bool	ft_isempty(char *line)
-{
-	while (*line)
-	{
-		if (!ft_isspace(*line++))
-			return (false);
-	}
-	return (true);
-}
+int	mini_env(t_prompt *prompt);
 
-void	ft_split_free(char ***tab)
+bool	env(char **argv, t_prompt *prompt, int *exit_status)
 {
-	int	i;
-
-	if (*tab)
+	if (ft_strcmp(*argv, "env") == 0)
 	{
-		i = 0;
-		while ((*tab)[i])
-			free((*tab)[i++]);
-		free(*tab);
-		*tab = NULL;
+		*exit_status = EXIT_SUCCESS;
+		mini_env(prompt);
+		return (true);
 	}
+	return (false);
 }

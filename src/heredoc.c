@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:12:20 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 10:12:56 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 18:31:37 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_list	*find_heredocs(t_cmd *cmd, int count)
 			free(ft_shift(cmd->arg + arg_idx));
 			ft_lstadd_back(&list, ft_lstnew(ft_shift(cmd->arg + arg_idx)));
 			pipe(p);
-			set_fd(&cmd->infile, p[0]);
+			fd_replace(&cmd->infile, p[0]);
 			ft_lstadd_back(&list, ft_lstnew((void *)(long)p[1]));
 		}
 		cmd++;

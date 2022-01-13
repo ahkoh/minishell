@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/12 11:43:22 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 15:12:03 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include "minishell.h"
 
 // locate executable, handle file exist/permission & execve error
 
@@ -68,9 +69,18 @@ int	px_execfile(char **argv, char **env)
 	if (fp)
 		execve(fp, argv, env);
 	if (!fp || (errno == 2 && !ft_strchr(*argv, '/')))
-		ft_printf_fd(2, "minishell: %s: command not found\n", *argv);
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(*argv, STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	}
 	else
-		ft_printf_fd(2, "minishell: %s: %s\n", *argv, strerror(errno));
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(*argv, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	}
 	free(fp);
 	if (!fp || errno == ENOENT)
 		return (127);

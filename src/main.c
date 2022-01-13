@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 03:10:56 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 17:27:00 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,17 @@ static void	reprompt(int signum)
 
 /* prompt with cwd and react to $? */
 /* compare export PS1='[$?]$LOGNAME:$(pwd)> ' */
-// todo consider buf 512 limit
-static char	*get_prompt(int last_exit_status)
+static char	*get_prompt(t_prompt *prompt)
 {
-	static char	buf[512];
-	const int	size = sizeof(buf);
-	int			len;
+	char	*cwd;
 
-	printf("[$?=%d]", last_exit_status);
-	ft_strlcpy(buf, "minishell:", size);
-	len = ft_strlen(buf);
-	getcwd(buf + len, size - len);
-	if (last_exit_status)
-		ft_strlcat(buf, "! ", size);
-	else
-		ft_strlcat(buf, "> ", size);
-	return (buf);
+	if (prompt->debug)
+	{
+		cwd = getcwd(NULL, 0);
+		printf("[%d]%s", prompt->e_status, cwd);
+		free(cwd);
+	}
+	return ("$ ");
 }
 
 // static char	*freadline(void *a) {(void)a; return ft_strdup("cat >a >b>c");}
@@ -59,7 +54,7 @@ static int	repl(char **env)
 	while (true)
 	{
 		signal(SIGINT, reprompt);
-		prompt.full_cmds = readline(get_prompt(prompt.e_status));
+		prompt.full_cmds = readline(get_prompt(&prompt));
 		signal(SIGINT, SIG_IGN);
 		if (prompt.full_cmds == NULL)
 			break ;

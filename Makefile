@@ -6,23 +6,32 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/13 03:00:49 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/13 18:38:35 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
-incs	= -I libft -I readline-7.0/include
+incs	= -I includes -I libft -I readline-7.0/include
 objs	= src/main.o \
 		  src/pipeline.o \
 		  src/executable.o \
-		  src/builtins.o \
+		  src/builtin.o \
 		  src/get_cmds.o \
 		  src/utils.o \
 		  src/redirection.o \
 		  src/heredoc.o \
-		  src/environment.o
+		  src/fd_helper.o \
+		  src/builtin/cd.o \
+		  src/builtin/echo.o \
+		  src/builtin/env.o \
+		  src/builtin/exit.o \
+		  src/builtin/export.o \
+		  src/builtin/pwd.o \
+		  src/builtin/unset.o \
+		  src/builtin/debug.o
 
-LDLIBS	= libft/libft.a readline-7.0/lib/*.a -lncurses
+libft	= libft/libft.a
+LDLIBS	= readline-7.0/lib/*.a -lncurses
 LDFLAGS = -fsanitize=address -g3
 CFLAGS	= -Wall -Wextra -Werror $(LDFLAGS) $(incs)
 
@@ -33,7 +42,7 @@ all: $(NAME)
 src/get_cmds.o:
 	gcc -c src/get_cmds.c $(LDFLAGS) $(incs) -o $@
 
-$(NAME): $(objs)
+$(NAME): $(objs) $(libft)
 	$(LINK.o) $^ $(LDLIBS) -o $@
 
 clean:
@@ -45,7 +54,12 @@ fclean: clean
 re: fclean all
 
 norm:
+	norminette libft
+	norminette includes
 	norminette src
+
+$(libft):
+	make -C libft LDFLAGS=$(LDFLAGS)
 
 $(objs): |readline-7.0
 
