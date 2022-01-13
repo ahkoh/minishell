@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 18:35:59 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 22:11:43 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
 	bool	is_handled;
 
+	if (!check_syntax(cmd, prompt->total_cmd, &prompt->e_status))
+		return (prompt->e_status);
 	if (!handle_heredocs(cmd, prompt->total_cmd))
 		return (EXIT_FAILURE);
 	if (prompt->total_cmd == 1)
@@ -123,9 +125,11 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 		is_handled = execute_builtins(cmd->arg, prompt, &prompt->e_status);
 		fd_swap(&cmd->infile, STDIN_FILENO);
 		fd_swap(&cmd->outfile, STDOUT_FILENO);
-		fd_close(cmd->infile, cmd->outfile);
 		if (is_handled)
+		{
+			fd_close(cmd->infile, cmd->outfile);
 			return (prompt->e_status);
+		}
 	}
 	return (execute_pipeline(cmd, prompt));
 }

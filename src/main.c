@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 17:27:00 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 22:59:43 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_prompt(t_prompt *prompt)
 	return ("$ ");
 }
 
-// static char	*freadline(void *a) {(void)a; return ft_strdup("cat >a >b>c");}
+// static char *freadline(void *a){(void)a;return ft_strdup("echo -n asfd>1");}
 // todo undo ctrl+d auto-newline
 static int	repl(char **env)
 {

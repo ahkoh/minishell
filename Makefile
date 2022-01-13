@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/13 19:13:45 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/13 23:09:30 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME	= minishell
 incs	= -I includes -I libft -I readline-7.0/include
 objs	= src/main.o \
 		  src/executor/pipeline.o \
+		  src/executor/syntax.o \
 		  src/executor/executable.o \
 		  src/executor/utils.o \
 		  src/executor/redirection.o \
@@ -28,7 +29,13 @@ objs	= src/main.o \
 		  src/builtin/unset.o \
 		  src/builtin/debug.o \
 		  src/builtin/builtin.o \
-		  src/get_cmds.o \
+		  src/parse/expand_cmd.o \
+		  src/parse/free_cmd.o \
+		  src/parse/get_cmd.o \
+		  src/parse/split_arg.o \
+		  src/parse/split_arg_malloc.o \
+		  src/parse/split_cmds.o \
+		  src/parse/utils.o \
 
 libft	= libft/libft.a
 LDLIBS	= readline-7.0/lib/*.a -lncurses
@@ -38,9 +45,6 @@ CFLAGS	= -Wall -Wextra -Werror $(LDFLAGS) $(incs)
 .PHONY: all clean fclean re
 
 all: $(NAME)
-
-src/get_cmds.o:
-	gcc -c src/get_cmds.c $(LDFLAGS) $(incs) -o $@
 
 $(NAME): $(objs) $(libft)
 	$(LINK.o) $^ $(LDLIBS) -o $@

@@ -5,16 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/13 03:07:29 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 16:20:59 by skoh             ###   ########.fr       */
+/*   Created: 2022/01/13 13:39:06 by zhliew            #+#    #+#             */
+/*   Updated: 2022/01/13 22:40:42 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "minishell.h"
-#include "libft.h"
 
-int	mini_env(t_prompt *prompt);
+/* display the programs env variable */
+int	mini_env(t_prompt *prompt)
+{
+	int	a;
+
+	a = 0;
+	prompt->e_status = 0;
+	while (prompt->env[a])
+	{
+		printf("%s\n", prompt->env[a]);
+		a++;
+	}
+	return (1);
+}
 
 bool	env(char **argv, t_prompt *prompt, int *exit_status)
 {

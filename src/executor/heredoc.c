@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:12:20 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 18:31:37 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/13 22:56:13 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_list	*find_heredocs(t_cmd *cmd, int count)
 	list = NULL;
 	while (count && count--)
 	{
-		arg_idx = (cmd->infile = (cmd->outfile = 0));
+		arg_idx = 0;
 		operator_idx = -1;
 		while (cmd->arg[arg_idx] && ++operator_idx > -1)
 		{
