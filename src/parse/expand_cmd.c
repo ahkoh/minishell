@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:34:03 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:44:51 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 11:17:46 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	expand_env(t_cmd **cmd, t_prompt *prompt, int a, int b)
 	b++;
 	if ((*cmd)[a].cmd[b] == '?')
 		return (ft_strreplace(&((*cmd)[a].cmd), ft_itoa(prompt->e_status),
-			ft_get_nb_size(prompt->e_status), b - 1));
+			2, b - 1));
 	else
 	{
 		env_len = 1;
@@ -100,3 +100,7 @@ void	expand_cmd(t_cmd **cmd, t_prompt *prompt)
 		}
 	}
 }
+
+
+// if env has operator character it will expand it and mark it as a operator character instead of a character
+// exp: PS1=42$>

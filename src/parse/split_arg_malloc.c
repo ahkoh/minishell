@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_arg_malloc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:58:18 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:48:12 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 11:36:37 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	malloc_arg(t_cmd **cmd, int a, int total_split, char *s)
 			var.is_operator = false;
 		}
 		check_operator(s[var.y], &var, &((*cmd)[a].is_operator[var.x]));
-		while (!(ft_isspace(s[var.y]))
-			&& (s[var.y] != '\0' || var.is_opened == true))
+		while (s[var.y] != '\0'
+			&& (!(ft_isspace(s[var.y])) || var.is_opened == true))
 		{
 			if (check_operator(s[var.y], &var,
 					&((*cmd)[a].is_operator[var.x + 1])))

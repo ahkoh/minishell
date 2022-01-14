@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:32:57 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 13:53:19 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 11:02:34 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int	ft_strreplace(char **str, char *replace, int size_search, int search_index)
 	new_str[++b] = '\0';
 	free((*str));
 	(*str) = new_str;
-	return (size_search);
+	return (ft_strlen(replace));
 }

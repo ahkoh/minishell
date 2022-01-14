@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 22:59:43 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 11:40:41 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static int	repl(char **env)
 			break ;
 		if (!ft_isempty(prompt.full_cmds))
 		{
-			get_cmds(&cmd, &prompt);
-			prompt.e_status = execute_line(cmd, &prompt);
+			if (get_cmds(&cmd, &prompt))
+				prompt.e_status = execute_line(cmd, &prompt);
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");
