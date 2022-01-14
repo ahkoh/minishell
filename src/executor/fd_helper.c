@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 18:09:18 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 18:30:36 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:44:51 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,32 @@ void	fd_close(int f1, int f2)
 		close(f2);
 }
 
-// backup before dup2, to allow restore
-void	fd_swap(int *fd, int target)
-{
-	int	swap;
-
-	if (*fd > STDERR_FILENO)
-	{
-		swap = dup(target);
-		dup2(*fd, target);
-		close(*fd);
-		*fd = swap;
-	}
-}
-
 // close existing fd before assigning to a new fd
 void	fd_replace(int *fd_dest, int fd_src)
 {
 	if (*fd_dest > STDERR_FILENO)
 		close(*fd_dest);
 	*fd_dest = fd_src;
+}
+
+static void	fd_dup(int *fd, int io, bool dup_io)
+{
+	int	swap;
+
+	if (*fd <= STDERR_FILENO)
+		return ;
+	if (dup_io)
+		swap = dup(io);
+	dup2(*fd, io);
+	close(*fd);
+	if (dup_io)
+		*fd = swap;
+	else
+		*fd = io;
+}
+
+void	fd_dup_io(int *fin, int *fout, bool dup_io)
+{
+	fd_dup(fin, STDIN_FILENO, dup_io);
+	fd_dup(fout, STDOUT_FILENO, dup_io);
 }

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:28 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:37:16 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:25:29 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,8 @@ int	mini_unset(t_prompt *prompt, char **argv)
 	return (1);
 }
 
-bool	unset(char **argv, t_prompt *prompt, int *exit_status)
+int	unset(char **argv, t_prompt *prompt)
 {
-	if (ft_strcmp(*argv, "unset") == 0)
-	{
-		*exit_status = EXIT_SUCCESS;
-		mini_unset(prompt, argv + 1);
-		return (true);
-	}
-	return (false);
+	mini_unset(prompt, argv + 1);
+	return (EXIT_SUCCESS);
 }

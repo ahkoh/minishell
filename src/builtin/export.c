@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:42:46 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:24:42 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,8 @@ int	mini_export(t_prompt *prompt, char **argv)
 	return (1);
 }
 
-bool	export(char **argv, t_prompt *prompt, int *exit_status)
+int	export(char **argv, t_prompt *prompt)
 {
-	if (ft_strcmp(*argv, "export") == 0)
-	{
-		*exit_status = EXIT_SUCCESS;
-		mini_export(prompt, argv + 1);
-		return (true);
-	}
-	return (false);
+	mini_export(prompt, argv + 1);
+	return (EXIT_SUCCESS);
 }

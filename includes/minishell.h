@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 22:47:09 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:44:41 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_prompt
 	int		total_cmd;
 	bool	debug;
 }			t_prompt;
+
+typedef int	(*t_builtin_func)(char **argv, t_prompt *prompt);
 
 typedef struct s_split_cmd_var
 {
@@ -79,22 +81,22 @@ void	free_cmds(t_cmd **cmd, int total_cmd);
 bool	ft_isempty(char *line);
 void	ft_split_free(char ***tab);
 //fd_helper
+void	fd_dup_io(int *fin, int *fout, bool dup_io);
 void	fd_close(int f1, int f2);
-void	fd_swap(int *fd, int target);
 void	fd_replace(int *fd_dest, int fd_src);
 //syntax
 bool	check_syntax(t_cmd *cmd, int count, int *exit_status);
-//builtin
-bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status);
+//builin/builtin.c
+bool	get_builtin_function(char *cmd, t_builtin_func *f);
 //builtin/*
-bool	cd(char **argv, t_prompt *prompt, int *exit_status);
-bool	echo(char **argv, t_prompt *prompt, int *exit_status);
-bool	env(char **argv, t_prompt *prompt, int *exit_status);
-bool	quit(char **argv, t_prompt *prompt, int *exit_status);
-bool	export(char **argv, t_prompt *prompt, int *exit_status);
-bool	pwd(char **argv, t_prompt *prompt, int *exit_status);
-bool	unset(char **argv, t_prompt *prompt, int *exit_status);
-bool	debug(char **argv, t_prompt *prompt, int *exit_status);
+int		cd(char **argv, t_prompt *prompt);
+int		echo(char **argv, t_prompt *prompt);
+int		env(char **argv, t_prompt *prompt);
+int		quit(char **argv, t_prompt *prompt);
+int		export(char **argv, t_prompt *prompt);
+int		pwd(char **argv, t_prompt *prompt);
+int		unset(char **argv, t_prompt *prompt);
+int		debug(char **argv, t_prompt *prompt);
 //pipex_utils
 int		px_execfile(char **argv, char **env);
 //heredoc

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/13 22:11:43 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:45:33 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ static int	wait_exit_status(int last_pid)
 /* minishell ignore ctrl+c, but forked cmd will react to ctrl+c */
 static int	execute_redirect(t_cmd *cmd, t_prompt *prompt)
 {
-	int	pid;
-	int	exit_status;
+	int				pid;
+	int				exit_status;
+	t_builtin_func	func;
 
 	pid = fork();
 	if (pid == 0)
@@ -64,11 +65,9 @@ static int	execute_redirect(t_cmd *cmd, t_prompt *prompt)
 			exit_status = EXIT_FAILURE;
 		else
 		{
-			dup2(cmd->infile, STDIN_FILENO);
-			dup2(cmd->outfile, STDOUT_FILENO);
-			fd_close(cmd->infile, cmd->outfile);
-			if (execute_builtins(cmd->arg, prompt, &exit_status))
-				exit(exit_status);
+			fd_dup_io(&cmd->infile, &cmd->outfile, false);
+			if (get_builtin_function(cmd->arg[0], &func))
+				exit(func(cmd->arg, prompt));
 			exit_status = px_execfile(cmd->arg, prompt->env);
 		}
 		exit(exit_status);
@@ -110,26 +109,20 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 // return last command exit-status
 int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
-	bool	is_handled;
+	t_builtin_func	func;
 
 	if (!check_syntax(cmd, prompt->total_cmd, &prompt->e_status))
 		return (prompt->e_status);
 	if (!handle_heredocs(cmd, prompt->total_cmd))
 		return (EXIT_FAILURE);
-	if (prompt->total_cmd == 1)
+	if (prompt->total_cmd == 1 && get_builtin_function(cmd->arg[0], &func))
 	{
 		if (!open_redirections(cmd))
 			return (EXIT_FAILURE);
-		fd_swap(&cmd->infile, STDIN_FILENO);
-		fd_swap(&cmd->outfile, STDOUT_FILENO);
-		is_handled = execute_builtins(cmd->arg, prompt, &prompt->e_status);
-		fd_swap(&cmd->infile, STDIN_FILENO);
-		fd_swap(&cmd->outfile, STDOUT_FILENO);
-		if (is_handled)
-		{
-			fd_close(cmd->infile, cmd->outfile);
-			return (prompt->e_status);
-		}
+		fd_dup_io(&cmd->infile, &cmd->outfile, true);
+		prompt->e_status = func(cmd->arg, prompt);
+		fd_dup_io(&cmd->infile, &cmd->outfile, false);
+		return (prompt->e_status);
 	}
 	return (execute_pipeline(cmd, prompt));
 }

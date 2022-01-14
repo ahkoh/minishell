@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 18:36:20 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:41:02 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,30 @@
 #include "libft.h"
 #include "minishell.h"
 
-// run built-in if matched and no-cmd
-// exit_status = 0/1/2 => success/failure/syntax-error
-// return true if is a built-in command, otherwise false
-bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status)
+bool	get_builtin_function(char *cmd, t_builtin_func *f)
 {
-	return (
-		*argv == NULL
-		|| cd(argv, prompt, exit_status)
-		|| debug(argv, prompt, exit_status)
-		|| echo(argv, prompt, exit_status)
-		|| env(argv, prompt, exit_status)
-		|| export(argv, prompt, exit_status)
-		|| pwd(argv, prompt, exit_status)
-		|| unset(argv, prompt, exit_status)
-		|| quit(argv, prompt, exit_status));
+	int			i;
+	const void	*ar[] = {
+		"cd", &cd,
+		"debug", &debug,
+		"echo", &echo,
+		"env", &env,
+		"export", &export,
+		"pwd", &pwd,
+		"unset", &unset,
+		"exit", &quit,
+		NULL
+	};
+
+	i = 0;
+	while (ar[i])
+	{
+		if (ft_strcmp(cmd, ar[i]) == 0)
+		{
+			*f = ar[i + 1];
+			return (true);
+		}
+		i += 2;
+	}
+	return (false);
 }
-
-// bool	execute_builtins(char **argv, t_prompt *prompt, int *exit_status)
-// {
-// 	int			i;
-// 	const void	*fp[] = {
-// 		"cd", &cd,
-// 		"echo", &echo,
-// 		"env", &env,
-// 		"export", &export
-// 	};
-
-// 	*exit_status = EXIT_SUCCESS;
-// 	i = -1;
-// 	while (++i < (int)(sizeof(fp) / sizeof(*fp) / 2))
-// 	{
-// 		if (ft_strcmp(*argv, (char *)fp[i * 2]))
-// 			continue ;
-// 		((int (*)())(fp[i * 2 + 1]))(argv, prompt, exit_status);
-// 		return (true);
-// 	}
-// 	return (false);
-// }

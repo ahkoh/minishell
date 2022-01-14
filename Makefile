@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/13 23:09:30 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/14 09:45:55 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ objs	= src/main.o \
 		  src/builtin/cd.o \
 		  src/builtin/echo.o \
 		  src/builtin/env.o \
-		  src/builtin/exit.o \
+		  src/builtin/quit.o \
 		  src/builtin/export.o \
 		  src/builtin/pwd.o \
 		  src/builtin/unset.o \
@@ -59,8 +59,8 @@ re: fclean all
 
 norm:
 	norminette libft
-	norminette includes
 	norminette src
+	norminette includes
 
 $(libft):
 	make -C libft

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:06 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:40:42 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 09:25:44 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ int	mini_env(t_prompt *prompt)
 	return (1);
 }
 
-bool	env(char **argv, t_prompt *prompt, int *exit_status)
+int	env(char **argv, t_prompt *prompt)
 {
-	if (ft_strcmp(*argv, "env") == 0)
-	{
-		*exit_status = EXIT_SUCCESS;
-		mini_env(prompt);
-		return (true);
-	}
-	return (false);
+	(void)argv;
+	mini_env(prompt);
+	return (EXIT_SUCCESS);
 }
