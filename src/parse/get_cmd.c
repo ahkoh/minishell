@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 15:52:56 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 11:40:07 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 11:58:31 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ int	get_cmds(t_cmd **cmd, t_prompt *prompt)
 	*cmd = malloc(sizeof(t_cmd) * (prompt->total_cmd));
 	split_cmds(cmd, prompt->full_cmds);
 	expand_cmd(cmd, prompt);
-	split_arg(cmd, prompt);
+	if (split_arg(cmd, prompt))
+	{
+		prompt->e_status = 2;
+		return (0);
+	}
 	a = 0;
 	while (a < prompt->total_cmd)
 	{
 		if (prompt->total_cmd > 1 && (*cmd)[a].arg[0] == NULL)
 		{
-			printf("bash: syntax error near unexpected token `|'\n");
+			printf("minishell: syntax error near unexpected token `|'\n");
 			prompt->e_status = 2;
 			return (0);
 		}

@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:56:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 11:31:05 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 11:53:42 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	insert_arg(t_cmd **cmd, int a, char *s, t_split_space_var *var)
 }
 
 /* goes throught the cmd and split and insert the cmd into individual arg*/
-static void	ft_subsplit(t_cmd **cmd, int a, char *s, bool debug)
+static int	ft_subsplit(t_cmd **cmd, int a, char *s, bool debug)
 {
 	t_split_space_var	var;
 
@@ -65,21 +65,26 @@ static void	ft_subsplit(t_cmd **cmd, int a, char *s, bool debug)
 				(*cmd)[a].arg[var.x]);
 		var.x++;
 	}
+	return (var.is_opened);
 }
 
 /* goes through each cmd and split them into individual arg */
-void	split_arg(t_cmd **cmd, t_prompt *prompt)
+int	split_arg(t_cmd **cmd, t_prompt *prompt)
 {
-	int					a;
+	int a;
+	int e_status;
 
 	a = 0;
 	while (a < prompt->total_cmd)
 	{
 		if (prompt->debug)
 			printf("cmd %d\n", a);
-		ft_subsplit(cmd, a, (*cmd)[a].cmd, prompt->debug);
+		e_status = ft_subsplit(cmd, a, (*cmd)[a].cmd, prompt->debug);
 		if (prompt->debug)
 			printf("\n");
 		a++;
 	}
+	if (e_status == 1)
+		printf("minishell: syntax error, unclosed quote\n");
+	return (e_status);
 }
