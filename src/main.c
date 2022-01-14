@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/14 11:56:29 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 16:23:40 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static char	*get_prompt(t_prompt *prompt)
 		printf("[%d]%s", prompt->e_status, cwd);
 		free(cwd);
 	}
-	return ("$ ");
+	if (prompt->e_status)
+		return ("\033[41m$\033[m ");
+	return ("\033[44m$\033[m ");
 }
 
 // static char *freadline(void *a){(void)a;return ft_strdup("echo -n asfd>1");}
