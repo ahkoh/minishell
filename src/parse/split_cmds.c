@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:46:29 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/13 22:58:45 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 10:12:08 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ int	count_total_cmd(char *line)
 }
 
 /* split the string into individual cmd based on '|'(pipe) */
-void	split_cmds(t_cmd **cmd, t_prompt *prompt, char *line)
+void	split_cmds(t_cmd **cmd, char *line)
 {
 	t_split_cmd_var	var;
 
-	(void)prompt;
 	var.a = (var.b = -1);
 	var.size = 1;
 	var.opened = 1;

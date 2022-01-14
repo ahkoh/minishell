@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 09:44:41 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 10:29:33 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_split_space_var
 
 //parse
 void	free_cmds(t_cmd **cmd, int total_cmd);
-void	split_cmds(t_cmd **cmd, t_prompt *prompt, char *line);
+void	split_cmds(t_cmd **cmd, char *line);
 int		count_total_cmd(char *line);
 void	expand_cmd(t_cmd **cmd, t_prompt *prompt);
 int		get_total_split(char *s);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 09:24:42 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 10:29:55 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 /* if the arg exists in the env variable
    shift the env variable and free it
    then add the arg into the env variable */
-static void	add_env(t_prompt *prompt, char *s, int len)
+static void	add_env(t_prompt *prompt, char *s)
 {
 	int	a;
 	int	b;
 
-	(void)len;
 	a = 0;
 	while (prompt->env[a] != NULL)
 	{
@@ -103,7 +102,7 @@ int	mini_export(t_prompt *prompt, char **argv)
 			prompt->e_status = 1;
 		}
 		if (argv[a][b] == '=' && b != 0 && !ft_isdigit(argv[a][0]))
-			add_env(prompt, argv[a], b);
+			add_env(prompt, argv[a]);
 		a++;
 	}
 	if (a == 0)
