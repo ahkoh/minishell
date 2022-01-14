@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:28 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 09:25:29 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 10:41:25 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,10 @@ int	mini_unset(t_prompt *prompt, char **argv)
 		find_and_unset(prompt, argv[a]);
 		a++;
 	}
-	return (1);
+	return (prompt->e_status);
 }
 
 int	unset(char **argv, t_prompt *prompt)
 {
-	mini_unset(prompt, argv + 1);
-	return (EXIT_SUCCESS);
+	return (mini_unset(prompt, argv + 1));
 }

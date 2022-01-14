@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 10:29:55 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 10:41:05 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,10 @@ int	mini_export(t_prompt *prompt, char **argv)
 	}
 	if (a == 0)
 		display_ordered_env(prompt->env);
-	return (1);
+	return (prompt->e_status);
 }
 
 int	export(char **argv, t_prompt *prompt)
 {
-	mini_export(prompt, argv + 1);
-	return (EXIT_SUCCESS);
+	return (mini_export(prompt, argv + 1));
 }
