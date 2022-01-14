@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 10:29:33 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 10:58:42 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int		mini_unset(t_prompt *prompt, char **argv);
 //get_cmd
 char	**init_env(char **envp);
 int		get_cmds(t_cmd **cmd, t_prompt *prompt);
-void	free_cmds(t_cmd **cmd, int total_cmd);
 //utils
 bool	ft_isempty(char *line);
 void	ft_split_free(char ***tab);
