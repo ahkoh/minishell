@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 14:16:41 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 16:09:27 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,10 @@ int		mini_unset(t_prompt *prompt, char **argv);
 //get_cmd
 char	**init_env(char **envp);
 int		get_cmds(t_cmd **cmd, t_prompt *prompt);
-//utils
+//executor/utils
 bool	ft_isempty(char *line);
 void	ft_split_free(char ***tab);
+bool	is_executable(char *fp);
 //fd_helper
 void	fd_dup_io(int *fin, int *fout, bool dup_io);
 void	fd_close(int f1, int f2);

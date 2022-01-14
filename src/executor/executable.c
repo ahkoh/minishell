@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 15:12:03 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/14 15:26:52 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*px_get_fp(const char *filename, char **env)
 		ft_strlcpy(filepath, paths[i], filepath_size);
 		ft_strlcat(filepath, "/", filepath_size);
 		ft_strlcat(filepath, filename, filepath_size);
-		if (access(filepath, X_OK) == 0)
+		if (is_executable(filepath))
 			return (ft_split_free(&paths), filepath);
 		free(filepath);
 	}

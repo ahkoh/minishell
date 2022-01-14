@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+         #
+#    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/14 11:58:50 by zhliew           ###   ########.fr        #
+#    Updated: 2022/01/14 16:06:54 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,3 +77,9 @@ readline-7.0:
 	&& make &>/dev/null \
 	&& make install &>/dev/null
 	@rm readline-7.0.tar.gz
+
+h help:
+	@echo 'make x => remove AddressSanitizer to work with leaks'
+
+x:
+	make re LDFLAGS=
