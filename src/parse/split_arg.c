@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:56:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 11:53:42 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 14:17:07 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static int	ft_subsplit(t_cmd **cmd, int a, char *s, bool debug)
 /* goes through each cmd and split them into individual arg */
 int	split_arg(t_cmd **cmd, t_prompt *prompt)
 {
-	int a;
-	int e_status;
+	int	a;
+	int	e_status;
 
 	a = 0;
 	while (a < prompt->total_cmd)

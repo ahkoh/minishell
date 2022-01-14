@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 11:52:38 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/14 14:16:41 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		count_total_cmd(char *line);
 void	expand_cmd(t_cmd **cmd, t_prompt *prompt);
 int		get_total_split(char *s);
 void	malloc_arg(t_cmd **cmd, int a, int total_split, char *s);
-int 	split_arg(t_cmd **cmd, t_prompt *prompt);
+int		split_arg(t_cmd **cmd, t_prompt *prompt);
 int		is_quote(char c);
 int		is_op(char c);
 int		check_quote_status(char c, t_split_space_var *var);
