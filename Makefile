@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/14 16:06:54 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/15 21:34:29 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ objs	= src/main.o \
 		  src/executor/redirection.o \
 		  src/executor/heredoc.o \
 		  src/executor/fd_helper.o \
+		  src/executor/cleanup.o \
 		  src/builtin/cd.o \
 		  src/builtin/echo.o \
 		  src/builtin/env.o \
@@ -80,6 +81,18 @@ readline-7.0:
 
 h help:
 	@echo 'make x => remove AddressSanitizer to work with leaks'
+	@echo 'make b => compare bash'
+	@echo 'make v => valgrind test'
 
-x:
-	make re LDFLAGS=
+b:
+	PS1='[$$?]$$(pwd)> ' bash
+
+x: $(NAME)
+	make re LDFLAGS="-g3"
+	cp minishell x
+
+v: x
+	valgrind --leak-check=full --show-leak-kinds=all \
+	--track-origins=yes --trace-children=yes ./x
+	# --suppressions=readline.supp \
+	# --gen-suppressions=all --log-file=minimalraw.log \

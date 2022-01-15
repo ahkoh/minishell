@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 16:09:27 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/15 20:43:21 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_prompt
 	int		e_status;
 	int		total_cmd;
 	bool	debug;
+	t_cmd	*cmds;
 }			t_prompt;
 
 typedef int	(*t_builtin_func)(char **argv, t_prompt *prompt);
@@ -85,7 +86,7 @@ void	fd_dup_io(int *fin, int *fout, bool dup_io);
 void	fd_close(int f1, int f2);
 void	fd_replace(int *fd_dest, int fd_src);
 //syntax
-bool	check_syntax(t_cmd *cmd, int count, int *exit_status);
+bool	check_syntax(t_cmd *cmd, int count);
 //builin/builtin.c
 bool	get_builtin_function(char *cmd, t_builtin_func *f);
 //builtin/*
@@ -100,10 +101,12 @@ int		debug(char **argv, t_prompt *prompt);
 //pipex_utils
 int		px_execfile(char **argv, char **env);
 //heredoc
-bool	handle_heredocs(t_cmd *cmd, int count);
+bool	handle_heredocs(t_prompt *prompt, t_list **heredocs);
 //redirect
-int		open_redirections(t_cmd *cmd);
+int		open_redirections(t_cmd *cmd, t_list *heredocs);
 //executor
 int		execute_line(t_cmd *cmd, t_prompt *prompt);
-
+//cleanup
+void	cleanup(t_prompt *prompt, t_list **heredocs);
+void	cleanup_fd(int fd1, int fd2);
 #endif

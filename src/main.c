@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/14 16:23:40 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/15 17:10:20 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static void	reprompt(int signum)
 	rl_redisplay();
 }
 
-/* prompt with cwd and react to $? */
-/* compare export PS1='[$?]$LOGNAME:$(pwd)> ' */
 static char	*get_prompt(t_prompt *prompt)
 {
 	char	*cwd;
@@ -45,12 +43,10 @@ static char	*get_prompt(t_prompt *prompt)
 	return ("\033[44m$\033[m ");
 }
 
-// static char *freadline(void *a){(void)a;return ft_strdup("echo -n asfd>1");}
-// todo undo ctrl+d auto-newline
+// static char *freadline(void *a){(void)a;return ft_strdup("cat<<1|nl");}
 static int	repl(char **env)
 {
 	t_prompt	prompt;
-	t_cmd		*cmd;
 
 	prompt = (t_prompt){.env = init_env(env), .e_status = EXIT_SUCCESS};
 	while (true)
@@ -62,18 +58,17 @@ static int	repl(char **env)
 			break ;
 		if (!ft_isempty(prompt.full_cmds))
 		{
-			if (get_cmds(&cmd, &prompt))
-				prompt.e_status = execute_line(cmd, &prompt);
+			if (get_cmds(&prompt.cmds, &prompt))
+				prompt.e_status = execute_line(prompt.cmds, &prompt);
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");
-			free_cmds(&cmd, prompt.total_cmd);
+			free_cmds(&prompt.cmds, prompt.total_cmd);
 		}
 		free(prompt.full_cmds);
 	}
-	ft_split_free(&prompt.env);
 	printf("exit\n");
-	return (prompt.e_status);
+	return (rl_clear_history(), ft_split_free(&prompt.env), prompt.e_status);
 }
 
 /* Bash returns the exit status of the last command executed */
@@ -83,7 +78,5 @@ int	main(int argc, char **argv, char **env)
 	if (argc > 1 && argv)
 		return (ft_putendl_fd("Error: No parameter expected", 2), EXIT_FAILURE);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGTERM, SIG_IGN);
 	return (repl(env));
 }

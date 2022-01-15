@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 21:54:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 22:56:25 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/15 09:40:54 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-bool	check_syntax(t_cmd *cmd, int count, int *exit_status)
+bool	check_syntax(t_cmd *cmd, int count)
 {
 	int		idx;
 
@@ -33,10 +33,10 @@ bool	check_syntax(t_cmd *cmd, int count, int *exit_status)
 				continue ;
 			if (cmd->arg[idx + 1] == NULL || cmd->is_operator[idx + 1])
 			{
-				ft_putstr_fd("minishell: syntax error after token ",
+				ft_putstr_fd("minishell: syntax error after token `",
 					STDERR_FILENO);
-				ft_putendl_fd(cmd->arg[idx], STDERR_FILENO);
-				*exit_status = 258;
+				ft_putstr_fd(cmd->arg[idx], STDERR_FILENO);
+				ft_putstr_fd("'\n'", STDERR_FILENO);
 				return (false);
 			}
 		}

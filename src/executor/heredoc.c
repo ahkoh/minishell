@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:12:20 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/13 22:56:13 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/15 21:33:04 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,36 @@
 
 // all heredoc run together (one by one) before redirection
 // 1 ctrl+c will cancel & cleanup all heredocs and stop while execution
+
+// reset in&out fd then open pipe for << based on argv[] & is_operator[]
+// remove << operator & delimiter from argv[], for execve()
+// expect syntax validated eg >file (operator followed by word)
+// return list of delimiter and pipe-writer-fd per heredoc
+static t_list	*find_heredocs(t_cmd *cmd, int count)
+{
+	int		arg_idx;
+	int		operator_idx;
+	t_list	*list;
+	int		p[2];
+
+	list = NULL;
+	while (count && count--)
+	{
+		arg_idx = -1;
+		operator_idx = -1;
+		while (cmd->arg[++arg_idx] && ++operator_idx > -1)
+		{
+			if ((!cmd->is_operator[operator_idx]
+					|| ft_strcmp("<<", cmd->arg[arg_idx]) != 0))
+				continue ;
+			pipe(p);
+			ft_lstadd_back(&list, ft_lstnew(cmd->arg[arg_idx + 1]));
+			ft_lstadd_back(&list, ft_lstnew((void *)(p[1] * 1000000l + p[0])));
+		}
+		cmd++;
+	}
+	return (list);
+}
 
 // read stdin and write into pipe for later read
 // return read-fd to get the saved string
@@ -41,83 +71,52 @@ static void	open_heredoc(char *delimiter, int fd)
 	free(prompt);
 }
 
-// reset in&out fd then open pipe for << based on argv[] & is_operator[]
-// remove << operator & delimiter from argv[], for execve()
-// expect syntax validated eg >file (operator followed by word)
-// return list of delimiter and pipe-writer-fd per heredoc
-static t_list	*find_heredocs(t_cmd *cmd, int count)
-{
-	int		arg_idx;
-	int		operator_idx;
-	t_list	*list;
-	int		p[2];
-
-	list = NULL;
-	while (count && count--)
-	{
-		arg_idx = 0;
-		operator_idx = -1;
-		while (cmd->arg[arg_idx] && ++operator_idx > -1)
-		{
-			if (!cmd->is_operator[operator_idx] && ++arg_idx)
-				continue ;
-			if (ft_strcmp("<<", cmd->arg[arg_idx]) != 0 && ++arg_idx)
-				continue ;
-			free(ft_shift(cmd->arg + arg_idx));
-			ft_lstadd_back(&list, ft_lstnew(ft_shift(cmd->arg + arg_idx)));
-			pipe(p);
-			fd_replace(&cmd->infile, p[0]);
-			ft_lstadd_back(&list, ft_lstnew((void *)(long)p[1]));
-		}
-		cmd++;
-	}
-	return (list);
-}
-
-static	void	process_heredoc(t_list *heredocs, int fork_pid)
-{
-	const bool	is_child = fork_pid == 0;
-	t_list		*next;
-
-	if (is_child)
-		signal(SIGINT, SIG_DFL);
-	while (heredocs)
-	{
-		next = heredocs->next->next;
-		if (is_child)
-			open_heredoc(heredocs->content, (long)heredocs->next->content);
-		close((long)heredocs->next->content);
-		free(heredocs->content);
-		free(heredocs->next);
-		free(heredocs);
-		heredocs = next;
-	}
-	if (is_child)
-		exit(EXIT_SUCCESS);
-}
-
-// read all heredocs, ctrl+c will remove all */
-bool	handle_heredocs(t_cmd *cmd, int count)
+// parent close writer, keep reader
+// fork uses writers, close everything
+// 1 heredocs = 2 nodes (delimiter & (pipe[1] * 1000000 + pipe[0]))
+static	int	fork_heredocs(t_list *heredocs, t_prompt *prompt)
 {
 	int		pid;
-	t_list	*heredocs;
+	t_list	*walk;
+
+	pid = fork();
+	if (pid)
+	{
+		while (heredocs)
+		{
+			close((long)heredocs->next->content / 1000000l);
+			heredocs = heredocs->next->next;
+		}
+		return (pid);
+	}
+	signal(SIGINT, SIG_DFL);
+	walk = heredocs;
+	while (walk)
+	{
+		open_heredoc(walk->content, (long)walk->next->content / 1000000l);
+		walk = walk->next->next;
+	}
+	cleanup(prompt, &heredocs);
+	exit(EXIT_SUCCESS);
+}
+
+// make pipes for all <<
+// read all heredocs at once in a fork(), ctrl+c will cancel all and cleanup
+// return true if no heredoc or all success
+bool	handle_heredocs(t_prompt *prompt, t_list **heredocs)
+{
+	int		pid;
 	int		status;
 
-	heredocs = find_heredocs(cmd, count);
-	if (heredocs == NULL)
+	*heredocs = find_heredocs(prompt->cmds, prompt->total_cmd);
+	if (*heredocs == NULL)
 		return (true);
-	pid = fork();
-	process_heredoc(heredocs, pid);
+	pid = fork_heredocs(*heredocs, prompt);
 	waitpid(pid, &status, 0);
 	if (status)
 	{
+		cleanup(NULL, heredocs);
 		printf("\n");
-		while (count && count--)
-		{
-			if (cmd->infile)
-				close(cmd->infile);
-			cmd++;
-		}
 	}
 	return (status == 0);
 }

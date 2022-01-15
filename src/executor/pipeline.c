@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/14 09:45:33 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/15 20:45:05 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,36 +47,38 @@ static int	wait_exit_status(int last_pid)
 	return (exit_status);
 }
 
-/* command is either built-in or executable file */
-/* executable returns pid for waitpid() to get exit status */
-/* built-in returns EXIT_SUCCESS/FAILURE/2(incorrect usage) as exit status */
-/* minishell ignore ctrl+c, but forked cmd will react to ctrl+c */
-static int	execute_redirect(t_cmd *cmd, t_prompt *prompt)
+// run built-in/external command in fork
+// setup IO redirection and prepare for failures.
+// siganls ignored by minishell will restore to default for fork
+// free resources/fd since we exit()
+static int	fork_command(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 {
 	int				pid;
 	int				exit_status;
 	t_builtin_func	func;
 
 	pid = fork();
-	if (pid == 0)
+	if (pid)
+		return (pid);
+	signal(SIGQUIT, SIG_DFL);
+	if (!open_redirections(cmd, heredocs))
 	{
-		signal(SIGINT, SIG_DFL);
-		if (!open_redirections(cmd))
-			exit_status = EXIT_FAILURE;
-		else
-		{
-			fd_dup_io(&cmd->infile, &cmd->outfile, false);
-			if (get_builtin_function(cmd->arg[0], &func))
-				exit(func(cmd->arg, prompt));
-			exit_status = px_execfile(cmd->arg, prompt->env);
-		}
-		exit(exit_status);
+		cleanup(prompt, &heredocs);
+		exit(EXIT_FAILURE);
 	}
-	return (pid);
+	fd_dup_io(&cmd->infile, &cmd->outfile, false);
+	cleanup_fd(cmd->infile, cmd->outfile);
+	cleanup(NULL, &heredocs);
+	if (get_builtin_function(cmd->arg[0], &func))
+		exit_status = func(cmd->arg, prompt);
+	else
+		exit_status = px_execfile(cmd->arg, prompt->env);
+	cleanup(prompt, NULL);
+	exit(exit_status);
 }
 
 // todo: close pipe[0] in fork child
-int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
+static int	execute_pipeline(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 {
 	int		cnt;
 	int		fi;
@@ -85,6 +87,7 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 
 	last_pid = EXIT_SUCCESS;
 	fi = STDIN_FILENO;
+	ft_bzero(p, sizeof(int) * 2);
 	cnt = prompt->total_cmd;
 	while (cnt && cnt--)
 	{
@@ -92,37 +95,36 @@ int	execute_pipeline(t_cmd *cmd, t_prompt *prompt)
 			pipe(p);
 		else
 			p[1] = STDOUT_FILENO;
-		if (cmd->infile)
-			fd_close(fi, 0);
-		else
-			cmd->infile = fi;
+		cmd->infile = fi;
 		cmd->outfile = p[1];
-		last_pid = execute_redirect(cmd, prompt);
-		fd_close(fi, p[1]);
+		last_pid = fork_command(cmd, prompt, heredocs);
+		fd_close(0, cmd->outfile);
 		fi = p[0];
 		cmd++;
 	}
-	return (wait_exit_status(last_pid));
+	cleanup_fd(fi, 0);
+	return (cleanup(NULL, &heredocs), wait_exit_status(last_pid));
 }
 
-// todo single built-in run local, export can redirect!!
 // return last command exit-status
 int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
+	t_list			*heredocs;
 	t_builtin_func	func;
 
-	if (!check_syntax(cmd, prompt->total_cmd, &prompt->e_status))
-		return (prompt->e_status);
-	if (!handle_heredocs(cmd, prompt->total_cmd))
+	if (!check_syntax(cmd, prompt->total_cmd))
+		return (258);
+	if (!handle_heredocs(prompt, &heredocs))
 		return (EXIT_FAILURE);
 	if (prompt->total_cmd == 1 && get_builtin_function(cmd->arg[0], &func))
 	{
-		if (!open_redirections(cmd))
+		if (!open_redirections(cmd, heredocs))
 			return (EXIT_FAILURE);
 		fd_dup_io(&cmd->infile, &cmd->outfile, true);
 		prompt->e_status = func(cmd->arg, prompt);
 		fd_dup_io(&cmd->infile, &cmd->outfile, false);
+		cleanup(NULL, &heredocs);
 		return (prompt->e_status);
 	}
-	return (execute_pipeline(cmd, prompt));
+	return (execute_pipeline(cmd, prompt, heredocs));
 }
