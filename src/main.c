@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/15 17:10:20 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 11:29:07 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,54 @@ static void	reprompt(int signum)
 	rl_redisplay();
 }
 
-static char	*get_prompt(t_prompt *prompt)
+static char	*get_prompt(int exit_status, int is_debug)
 {
 	char	*cwd;
 
-	if (prompt->debug)
+	if (is_debug)
 	{
 		cwd = getcwd(NULL, 0);
-		printf("[%d]%s", prompt->e_status, cwd);
+		printf("[%d]%s", exit_status, cwd);
 		free(cwd);
 	}
-	if (prompt->e_status)
+	if (exit_status)
 		return ("\033[41m$\033[m ");
 	return ("\033[44m$\033[m ");
 }
 
+static int	run_script(char *line, char **envp)
+{
+	t_prompt	prompt;
+	char		**lines;
+	int			i;
+
+	ft_bzero(&prompt, sizeof(prompt));
+	prompt.env = init_env(envp);
+	lines = ft_split(line, ';');
+	i = -1;
+	while (lines[++i])
+	{
+		prompt.full_cmds = ft_strdup(lines[i]);
+		if (get_cmds(&prompt.cmds, &prompt))
+			prompt.e_status = execute_line(prompt.cmds, &prompt);
+		cleanup_cmd(&prompt);
+	}
+	ft_split_free(&lines);
+	cleanup(&prompt);
+	return (prompt.e_status);
+}
+
 // static char *freadline(void *a){(void)a;return ft_strdup("cat<<1|nl");}
-static int	repl(char **env)
+static int	minishell(char **envp)
 {
 	t_prompt	prompt;
 
-	prompt = (t_prompt){.env = init_env(env), .e_status = EXIT_SUCCESS};
+	ft_bzero(&prompt, sizeof(prompt));
+	prompt.env = init_env(envp);
 	while (true)
 	{
 		signal(SIGINT, reprompt);
-		prompt.full_cmds = readline(get_prompt(&prompt));
+		prompt.full_cmds = readline(get_prompt(prompt.e_status, prompt.debug));
 		signal(SIGINT, SIG_IGN);
 		if (prompt.full_cmds == NULL)
 			break ;
@@ -63,20 +86,25 @@ static int	repl(char **env)
 			add_history(prompt.full_cmds);
 			if (prompt.e_status == 130)
 				printf("\n");
-			free_cmds(&prompt.cmds, prompt.total_cmd);
 		}
-		free(prompt.full_cmds);
+		cleanup_cmd(&prompt);
 	}
 	printf("exit\n");
-	return (rl_clear_history(), ft_split_free(&prompt.env), prompt.e_status);
+	cleanup(&prompt);
+	return (prompt.e_status);
 }
 
 /* Bash returns the exit status of the last command executed */
 /* or exits with a non-zero value when a syntax error occurs */
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **envp)
 {
+	if (argc == 3 && ft_strcmp(argv[1], "-c") == 0)
+		return (run_script(argv[2], envp));
 	if (argc > 1 && argv)
-		return (ft_putendl_fd("Error: No parameter expected", 2), EXIT_FAILURE);
+	{
+		ft_putendl_fd("Error: Wrong parameter(s)", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
 	signal(SIGQUIT, SIG_IGN);
-	return (repl(env));
+	return (minishell(envp));
 }

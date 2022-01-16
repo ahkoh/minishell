@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/15 20:45:05 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 12:37:47 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ static int	fork_command(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 	signal(SIGQUIT, SIG_DFL);
 	if (!open_redirections(cmd, heredocs))
 	{
-		cleanup(prompt, &heredocs);
+		cleanup_heredocs(&heredocs);
+		cleanup(prompt);
 		exit(EXIT_FAILURE);
 	}
 	fd_dup_io(&cmd->infile, &cmd->outfile, false);
-	cleanup_fd(cmd->infile, cmd->outfile);
-	cleanup(NULL, &heredocs);
+	cleanup_redirections(cmd->infile, cmd->outfile);
+	cleanup_heredocs(&heredocs);
 	if (get_builtin_function(cmd->arg[0], &func))
 		exit_status = func(cmd->arg, prompt);
 	else
 		exit_status = px_execfile(cmd->arg, prompt->env);
-	cleanup(prompt, NULL);
+	cleanup(prompt);
 	exit(exit_status);
 }
 
-// todo: close pipe[0] in fork child
 static int	execute_pipeline(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 {
 	int		cnt;
@@ -102,11 +102,12 @@ static int	execute_pipeline(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 		fi = p[0];
 		cmd++;
 	}
-	cleanup_fd(fi, 0);
-	return (cleanup(NULL, &heredocs), wait_exit_status(last_pid));
+	cleanup_redirections(fi, 0);
+	cleanup_heredocs(&heredocs);
+	return (wait_exit_status(last_pid));
 }
 
-// return last command exit-status
+// local builtin disable heredoc so readline() doesnt get it
 int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
 	t_list			*heredocs;
@@ -118,12 +119,12 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 		return (EXIT_FAILURE);
 	if (prompt->total_cmd == 1 && get_builtin_function(cmd->arg[0], &func))
 	{
+		cleanup_heredocs(&heredocs);
 		if (!open_redirections(cmd, heredocs))
 			return (EXIT_FAILURE);
 		fd_dup_io(&cmd->infile, &cmd->outfile, true);
 		prompt->e_status = func(cmd->arg, prompt);
 		fd_dup_io(&cmd->infile, &cmd->outfile, false);
-		cleanup(NULL, &heredocs);
 		return (prompt->e_status);
 	}
 	return (execute_pipeline(cmd, prompt, heredocs));

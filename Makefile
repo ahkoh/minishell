@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/15 21:34:29 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/16 12:40:26 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,10 @@ x: $(NAME)
 
 v: x
 	valgrind --leak-check=full --show-leak-kinds=all \
-	--track-origins=yes --trace-children=yes ./x
+	--track-origins=yes --trace-children=yes ./minishell
 	# --suppressions=readline.supp \
 	# --gen-suppressions=all --log-file=minimalraw.log \
+
+test: x
+	leaks -q -atExit -- ./minishell -c 'echo $$?'
+	valgrind --leak-check=yes ./minishell -c 'echo $$?'

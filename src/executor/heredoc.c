@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 08:12:20 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/15 21:33:04 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 11:32:58 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static	int	fork_heredocs(t_list *heredocs, t_prompt *prompt)
 		open_heredoc(walk->content, (long)walk->next->content / 1000000l);
 		walk = walk->next->next;
 	}
-	cleanup(prompt, &heredocs);
+	cleanup_heredocs(&heredocs);
+	cleanup(prompt);
 	exit(EXIT_SUCCESS);
 }
 
@@ -115,7 +116,7 @@ bool	handle_heredocs(t_prompt *prompt, t_list **heredocs)
 	waitpid(pid, &status, 0);
 	if (status)
 	{
-		cleanup(NULL, heredocs);
+		cleanup_heredocs(heredocs);
 		printf("\n");
 	}
 	return (status == 0);

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/15 20:43:21 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 12:41:31 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int		get_cmds(t_cmd **cmd, t_prompt *prompt);
 //executor/utils
 bool	ft_isempty(char *line);
 void	ft_split_free(char ***tab);
-bool	is_executable(char *fp);
 //fd_helper
 void	fd_dup_io(int *fin, int *fout, bool dup_io);
 void	fd_close(int f1, int f2);
@@ -107,6 +106,8 @@ int		open_redirections(t_cmd *cmd, t_list *heredocs);
 //executor
 int		execute_line(t_cmd *cmd, t_prompt *prompt);
 //cleanup
-void	cleanup(t_prompt *prompt, t_list **heredocs);
-void	cleanup_fd(int fd1, int fd2);
+void	cleanup(t_prompt *prompt);
+void	cleanup_cmd(t_prompt *prompt);
+void	cleanup_heredocs(t_list **heredocs);
+void	cleanup_redirections(int fd1, int fd2);
 #endif

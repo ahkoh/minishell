@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 15:26:52 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 10:57:44 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,18 @@
 #include <errno.h>
 #include <string.h>
 #include "minishell.h"
+#include <sys/stat.h>
 
 // locate executable, handle file exist/permission & execve error
+
+static bool	is_executable(char *fp)
+{
+	struct stat	buf;
+
+	if (stat(fp, &buf) == -1)
+		return (false);
+	return (S_ISREG(buf.st_mode) && buf.st_mode & 0111);
+}
 
 static char	**px_get_env_paths(char **env)
 {
@@ -31,7 +41,6 @@ static char	**px_get_env_paths(char **env)
 	return (NULL);
 }
 
-// todo replace access()
 static char	*px_get_fp(const char *filename, char **env)
 {
 	char		**paths;
