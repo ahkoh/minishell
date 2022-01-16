@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/16 12:37:47 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/16 14:53:08 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	execute_pipeline(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 	return (wait_exit_status(last_pid));
 }
 
-// local builtin disable heredoc so readline() doesnt get it
+// local builtin disable redirect-in/heredoc because readline() will read
 int	execute_line(t_cmd *cmd, t_prompt *prompt)
 {
 	t_list			*heredocs;
@@ -119,10 +119,11 @@ int	execute_line(t_cmd *cmd, t_prompt *prompt)
 		return (EXIT_FAILURE);
 	if (prompt->total_cmd == 1 && get_builtin_function(cmd->arg[0], &func))
 	{
-		cleanup_heredocs(&heredocs);
 		if (!open_redirections(cmd, heredocs))
 			return (EXIT_FAILURE);
+		fd_replace(&cmd->infile, STDIN_FILENO);
 		fd_dup_io(&cmd->infile, &cmd->outfile, true);
+		cleanup_heredocs(&heredocs);
 		prompt->e_status = func(cmd->arg, prompt);
 		fd_dup_io(&cmd->infile, &cmd->outfile, false);
 		return (prompt->e_status);
