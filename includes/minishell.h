@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/16 12:41:31 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 02:17:45 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int		get_cmds(t_cmd **cmd, t_prompt *prompt);
 //executor/utils
 bool	ft_isempty(char *line);
 void	ft_split_free(char ***tab);
+char	*get_value_by_key(char **env, char *key);
 //fd_helper
 void	fd_dup_io(int *fin, int *fout, bool dup_io);
 void	fd_close(int f1, int f2);
@@ -95,6 +96,7 @@ int		env(char **argv, t_prompt *prompt);
 int		quit(char **argv, t_prompt *prompt);
 int		export(char **argv, t_prompt *prompt);
 int		pwd(char **argv, t_prompt *prompt);
+char	*get_pwd(t_prompt *prompt);
 int		unset(char **argv, t_prompt *prompt);
 int		debug(char **argv, t_prompt *prompt);
 //pipex_utils

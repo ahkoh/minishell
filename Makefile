@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/16 12:40:26 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/17 02:42:56 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,6 @@ LDLIBS	= readline-7.0/lib/*.a -lncurses
 LDFLAGS = -fsanitize=address -g3
 CFLAGS	= -Wall -Wextra -Werror $(LDFLAGS) $(incs)
 
-.PHONY: all clean fclean re
 
 all: $(NAME)
 
@@ -57,11 +56,6 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-norm:
-	norminette libft
-	norminette src
-	norminette includes
 
 $(libft):
 	make -C libft
@@ -78,6 +72,13 @@ readline-7.0:
 	&& make &>/dev/null \
 	&& make install &>/dev/null
 	@rm readline-7.0.tar.gz
+
+.PHONY: all clean fclean re h b x v test
+
+norm:
+	norminette libft
+	norminette src
+	norminette includes
 
 h help:
 	@echo 'make x => remove AddressSanitizer to work with leaks'

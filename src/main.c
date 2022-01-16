@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/16 11:29:07 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 02:19:23 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ static void	reprompt(int signum)
 	rl_redisplay();
 }
 
-static char	*get_prompt(int exit_status, int is_debug)
+static char	*get_prompt(t_prompt *prompt)
 {
-	char	*cwd;
+	char	*pwd;
 
-	if (is_debug)
+	if (prompt->debug)
 	{
-		cwd = getcwd(NULL, 0);
-		printf("[%d]%s", exit_status, cwd);
-		free(cwd);
+		pwd = get_pwd(prompt);
+		printf("[%d]%s", prompt->e_status, pwd);
+		free(pwd);
 	}
-	if (exit_status)
+	if (prompt->e_status)
 		return ("\033[41m$\033[m ");
 	return ("\033[44m$\033[m ");
 }
@@ -75,7 +75,7 @@ static int	minishell(char **envp)
 	while (true)
 	{
 		signal(SIGINT, reprompt);
-		prompt.full_cmds = readline(get_prompt(prompt.e_status, prompt.debug));
+		prompt.full_cmds = readline(get_prompt(&prompt));
 		signal(SIGINT, SIG_IGN);
 		if (prompt.full_cmds == NULL)
 			break ;

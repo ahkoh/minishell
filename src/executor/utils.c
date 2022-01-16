@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:43:11 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/16 12:41:42 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 01:15:38 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,17 @@ void	ft_split_free(char ***tab)
 		free(*tab);
 		*tab = NULL;
 	}
+}
+
+char	*get_value_by_key(char **env, char *key)
+{
+	const int	len = ft_strlen(key);
+
+	while (*env && len)
+	{
+		if (ft_strncmp(*env, key, len) == 0 && (*env)[len] == '=')
+			return (ft_strdup(*env + len + 1));
+		env++;
+	}
+	return (NULL);
 }
