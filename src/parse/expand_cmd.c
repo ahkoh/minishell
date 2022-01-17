@@ -6,7 +6,7 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:34:03 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/17 10:36:54 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 11:11:53 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,14 @@ static int	pre_and_expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 	{
 		ft_strreplace(&(*cmd)[var.a].cmd, "'", 0, var.b);
 		i = var.b + 2;
-		while (ft_isalnum((*cmd)[var.a].cmd[i])
-			|| (*cmd)[var.a].cmd[i] == '_')
+		if ((*cmd)[var.a].cmd[i] == '?')
 			i++;
+		else
+		{
+			while (ft_isalnum((*cmd)[var.a].cmd[i])
+			|| (*cmd)[var.a].cmd[i] == '_')
+				i++;
+		}
 		ft_strreplace(&(*cmd)[var.a].cmd, "'", 0, i);
 		total_replace += 2;
 		var.b++;
