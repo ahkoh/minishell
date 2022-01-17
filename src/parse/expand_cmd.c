@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:34:03 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/17 11:11:53 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 15:40:09 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	expand_exit_status(t_cmd **cmd, t_prompt *prompt, t_expand var)
+{
+	int		size;
+	char	*s;
+
+	s = ft_itoa(prompt->e_status);
+	size = (ft_strreplace(&((*cmd)[var.a].cmd), s, 2, var.b - 1));
+	free(s);
+	return (size);
+}
 
 /* compare the cmd(can only be alpha or num or '_')
    and find if there is matching env variable
@@ -50,8 +61,7 @@ static int	expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 
 	var.b++;
 	if ((*cmd)[var.a].cmd[var.b] == '?')
-		return (ft_strreplace(&((*cmd)[var.a].cmd), ft_itoa(prompt->e_status),
-			2, var.b - 1));
+		return (expand_exit_status(cmd, prompt, var));
 	else
 	{
 		env_len = 1;
@@ -94,7 +104,7 @@ static int	pre_and_expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 		var.b++;
 	}
 	total_replace += expand_env(cmd, prompt, var);
-	return (total_replace);
+	return (total_replace - 1);
 }
 
 /* check the cmd for '$' character, if it is not in '''

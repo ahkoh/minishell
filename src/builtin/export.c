@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 10:41:05 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 15:20:08 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	display_ordered_env(char **env)
 {
 	int		a;
 	char	**cpy;
+	char	**kv;
 
 	a = 0;
 	while (env[a])
@@ -72,8 +73,10 @@ static void	display_ordered_env(char **env)
 	a = 0;
 	while (cpy[a])
 	{
-		printf("declare -x %s\n", cpy[a]);
+		kv = ft_split(cpy[a], '=');
+		printf("declare -x %s=\"%s\"\n", kv[0], kv[1]);
 		free(cpy[a]);
+		ft_split_free(&kv);
 		a++;
 	}
 	free(cpy);
@@ -84,26 +87,23 @@ static void	display_ordered_env(char **env)
    if no display error and change the exit status to 1 */
 int	mini_export(t_prompt *prompt, char **argv)
 {
-	int	a;
-	int	b;
+	int		a;
+	char	*equal_value;
 
-	a = 0;
 	prompt->e_status = 0;
-	while (argv[a])
+	a = -1;
+	while (argv[++a])
 	{
-		b = 0;
-		while (argv[a][b] != '\0'
-			&& (ft_isalnum(argv[a][b]) || argv[a][b] == '_'))
-			b++;
-		if (ft_isdigit(argv[a][0]) || (!ft_isalnum(argv[a][b])
-			&& argv[a][b] != '\0' && argv[a][b] != '_' && argv[a][b] != '='))
+		if (!check_env_identifier(argv[a], true))
 		{
-			printf("export: '%s': not a valid identifier\n", argv[a]);
+			printf("minishell: export: '%s': not a valid identifier\n",
+				argv[a]);
 			prompt->e_status = 1;
+			continue ;
 		}
-		if (argv[a][b] == '=' && b != 0 && !ft_isdigit(argv[a][0]))
+		equal_value = ft_strchr(argv[a], '=');
+		if (equal_value)
 			add_env(prompt, argv[a]);
-		a++;
 	}
 	if (a == 0)
 		display_ordered_env(prompt->env);

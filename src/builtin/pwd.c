@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 15:23:39 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/17 02:36:01 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 14:43:31 by Koh              ###   ########.kl       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	pwd(char **argv, t_prompt *prompt)
 
 	(void)argv;
 	s = get_pwd(prompt);
-	printf("%s\n", s);
+	ft_putendl_fd(s, STDOUT_FILENO);
 	free(s);
 	return (EXIT_SUCCESS);
 }

@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:28 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/14 10:41:25 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 15:23:32 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "minishell.h"
 #include "libft.h"
+
+bool	check_env_identifier(char *s, bool has_equal)
+{
+	if (!(*s == '_' || ('A' <= *s && *s <= 'Z') || ('a' <= *s && *s <= 'z')))
+		return (false);
+	while (*s && (ft_isalnum(*s) || *s == '_'))
+		s++;
+	if (has_equal && *s == '=')
+		return (true);
+	return (*s == '\0');
+}
 
 /* check if the arg is valid
    if no display error and set exit status to 1
@@ -28,13 +39,6 @@ void	find_and_unset(t_prompt *prompt, char *s)
 		a = 0;
 		while (s[a] && ft_isalnum(s[a]) && prompt->env[i][a] == s[a])
 			a++;
-		if (ft_isdigit(s[0]) || (!ft_isalnum(s[a])
-				&& s[a] != '\0' && s[a] != '_'))
-		{
-			printf("unset: '%s': not a valid identifier\n", s);
-			prompt->e_status = 1;
-			break ;
-		}
 		if (s[a] == '\0' && prompt->env[i][a] == '=')
 		{
 			free(ft_shift(prompt->env + i));
@@ -49,12 +53,18 @@ int	mini_unset(t_prompt *prompt, char **argv)
 {
 	int		a;
 
-	a = 0;
 	prompt->e_status = 0;
-	while (argv[a] != NULL)
+	a = -1;
+	while (argv[++a] != NULL)
 	{
+		if (!check_env_identifier(argv[a], false))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n",
+				argv[a]);
+			prompt->e_status = 1;
+			continue ;
+		}
 		find_and_unset(prompt, argv[a]);
-		a++;
 	}
 	return (prompt->e_status);
 }

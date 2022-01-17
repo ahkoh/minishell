@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/17 11:07:44 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 15:10:43 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int		export(char **argv, t_prompt *prompt);
 int		pwd(char **argv, t_prompt *prompt);
 char	*get_pwd(t_prompt *prompt);
 int		unset(char **argv, t_prompt *prompt);
+bool	check_env_identifier(char *s, bool has_equal);
 int		debug(char **argv, t_prompt *prompt);
 //pipex_utils
 int		px_execfile(char **argv, char **env);

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 00:47:22 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/15 20:32:48 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 16:45:26 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	openfile(t_cmd *cmd, char *operator, char *fp, t_list *heredocs)
 	{
 		fd_replace(&cmd->infile, -1);
 		fd_replace(&cmd->outfile, -1);
-		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(fp, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
