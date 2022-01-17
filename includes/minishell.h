@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/17 02:17:45 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 11:07:44 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ typedef struct s_split_space_var
 	bool	is_operator;
 	char	quote_type;
 }				t_split_space_var;
+
+typedef struct s_expand
+{
+	int	a;
+	int	b;
+	int	opened;
+	int	quote;
+}				t_expand;
 
 //parse
 void	free_cmds(t_cmd **cmd, int total_cmd);

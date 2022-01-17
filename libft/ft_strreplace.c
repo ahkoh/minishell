@@ -6,11 +6,24 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:32:57 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/16 13:48:48 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 11:05:19 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	add_replace(char *replace, char **new_str, int *b, int size_search)
+{
+	int	i;
+
+	i = 0;
+	while (replace[i] != '\0')
+	{
+		(*new_str)[++*b] = replace[i];
+		i++;
+	}
+	return (size_search);
+}
 
 int	ft_strreplace(char **str, char *replace, int size_search, int search_index)
 {
@@ -27,20 +40,13 @@ int	ft_strreplace(char **str, char *replace, int size_search, int search_index)
 	while ((*str)[++a] != '\0')
 	{
 		if (a == search_index)
-		{
-			while (*replace != '\0')
-				new_str[++b] = *(replace++);
-			a += size_search;
-		}
+			a += add_replace(replace, &new_str, &b, size_search);
 		if ((*str)[a] == '\0')
 			break ;
 		new_str[++b] = (*str)[a];
 	}
 	if (a == search_index)
-	{
-		while (*replace != '\0')
-			new_str[++b] = *(replace++);
-	}
+		add_replace(replace, &new_str, &b, size_search);
 	new_str[++b] = '\0';
 	free((*str));
 	(*str) = new_str;
