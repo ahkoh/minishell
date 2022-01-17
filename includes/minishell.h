@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
+/*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/16 12:41:31 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 10:37:05 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ typedef struct s_split_space_var
 	bool	is_operator;
 	char	quote_type;
 }				t_split_space_var;
+
+typedef struct s_expand
+{
+	int	a;
+	int	b;
+	int	opened;
+	int	quote;
+}				t_expand;
 
 //parse
 void	free_cmds(t_cmd **cmd, int total_cmd);

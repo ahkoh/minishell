@@ -6,19 +6,11 @@
 /*   By: zhliew <zhliew@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:34:03 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/16 14:03:52 by zhliew           ###   ########.fr       */
+/*   Updated: 2022/01/17 10:36:54 by zhliew           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-typedef struct s_expand
-{
-	int	a;
-	int	b;
-	int	opened;
-	int	quote;
-}				t_expand;
 
 /* compare the cmd(can only be alpha or num or '_')
    and find if there is matching env variable
@@ -79,10 +71,12 @@ static int	expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 	return (0);
 }
 
-int	add_quote(t_cmd **cmd, t_expand var)
+static int	pre_and_expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 {
 	int	i;
+	int	total_replace;
 
+	total_replace = 0;
 	if (var.opened == -1)
 	{
 		ft_strreplace(&(*cmd)[var.a].cmd, "'", 0, var.b);
@@ -91,9 +85,11 @@ int	add_quote(t_cmd **cmd, t_expand var)
 			|| (*cmd)[var.a].cmd[i] == '_')
 			i++;
 		ft_strreplace(&(*cmd)[var.a].cmd, "'", 0, i);
-		return (1);
+		total_replace += 2;
+		var.b++;
 	}
-	return (0);
+	total_replace += expand_env(cmd, prompt, var);
+	return (total_replace);
 }
 
 /* check the cmd for '$' character, if it is not in '''
@@ -111,14 +107,7 @@ void	expand_cmd(t_cmd **cmd, t_prompt *prompt)
 		{
 			if ((*cmd)[var.a].cmd[var.b] == '$' && (var.opened == -1
 					|| (var.opened == 1 && var.quote == '"')))
-			{
-				var.b += add_quote(cmd, var);
-				printf("%d\n", var.b);
-				var.b += expand_env(cmd, prompt, var);
-				if (var.opened == -1)
-					var.b += 1;
-				printf("%d\n", var.b);
-			}
+				var.b += pre_and_expand_env(cmd, prompt, var);
 			else if (var.opened == -1 && ((*cmd)[var.a].cmd[var.b] == '\''
 				|| (*cmd)[var.a].cmd[var.b] == '"' ))
 			{
