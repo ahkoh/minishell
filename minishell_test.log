@@ -363,15 +363,6 @@ PWD=/Users/skoh/.cache/minishell_test/sandbox$
 TERM=xterm-256color
 ================================================================================
 
-|> WITH export 'AH;'=nop\n
-|  STATUS: expected 1 actual 2
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH;=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: syntax error, unclosed quote$
-minishell: syntax error, unclosed quote$
-================================================================================
-
 |> WITH export BONJOUR\\JESUIS\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR\JESUIS': not a valid identifier$
@@ -439,15 +430,6 @@ minishell: export: `BONJOUR\_JESUIS': not a valid identifier$
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
 minishell: export: `BONJOUR\0JESUIS': not a valid identifier$
-================================================================================
-
-|> WITH unset 'AH;'=nop\n
-|  STATUS: expected 1 actual 2
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `AH;=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: syntax error, unclosed quote$
-minishell: syntax error, unclosed quote$
 ================================================================================
 
 |> WITH echo "\"" >>a"b""c"  \n
@@ -604,26 +586,6 @@ b$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-a$
-b$
-================================================================================
-
-|> WITH ls asdfasdf | echo a\n
-|---------------------------------------EXPECTED--------------------------------
-a$
-ls: asdfasdf: No such file or directory$
-|---------------------------------------ACTUAL----------------------------------
-ls: asdfasdf: No such file or directory$
-a$
-================================================================================
-
-|> WITH ls asdfasdf | echo a; echo b\n
-|---------------------------------------EXPECTED--------------------------------
-a$
-ls: asdfasdf: No such file or directory$
-b$
-|---------------------------------------ACTUAL----------------------------------
-ls: asdfasdf: No such file or directory$
 a$
 b$
 ================================================================================
@@ -1736,9 +1698,9 @@ Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem
 |  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
 total 0$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 a$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 b$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 c$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 22:00 a$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 22:00 b$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 22:00 c$
 |---------------------------------------ACTUAL----------------------------------
 minishell: ls -l: command not found$
 ================================================================================

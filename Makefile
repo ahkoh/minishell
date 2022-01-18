@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/17 02:42:56 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/18 21:24:18 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ objs	= src/main.o \
 		  src/executor/heredoc.o \
 		  src/executor/fd_helper.o \
 		  src/executor/cleanup.o \
+		  src/executor/run_script.o \
 		  src/builtin/cd.o \
 		  src/builtin/echo.o \
 		  src/builtin/env.o \

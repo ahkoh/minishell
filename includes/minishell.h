@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/18 08:00:53 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 21:23:56 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ bool		handle_heredocs(t_prompt *prompt, t_list **heredocs);
 int			open_redirections(t_cmd *cmd, t_list *heredocs);
 //executor
 int			execute_line(t_cmd *cmd, t_prompt *prompt);
+//run_script
+int			run_script(char *input, char **envp);
 //cleanup
 void		cleanup(t_prompt *prompt);
 void		cleanup_cmd(t_prompt *prompt);
