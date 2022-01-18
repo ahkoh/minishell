@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/18 08:12:39 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 10:21:52 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static void	print_error(const char *item, char *error)
 
 static bool	next_path(char **search, char **dir)
 {
-	char	*end;
+	char	*found;
 
 	*dir = NULL;
 	if (*search == NULL)
 		return (false);
-	end = ft_strchr(*search, ':');
-	if (end)
+	found = ft_strchr(*search, ':');
+	if (found)
 	{
-		*dir = ft_strndup(*search, end - *search);
-		*search = end + 1;
+		*dir = ft_strndup(*search, found - *search);
+		*search = found + 1;
 	}
 	else
 	{
@@ -98,10 +98,13 @@ static char	*px_get_fp(const char *filename, const char *path, struct stat *st)
 // exe-file with path will use errno
 // return permission-denied (dir or execve failed)
 // or return not-found (with/without path)
+// "Exec format error" with read-perm => run sh to fix missing shebang
 int	px_execfile(char **argv, char **env)
 {
 	char		*fp;
 	struct stat	st;
+	int			i;
+	char		**sh;
 
 	fp = px_get_fp(*argv, get_const_value_by_key(env, "PATH"), &st);
 	if (!fp & S_ISDIR(st.st_mode))
@@ -109,7 +112,18 @@ int	px_execfile(char **argv, char **env)
 	else if (!fp)
 		return (127);
 	execve(fp, argv, env);
-	print_error(fp, strerror(EACCES));
-	free(fp);
-	return (126);
+	if (errno == ENOEXEC && st.st_mode & 0444)
+	{
+		i = 0;
+		while (argv[i])
+			i++;
+		sh = ft_calloc(i + 1, sizeof(char *));
+		while (i && i--)
+			sh[i + 1] = argv[i];
+		sh[0] = "/bin/sh";
+		execve(sh[0], sh, env);
+		free(sh);
+		return (print_error(fp, strerror(errno)), free(fp), 126);
+	}
+	return (print_error(fp, strerror(EACCES)), free(fp), 126);
 }

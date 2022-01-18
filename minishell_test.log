@@ -1325,83 +1325,6 @@ minishell: =?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{}~: comma
 minishell: =?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{}~: command not found$
 ================================================================================
 
-|> WITH [SETUP echo > somefile; chmod 500 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile; chmod 700 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile; chmod 755 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 0777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 1777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 2777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 3777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 4777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 5777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 6777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 7777 somefile] ./somefile\n
-|  STATUS: expected 0 actual 126
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: Permission denied$
-================================================================================
-
 |> WITH echo foo >>> bar\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `>'$
@@ -1581,17 +1504,6 @@ TIMEOUT
 
 |> WITH echo bonjour  | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e\n
 TIMEOUT
-================================================================================
-
-|> WITH ls asdfasdf | echo a; echo b\n
-|---------------------------------------EXPECTED--------------------------------
-a$
-ls: asdfasdf: No such file or directory$
-b$
-|---------------------------------------ACTUAL----------------------------------
-ls: asdfasdf: No such file or directory$
-a$
-b$
 ================================================================================
 
 |> WITH < | a\n
@@ -2699,9 +2611,9 @@ Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem
 |  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
 total 0$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 08:53 a$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 08:53 b$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 08:53 c$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 10:16 a$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 10:16 b$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 10:16 c$
 |---------------------------------------ACTUAL----------------------------------
 minishell: ls -l: command not found$
 ================================================================================
