@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 11:34:03 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/17 15:40:09 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 16:56:33 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)
 		else if (rpl == NULL && env_len > 1)
 			return (ft_strreplace(&((*cmd)[var.a].cmd), "", env_len, tmp - 1));
 	}
-	return (0);
+	return (1);
 }
 
 static int	pre_and_expand_env(t_cmd **cmd, t_prompt *prompt, t_expand var)

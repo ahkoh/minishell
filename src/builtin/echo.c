@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 09:24:28 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 15:59:28 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,44 @@
 #include "libft.h"
 #include "minishell.h"
 
+static int	check_option(char *s, char *options)
+{
+	int	r;
+
+	r = 0;
+	if (*s == '-')
+	{
+		while (*++s)
+		{
+			if (!ft_strchr(options, *s))
+				return (0);
+			r = r | 2 << (*s - 'a' + 1);
+		}
+	}
+	return (r);
+}
+
 // use write() because printf(without_newline) may not flush to redirection
 int	echo(char **argv, t_prompt *prompt)
 {
-	bool	has_option_n;
+	int	options;
 
 	(void)prompt;
-	has_option_n = argv[1] && ft_strcmp(argv[1], "-n") == 0 && ++argv;
+	options = 0;
 	while (*++argv)
+	{
+		if (!check_option(*argv, "n"))
+			break ;
+		options = check_option(*argv, "n");
+	}
+	while (*argv)
 	{
 		ft_putstr_fd(*argv, STDOUT_FILENO);
 		if (argv[1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
+		argv++;
 	}
-	if (!has_option_n)
+	if (!options)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }
