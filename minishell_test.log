@@ -127,7 +127,7 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -143,8 +143,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="(null)"$
-declare -x OLDPWD="(null)"$
+declare -x A=""$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -161,7 +161,7 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="""$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -178,7 +178,7 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="\"$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -195,7 +195,7 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="$"$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -212,7 +212,7 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="	"$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -229,7 +229,7 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="'"$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
@@ -246,31 +246,17 @@ declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="a"$
-declare -x OLDPWD="(null)"$
+declare -x OLDPWD=""$
 declare -x PATH="/Users/skoh/.cache/minishell_test/bin"$
 declare -x PWD="/Users/skoh/.cache/minishell_test/sandbox"$
 declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH export 1=a\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `1=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: '1=a': not a valid identifier$
-================================================================================
-
-|> WITH export BONJOURJESUIS =a\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: '=a': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\\JESUIS=a\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR\JESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\\JESUIS=a': not a valid identifier$
+minishell: export: `BONJOUR\\JESUIS=a': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\'JESUIS=a\n
@@ -293,14 +279,14 @@ minishell: syntax error, unclosed quote$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR$JESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\=a': not a valid identifier$
+minishell: export: `BONJOUR\=a': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\&JESUIS=a\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR&JESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\&JESUIS=a': not a valid identifier$
+minishell: export: `BONJOUR\&JESUIS=a': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\|JESUIS=a\n
@@ -308,6 +294,7 @@ minishell: export: 'BONJOUR\&JESUIS=a': not a valid identifier$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR|JESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
+minishell: export: `BONJOUR\': not a valid identifier$
 minishell: JESUIS=a: command not found$
 ================================================================================
 
@@ -316,100 +303,48 @@ minishell: JESUIS=a: command not found$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR;JESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
+minishell: export: `BONJOUR\': not a valid identifier$
 minishell: JESUIS=a: command not found$
-minishell: export: 'BONJOUR\': not a valid identifier$
-minishell: export: 'BONJOUR\': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\_JESUIS=a\n
 |  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\_JESUIS=a': not a valid identifier$
+minishell: export: `BONJOUR\_JESUIS=a': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\0JESUIS=a\n
 |  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\0JESUIS=a': not a valid identifier$
+minishell: export: `BONJOUR\0JESUIS=a': not a valid identifier$
 ================================================================================
 
 |> WITH export \B\O\N\ \ \ \ \ \ \ JOURJESUIS=a\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BON       JOURJESUIS=a': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: '\B\O\N\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
+minishell: export: `\B\O\N\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
 ================================================================================
 
 |> WITH export A=\B\O\N\ \ \ \ \ \ \ JOURJESUIS; echo $A\n
 |---------------------------------------EXPECTED--------------------------------
 BON JOURJESUIS$
 |---------------------------------------ACTUAL----------------------------------
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
+minishell: export: `\': not a valid identifier$
 \B\O\N\$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-minishell: export: '\': not a valid identifier$
-================================================================================
-
-|> WITH export A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `asdf ': not a valid identifier$
-minishell: export: ` asdf asdf asd f': not a valid identifier$
-minishell: export: ` asdf ': not a valid identifier$
-minishell: export: `': not a valid identifier$
-minishell: export: `asdf ': not a valid identifier$
-$
-|---------------------------------------ACTUAL----------------------------------
-$
-minishell: export: 'asdf ': not a valid identifier$
-minishell: export: ' asdf asdf asd f': not a valid identifier$
-minishell: export: ' asdf ': not a valid identifier$
-minishell: export: '': not a valid identifier$
-minishell: export: 'asdf ': not a valid identifier$
-================================================================================
-
-|> WITH export 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `asdf ': not a valid identifier$
-minishell: export: ` asdf asdf asd f': not a valid identifier$
-minishell: export: ` asdf ': not a valid identifier$
-minishell: export: `': not a valid identifier$
-minishell: export: `asdf ': not a valid identifier$
-$
-|---------------------------------------ACTUAL----------------------------------
-$
-minishell: export: 'asdf ': not a valid identifier$
-minishell: export: ' asdf asdf asd f': not a valid identifier$
-minishell: export: ' asdf ': not a valid identifier$
-minishell: export: '': not a valid identifier$
-minishell: export: 'asdf ': not a valid identifier$
-================================================================================
-
-|> WITH export A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `asdf ': not a valid identifier$
-minishell: export: ` asdf asdf asd f': not a valid identifier$
-minishell: export: ` asdf ': not a valid identifier$
-minishell: export: `': not a valid identifier$
-minishell: export: `asdf ': not a valid identifier$
-$
-|---------------------------------------ACTUAL----------------------------------
-$
-minishell: export: 'asdf ': not a valid identifier$
-minishell: export: ' asdf asdf asd f': not a valid identifier$
-minishell: export: ' asdf ': not a valid identifier$
-minishell: export: '': not a valid identifier$
-minishell: export: 'asdf ': not a valid identifier$
 ================================================================================
 
 |> WITH export A B C; env\n
@@ -428,48 +363,6 @@ PWD=/Users/skoh/.cache/minishell_test/sandbox$
 TERM=xterm-256color
 ================================================================================
 
-|> WITH export 'AH@'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH@=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH@=nop': not a valid identifier$
-================================================================================
-
-|> WITH export "AH'"=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH'=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH'=nop': not a valid identifier$
-================================================================================
-
-|> WITH export 'AH"'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH"=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH"=nop': not a valid identifier$
-================================================================================
-
-|> WITH export 'AH$'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH$=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH$=nop': not a valid identifier$
-================================================================================
-
-|> WITH export 'AH!'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH!=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH!=nop': not a valid identifier$
-================================================================================
-
-|> WITH export 'AH|'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH|=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH|=nop': not a valid identifier$
-================================================================================
-
 |> WITH export 'AH;'=nop\n
 |  STATUS: expected 1 actual 2
 |---------------------------------------EXPECTED--------------------------------
@@ -479,25 +372,11 @@ minishell: syntax error, unclosed quote$
 minishell: syntax error, unclosed quote$
 ================================================================================
 
-|> WITH export 'AH&'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH&=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH&=nop': not a valid identifier$
-================================================================================
-
-|> WITH export 'AH\'=nop\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH\=nop': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-minishell: export: 'AH\=nop': not a valid identifier$
-================================================================================
-
 |> WITH export BONJOUR\\JESUIS\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR\JESUIS': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\\JESUIS': not a valid identifier$
+minishell: export: `BONJOUR\\JESUIS': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\'JESUIS\n
@@ -520,14 +399,14 @@ minishell: syntax error, unclosed quote$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR$JESUIS': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\': not a valid identifier$
+minishell: export: `BONJOUR\': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\&JESUIS\n
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR&JESUIS': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\&JESUIS': not a valid identifier$
+minishell: export: `BONJOUR\&JESUIS': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\|JESUIS\n
@@ -535,6 +414,7 @@ minishell: export: 'BONJOUR\&JESUIS': not a valid identifier$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR|JESUIS': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
+minishell: export: `BONJOUR\': not a valid identifier$
 minishell: JESUIS: command not found$
 ================================================================================
 
@@ -543,92 +423,22 @@ minishell: JESUIS: command not found$
 |---------------------------------------EXPECTED--------------------------------
 minishell: export: `BONJOUR;JESUIS': not a valid identifier$
 |---------------------------------------ACTUAL----------------------------------
+minishell: export: `BONJOUR\': not a valid identifier$
 minishell: JESUIS: command not found$
-minishell: export: 'BONJOUR\': not a valid identifier$
-minishell: export: 'BONJOUR\': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\_JESUIS\n
 |  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\_JESUIS': not a valid identifier$
+minishell: export: `BONJOUR\_JESUIS': not a valid identifier$
 ================================================================================
 
 |> WITH export BONJOUR\0JESUIS\n
 |  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: export: 'BONJOUR\0JESUIS': not a valid identifier$
-================================================================================
-
-|> WITH [EXPORTS A='a'] unset 'A '; echo $A\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `A ': not a valid identifier$
-a$
-|---------------------------------------ACTUAL----------------------------------
-a$
-minishell: unset: `A ': not a valid identifier$
-================================================================================
-
-|> WITH [EXPORTS A='a'] unset 'A='; echo $A\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `A=': not a valid identifier$
-a$
-|---------------------------------------ACTUAL----------------------------------
-a$
-minishell: unset: `A=': not a valid identifier$
-================================================================================
-
-|> WITH [EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
-$
-|---------------------------------------ACTUAL----------------------------------
-$
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
-================================================================================
-
-|> WITH [EXPORTS A='a' B='b' C='c'] unset 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
-a$
-|---------------------------------------ACTUAL----------------------------------
-a$
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
-================================================================================
-
-|> WITH [EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C\n
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
-c$
-|---------------------------------------ACTUAL----------------------------------
-c$
-minishell: unset: `asdf ': not a valid identifier$
-minishell: unset: ` asdf asdf asd f': not a valid identifier$
-minishell: unset: ` asdf ': not a valid identifier$
-minishell: unset: `': not a valid identifier$
-minishell: unset: `asdf ': not a valid identifier$
+minishell: export: `BONJOUR\0JESUIS': not a valid identifier$
 ================================================================================
 
 |> WITH unset 'AH;'=nop\n
@@ -794,6 +604,26 @@ b$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
+a$
+b$
+================================================================================
+
+|> WITH ls asdfasdf | echo a\n
+|---------------------------------------EXPECTED--------------------------------
+a$
+ls: asdfasdf: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+ls: asdfasdf: No such file or directory$
+a$
+================================================================================
+
+|> WITH ls asdfasdf | echo a; echo b\n
+|---------------------------------------EXPECTED--------------------------------
+a$
+ls: asdfasdf: No such file or directory$
+b$
+|---------------------------------------ACTUAL----------------------------------
+ls: asdfasdf: No such file or directory$
 a$
 b$
 ================================================================================
@@ -1906,9 +1736,9 @@ Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem
 |  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
 total 0$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 16:58 a$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 16:58 b$
--rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 16:58 c$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 a$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 b$
+-rw-r--r--  1 skoh  2021_kuala-lumpur  0 Jan 18 17:25 c$
 |---------------------------------------ACTUAL----------------------------------
 minishell: ls -l: command not found$
 ================================================================================

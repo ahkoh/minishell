@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/17 15:20:08 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 17:16:26 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ static void	display_ordered_env(char **env)
 	while (cpy[a])
 	{
 		kv = ft_split(cpy[a], '=');
-		printf("declare -x %s=\"%s\"\n", kv[0], kv[1]);
+		if (kv[1])
+			printf("declare -x %s=\"%s\"\n", kv[0], kv[1]);
+		else
+			printf("declare -x %s=\"\"\n", kv[0]);
 		free(cpy[a]);
 		ft_split_free(&kv);
 		a++;
@@ -96,8 +99,9 @@ int	mini_export(t_prompt *prompt, char **argv)
 	{
 		if (!check_env_identifier(argv[a], true))
 		{
-			printf("minishell: export: '%s': not a valid identifier\n",
-				argv[a]);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(argv[a], STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			prompt->e_status = 1;
 			continue ;
 		}

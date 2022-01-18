@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:28 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/17 15:23:32 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 17:21:45 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int	mini_unset(t_prompt *prompt, char **argv)
 	{
 		if (!check_env_identifier(argv[a], false))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n",
-				argv[a]);
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+			ft_putstr_fd(argv[a], STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			prompt->e_status = 1;
 			continue ;
 		}
