@@ -6,12 +6,13 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/15 06:31:11 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/16 11:56:29 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 12:53:18 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
+#include <stdio.h>
 
 void	cleanup_redirections(int fd1, int fd2)
 {

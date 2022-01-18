@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 18:09:18 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/14 09:44:51 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 12:51:08 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static void	fd_dup(int *fd, int io, bool dup_io)
 	close(*fd);
 	if (dup_io)
 		*fd = swap;
-	else
-		*fd = io;
 }
 
 void	fd_dup_io(int *fin, int *fout, bool dup_io)

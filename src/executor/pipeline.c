@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/16 14:53:08 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 12:52:40 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	fork_command(t_cmd *cmd, t_prompt *prompt, t_list *heredocs)
 	pid = fork();
 	if (pid)
 		return (pid);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (!open_redirections(cmd, heredocs))
 	{
