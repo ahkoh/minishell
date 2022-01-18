@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/18 21:24:18 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/18 23:58:06 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ h help:
 	@echo 'make x => remove AddressSanitizer to work with leaks'
 	@echo 'make b => compare bash'
 	@echo 'make v => valgrind test'
+	@echo 'make t => test result'
 
 b:
 	PS1='[$$?]$$(pwd)> ' bash
@@ -98,7 +99,8 @@ v: x
 	--track-origins=yes --trace-children=yes ./minishell
 	# --suppressions=readline.supp \
 	# --gen-suppressions=all --log-file=minimalraw.log \
+	# leaks -q -atExit -- ./minishell -c 'echo $$?'
+	# valgrind --leak-check=yes ./minishell -c 'echo $$?'
 
-test: x
-	leaks -q -atExit -- ./minishell -c 'echo $$?'
-	valgrind --leak-check=yes ./minishell -c 'echo $$?'
+t:
+	less -r minishell_test.out

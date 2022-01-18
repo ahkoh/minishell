@@ -1,0 +1,1036 @@
+make: Nothing to be done for `all'.
+======================================MAKE======================================
+================================================================================
+[34m################################## builtin/cd ##################################[0m
+[32mecho $PWD; echo $OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD\n             [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ..; pwd; echo $PWD; echo $OLDPWD\n            [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD\n         [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD\n      [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD\n   [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDP... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $O... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD\n             [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ''; pwd; echo $PWD; echo $OLDPWD\n            [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd '' ''; pwd; echo $PWD; echo $OLDPWD\n         [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd '' '' ''; pwd; echo $PWD; echo $OLDPWD\n      [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ' '; pwd; echo $PWD; echo $OLDPWD\n           [PASS][0m
+[32m[SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ''; pwd; echo $PWD; echo... [PASS][0m
+[32m[SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d d; pwd; echo $PWD; echo ... [PASS][0m
+[32m[SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ' '; pwd; echo $PWD; ech... [PASS][0m
+[32m[EXPORTS HOME='/Users/skoh'] echo $PWD; echo $OLDPWD; cd $HOME; pwd; e... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD\n             [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /.; pwd; echo $PWD; echo $OLDPWD\n            [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /./; pwd; echo $PWD; echo $OLDPWD\n           [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /././././; pwd; echo $PWD; echo $OLDPWD\n     [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd //; pwd; echo $PWD; echo $OLDPWD\n            [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ///; pwd; echo $PWD; echo $OLDPWD\n           [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ////; pwd; echo $PWD; echo $OLDPWD\n          [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd //////////////////////////////////////////... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd; echo $OLDPWD\n                               [PASS][0m
+[32m[EXPORTS HOME='/Users/skoh'] echo $PWD; echo $OLDPWD; cd; echo $PWD; e... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ' /'; pwd; echo $PWD; echo $OLDPWD\n          [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ' / '; pwd; echo $PWD; echo $OLDPWD\n         [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd '                  /'; pwd; echo $PWD; ech... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd '                  /              '; pwd; ... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ' // '; pwd; echo $PWD; echo $OLDPWD\n        [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd //home; pwd; echo $PWD; echo $OLDPWD\n        [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd ' //home'; pwd; echo $PWD; echo $OLDPWD\n     [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd '     //home    '; pwd; echo $PWD; echo $O... [PASS][0m
+[32m[SETUP mkdir -m 000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 001 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 002 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 003 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 004 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 005 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 006 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 007 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 010 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 020 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 030 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 040 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 050 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 060 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 070 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 100 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 200 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 300 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 400 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 500 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 600 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 700 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 755 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 644 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 311 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 111 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 222 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 333 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n      [PASS][0m
+[32m[SETUP mkdir -m 0777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 1000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 2000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 3000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 4000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 5000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 6000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 7000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 1777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 2777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 3777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 4777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 5777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 6777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 7777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32m[SETUP mkdir -m 0000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n     [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; unset PWD; cd ... [PASS][0m
+[32mecho $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; export PWD=bon... [PASS][0m
+[32mCd .\n                                                                    [PASS][0m
+[32mcD .\n                                                                    [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Cd .\n                                     [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] cD .\n                                     [PASS][0m
+[34m################################# builtin/echo #################################[0m
+[32mecho\n                                                                    [PASS][0m
+[32mecho bonjour\n                                                            [PASS][0m
+[32mecho lalalala lalalalal alalalalal alalalala\n                            [PASS][0m
+[32mecho lalalala                lalalalal      alalalalal alalalala\n        [PASS][0m
+[32mecho Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis f... [PASS][0m
+[32mecho -n\n                                                                 [PASS][0m
+[32mecho -n bonjour\n                                                         [PASS][0m
+[32mecho -n lalalala lalalalal alalalalal alalalala\n                         [PASS][0m
+[32mecho -n lalalala                lalalalal      alalalalal alalalala\n     [PASS][0m
+[32mecho -n Mollitia asperiores assumenda excepturi et ipsa. Nihil corpori... [PASS][0m
+[32mecho bonjour -n\n                                                         [PASS][0m
+[32mecho -n bonjour -n\n                                                      [PASS][0m
+[32m                        echo                     bonjour             je\n [PASS][0m
+[32m                        echo       -n            bonjour             je\n [PASS][0m
+[32mecho a '' b '' c '' d\n                                                   [PASS][0m
+[32mecho a "" b "" c "" d\n                                                   [PASS][0m
+[32mecho -n a '' b '' c '' d\n                                                [PASS][0m
+[32mecho -n a "" b "" c "" d\n                                                [PASS][0m
+[32mecho '' '' ''\n                                                           [PASS][0m
+[32mEcho bonjour\n                                                            [PASS][0m
+[32meCho bonjour\n                                                            [PASS][0m
+[32mecHo bonjour\n                                                            [PASS][0m
+[32mechO bonjour\n                                                            [PASS][0m
+[32mEchO bonjour\n                                                            [PASS][0m
+[32meCHo bonjour\n                                                            [PASS][0m
+[32mEcHo bonjour\n                                                            [PASS][0m
+[32meChO bonjour\n                                                            [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Echo bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] eCho bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] ecHo bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] echO bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] EchO bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] eCHo bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] EcHo bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] eChO bonjour\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] eChO -e 'bonjo\nur'\n                      [PASS][0m
+[32mecho -n -n -n -n bonjour\n                                                [PASS][0m
+[32mecho -nnnnnnnnnnnnnnnnnnnnn bonjour\n                                     [PASS][0m
+[32mecho -nnnnnnnnnnnnnnnnnnnnn -n -n -n bonjour -n -n\n                      [PASS][0m
+[34m################################# builtin/env ##################################[0m
+[31menv\n                                                                     [FAIL][0m
+[31m[SETUP export A=a] env\n                                                  [FAIL][0m
+[31m[SETUP export A=a B=b C=c] env\n                                          [FAIL][0m
+[31m[SETUP export A=a B=b C=c] env | cat -e\n                                 [FAIL][0m
+[31mEnv\n                                                                     [FAIL][0m
+[31menV\n                                                                     [FAIL][0m
+[31m[EXPORTS PATH='/bin:/usr/bin'] Env\n                                      [FAIL][0m
+[31m[EXPORTS PATH='/bin:/usr/bin'] enV\n                                      [FAIL][0m
+[34m################################# builtin/exit #################################[0m
+[32mexit\n                                                                    [PASS][0m
+[32mexit 1\n                                                                  [PASS][0m
+[32mexit 2\n                                                                  [PASS][0m
+[32mexit 3\n                                                                  [PASS][0m
+[32mexit ' 3'\n                                                               [PASS][0m
+[32mexit '\t3'\n                                                              [PASS][0m
+[32mexit '\t\f\r 3'\n                                                         [PASS][0m
+[32mexit '3 '\n                                                               [PASS][0m
+[32mexit '3\t'\n                                                              [PASS][0m
+[32mexit '3\r'\n                                                              [PASS][0m
+[32mexit '3\t\f\r '\n                                                         [PASS][0m
+[32mexit '3     a'\n                                                          [PASS][0m
+[32mexit '3\t\t\ta'\n                                                         [PASS][0m
+[32mexit 0\n                                                                  [PASS][0m
+[32mexit -0\n                                                                 [PASS][0m
+[32mexit -1\n                                                                 [PASS][0m
+[32mexit 255\n                                                                [PASS][0m
+[32mexit 256\n                                                                [PASS][0m
+[32mexit 2000000\n                                                            [PASS][0m
+[32mexit -2000000\n                                                           [PASS][0m
+[32mexit 2147483647\n                                                         [PASS][0m
+[32mexit -2147483648\n                                                        [PASS][0m
+[32mexit 2147483648\n                                                         [PASS][0m
+[32mexit -2147483649\n                                                        [PASS][0m
+[32mexit 3147483648\n                                                         [PASS][0m
+[32mexit -3147483649\n                                                        [PASS][0m
+[32mexit 4294967295\n                                                         [PASS][0m
+[32mexit 4294967296\n                                                         [PASS][0m
+[32mexit -9223372036854775808\n                                               [PASS][0m
+[32mexit 9223372036854775807\n                                                [PASS][0m
+[32mexit -9223372036854775809\n                                               [PASS][0m
+[32mexit 9223372036854775808\n                                                [PASS][0m
+[32mexit 18446744073709551615\n                                               [PASS][0m
+[32mexit 18446744073709551616\n                                               [PASS][0m
+[32mexit +1\n                                                                 [PASS][0m
+[32mexit +2\n                                                                 [PASS][0m
+[32mexit +3\n                                                                 [PASS][0m
+[32mexit +0\n                                                                 [PASS][0m
+[32mexit +255\n                                                               [PASS][0m
+[32mexit +256\n                                                               [PASS][0m
+[32mexit +2000000\n                                                           [PASS][0m
+[32mexit +2147483647\n                                                        [PASS][0m
+[32mexit ++1\n                                                                [PASS][0m
+[32mexit ++2\n                                                                [PASS][0m
+[32mexit ++3\n                                                                [PASS][0m
+[32mexit ++0\n                                                                [PASS][0m
+[32mexit ++255\n                                                              [PASS][0m
+[32mexit ++256\n                                                              [PASS][0m
+[32mexit ++2000000\n                                                          [PASS][0m
+[32mexit ++2147483647\n                                                       [PASS][0m
+[32mexit --1\n                                                                [PASS][0m
+[32mexit --2\n                                                                [PASS][0m
+[32mexit --3\n                                                                [PASS][0m
+[32mexit --0\n                                                                [PASS][0m
+[32mexit --255\n                                                              [PASS][0m
+[32mexit --256\n                                                              [PASS][0m
+[32mexit --2000000\n                                                          [PASS][0m
+[32mexit --2147483647\n                                                       [PASS][0m
+[32mexit bonjour\n                                                            [PASS][0m
+[32mexit 0_\n                                                                 [PASS][0m
+[32mexit _0\n                                                                 [PASS][0m
+[32mexit 0123456789\n                                                         [PASS][0m
+[32mexit -0123456789\n                                                        [PASS][0m
+[32mexit 00000000000000000000000000000000000000000000001\n                    [PASS][0m
+[32mexit 00000000000000000000000000000000000000000000000000000000000000000... [PASS][0m
+[32mexit 00000000000000000000000000000000000000000000000000000000000000000... [PASS][0m
+[32mexit -0000000000000000000000000000000000000000000000000000000000000000... [PASS][0m
+[32mexit -9999999999999999999999999999999999999999999999999999999999999999... [PASS][0m
+[32mexit 99999999999999999999999999999999999999999999999999999999999999999... [PASS][0m
+[32mexit 0 bonjour\n                                                          [PASS][0m
+[32mexit bonjour 0\n                                                          [PASS][0m
+[32mexit 0 1\n                                                                [PASS][0m
+[32mexit 0 1 2 3 4 5 6 7 8 9\n                                                [PASS][0m
+[32mexit Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis f... [PASS][0m
+[32mexit bonjoru; echo should have exited\n                                   [PASS][0m
+[32mexit 99999999999999999999999999999999999999999999999999999; echo shoul... [PASS][0m
+[32mexit 9999; echo should have exited\n                                      [PASS][0m
+[32mExit; echo a\n                                                            [PASS][0m
+[32mexiT; echo a\n                                                            [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Exit; echo a\n                             [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] exiT; echo a\n                             [PASS][0m
+[34m################################ builtin/export ################################[0m
+[31mexport\n                                                                  [FAIL][0m
+[31m[EXPORTS A=''] export\n                                                   [FAIL][0m
+[31m[EXPORTS A='"'] export\n                                                  [FAIL][0m
+[31m[EXPORTS A='\'] export\n                                                  [FAIL][0m
+[31m[EXPORTS A='$'] export\n                                                  [FAIL][0m
+[31m[EXPORTS A='\t'] export\n                                                 [FAIL][0m
+[31m[EXPORTS A='''] export\n                                                  [FAIL][0m
+[31m[EXPORTS A='a'] export\n                                                  [FAIL][0m
+[32mexport A=a; echo $A\n                                                     [PASS][0m
+[32mexport A=a B=b C=c; echo $A$B$C\n                                         [PASS][0m
+[32mexport A=a B=b C=c D=d E=e F=f G=g H=h I=i J=j K=k L=lM=m N=n O=o P=p ... [PASS][0m
+[32mexport BONJOURJESUIS=a; echo $BONJOURJESUIS\n                             [PASS][0m
+[32mexport bonjourjesuis=a; echo $bonjourjesuis\n                             [PASS][0m
+[32mexport bonjour_je_suis=a; echo $bonjour_je_suis\n                         [PASS][0m
+[32mexport BONJOURJESUIS1=a; echo $BONJOURJESUIS1\n                           [PASS][0m
+[32mexport bO_nJq123o__1ju_je3234sui__a=a; echo $bO_nJq123o__1ju_je3234sui... [PASS][0m
+[32mexport a0123456789=a; echo $a0123456789\n                                 [PASS][0m
+[32mexport abcdefghijklmnopqrstuvwxyz=a; echo $abcdefghijklmnopqrstuvwxyz\n   [PASS][0m
+[32mexport ABCDEFGHIJKLMNOPQRSTUVWXYZ=a; echo $ABCDEFGHIJKLMNOPQRSTUVWXYZ\n   [PASS][0m
+[32mexport __________________________=a; echo $__________________________\n   [PASS][0m
+[32mexport _bonjour_=a; echo $_bonjour_\n                                     [PASS][0m
+[32mexport _=a; echo $_a\n                                                    [PASS][0m
+[32mexport 1=a\n                                                              [PASS][0m
+[32mexport BONJOURJESUIS =a\n                                                 [PASS][0m
+[32mexport BONJOURJESUIS= a\n                                                 [PASS][0m
+[31mexport BONJOUR\\JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\'JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\"JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\$JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\&JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\|JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\;JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\_JESUIS=a\n                                                [FAIL][0m
+[31mexport BONJOUR\0JESUIS=a\n                                                [FAIL][0m
+[31mexport \B\O\N\ \ \ \ \ \ \ JOURJESUIS=a\n                                 [FAIL][0m
+[31mexport A=\B\O\N\ \ \ \ \ \ \ JOURJESUIS; echo $A\n                        [FAIL][0m
+[32mexport A='bonjour je suis charles'; echo $A\n                             [PASS][0m
+[32mexport A="bonjour je suis charles"; echo $A\n                             [PASS][0m
+[32mexport A==a; echo $A\n                                                    [PASS][0m
+[32mexport A===a; echo $A\n                                                   [PASS][0m
+[32mexport A====a; echo $A\n                                                  [PASS][0m
+[32mexport A=====a; echo $A\n                                                 [PASS][0m
+[32mexport A======a; echo $A\n                                                [PASS][0m
+[32mexport A=a=a=a=a=a; echo $A\n                                             [PASS][0m
+[32mexport A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B... [PASS][0m
+[32mexport 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf ' C; echo $A$B$C\n  [PASS][0m
+[32mexport A 'asdf ' B ' asdf asdf asd f' ' asdf ' '' 'asdf '; echo $A$B$C\n  [PASS][0m
+[32mexport A B C; echo $A$B$C\n                                               [PASS][0m
+[31mexport A B C; env\n                                                       [FAIL][0m
+[32mexport 'AH@'=nop\n                                                        [PASS][0m
+[32mexport "AH'"=nop\n                                                        [PASS][0m
+[32mexport 'AH"'=nop\n                                                        [PASS][0m
+[32mexport 'AH$'=nop\n                                                        [PASS][0m
+[32mexport 'AH!'=nop\n                                                        [PASS][0m
+[32mexport 'AH|'=nop\n                                                        [PASS][0m
+[32mexport 'AH;'=nop\n                                                        [PASS][0m
+[32mexport 'AH&'=nop\n                                                        [PASS][0m
+[32mexport 'AH\'=nop\n                                                        [PASS][0m
+[32m[EXPORTS TEST='A=a'] export $TEST\n                                       [PASS][0m
+[31mexport BONJOUR\\JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\'JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\"JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\$JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\&JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\|JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\;JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\_JESUIS\n                                                  [FAIL][0m
+[31mexport BONJOUR\0JESUIS\n                                                  [FAIL][0m
+[32mExport B=bonjour\n                                                        [PASS][0m
+[32mexporT B=bonjour\n                                                        [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Export B=bonjour\n                         [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] exporT B=bonjour\n                         [PASS][0m
+[34m################################# builtin/pwd ##################################[0m
+[32mpwd\n                                                                     [PASS][0m
+[32m[SETUP cd ..] pwd\n                                                       [PASS][0m
+[32m[SETUP cd ../..] pwd\n                                                    [PASS][0m
+[32m[SETUP cd ../../..] pwd\n                                                 [PASS][0m
+[32m[SETUP cd /] pwd\n                                                        [PASS][0m
+[32m[SETUP cd $HOME] pwd\n                                                    [PASS][0m
+[32mpwd | cat -e\n                                                            [PASS][0m
+[32m[EXPORTS PWD='/etc'] pwd\n                                                [PASS][0m
+[32munset PWD; pwd; echo $PWD\n                                               [PASS][0m
+[32mexport PWD=foo; pwd; echo $PWD\n                                          [PASS][0m
+[32mPwd\n                                                                     [PASS][0m
+[32mpwD\n                                                                     [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Pwd\n                                      [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] pwD\n                                      [PASS][0m
+[34m################################ builtin/unset #################################[0m
+[32munset\n                                                                   [PASS][0m
+[32m[EXPORTS A='a'] unset A; echo $A\n                                        [PASS][0m
+[32m[EXPORTS A='a'] unset 'A '; echo $A\n                                     [PASS][0m
+[32m[EXPORTS A='a'] unset 'A='; echo $A\n                                     [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A B C; echo $A$B$C\n                    [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asd... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset 'asdf ' B ' asdf asdf asd f' ' asdf ... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asd... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A; echo $A$B$C\n                        [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset C; echo $A$B$C\n                        [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A B C\n                                 [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asd... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset 'asdf ' B ' asdf asdf asd f' ' asdf ... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A 'asdf ' B ' asdf asdf asd f' ' asd... [PASS][0m
+[32m[EXPORTS A='a' B='b' C='c'] unset A\n                                     [PASS][0m
+[32munset 'AH@'=nop\n                                                         [PASS][0m
+[32munset "AH'"=nop\n                                                         [PASS][0m
+[32munset 'AH"'=nop\n                                                         [PASS][0m
+[32munset 'AH$'=nop\n                                                         [PASS][0m
+[32munset 'AH!'=nop\n                                                         [PASS][0m
+[32munset 'AH|'=nop\n                                                         [PASS][0m
+[32munset 'AH;'=nop\n                                                         [PASS][0m
+[32munset 'AH&'=nop\n                                                         [PASS][0m
+[32munset 'AH\'=nop\n                                                         [PASS][0m
+[32mUnset TERM\n                                                              [PASS][0m
+[32munseT TERM\n                                                              [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] Unset TERM\n                               [PASS][0m
+[32m[EXPORTS PATH='/bin:/usr/bin'] unseT TERM\n                               [PASS][0m
+[34m################################### cmd/cmd ####################################[0m
+[32mnotfound\n                                                                [PASS][0m
+[32mnotfound a b c\n                                                          [PASS][0m
+[31mecho "\"" >>a"b""c"  \n                                                   [FAIL][0m
+[31mecho \t\v\f\r !#$%*+,-./0123456789:;=?@ABCDE... [FAIL][0m
+[32mecho foo>bar\n                                                            [PASS][0m
+[32mecho foo >bar\n                                                           [PASS][0m
+[32mecho foo> bar\n                                                           [PASS][0m
+[32mecho foo > bar\n                                                          [PASS][0m
+[32mecho a as df sad f as df qw e  qwe  as df asd f as df as d fas d fasd ... [PASS][0m
+[32mecho Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis f... [PASS][0m
+[32mecho Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis f... [PASS][0m
+[34m################################# cmd/cmd_path #################################[0m
+[32m[SETUP touch a b c] /bin/ls\n                                             [PASS][0m
+[32m[SETUP touch a b c] /bin/ls -l\n                                          [PASS][0m
+[32m[SETUP touch a b c; cp /bin/ls bonjour] ./bonjour\n                       [PASS][0m
+[32m[SETUP touch a b c; cp /bin/ls bonjour] ./bonjour -l\n                    [PASS][0m
+[32m[SETUP mkdir somedir; touch a b c; touch somedir/d somedir/e;cp /bin/l... [PASS][0m
+[32m[SETUP touch a b c; echo bonjour > a; cp /bin/cat ls] ./ls . a b c\n      [PASS][0m
+[32m[SETUP touch a b c; echo bonjour > a; cp /bin/cat ls] ls . a b c\n        [PASS][0m
+[32m[SETUP echo > somefile; chmod 000 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 001 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 002 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 003 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 004 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 005 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 006 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 007 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 010 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 020 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 030 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 040 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 050 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 060 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 070 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 100 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 200 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 300 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 400 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 500 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 600 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 700 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 755 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 644 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 311 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 111 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 222 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP echo > somefile; chmod 333 somefile] ./somefile\n                  [PASS][0m
+[32m[SETUP mkdir somedir] somedir/\n                                          [PASS][0m
+[32m[SETUP mkdir somedir] ./somedir/\n                                        [PASS][0m
+[32m[SETUP mkdir somedir] somedir\n                                           [PASS][0m
+[32m[SETUP mkdir somedir] ./somedir\n                                         [PASS][0m
+[32m[SETUP mkdir somedir] somedir\n                                           [PASS][0m
+[32m[SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink/\n   [PASS][0m
+[32m[SETUP mkdir somedir; ln -s somedir somedirsoftlink] ./somedirsoftlink/\n [PASS][0m
+[32m[SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink\n    [PASS][0m
+[32m[SETUP mkdir somedir; ln -s somedir somedirsoftlink] ./somedirsoftlink\n  [PASS][0m
+[32m[SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink\n    [PASS][0m
+[32m[SETUP touch somefile; ln -s somefile someremovedlink; rm -f somefile]... [PASS][0m
+[32m[SETUP touch somefile; ln -s somefile somelink1; ln -s somelink1 somel... [PASS][0m
+[32m[SETUP touch somefile; ln -s somefile somelink1; ln -s somelink1 somel... [PASS][0m
+[32m[SETUP touch somefile; ln -s somefile somelink1; ln -s somelink1 somel... [PASS][0m
+[32m[SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 s... [PASS][0m
+[32m[SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 s... [PASS][0m
+[32m[SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 s... [PASS][0m
+[32m[SETUP touch _] _\n                                                       [PASS][0m
+[32m[SETUP touch -] '-'\n                                                     [PASS][0m
+[32m[SETUP touch _] ./_\n                                                     [PASS][0m
+[32m[SETUP touch a; mv a ./-] ./-\n                                           [PASS][0m
+[32m[SETUP touch .] ./.\n                                                     [PASS][0m
+[32m[SETUP touch ..] ./..\n                                                   [PASS][0m
+[32m[SETUP echo > somefile && chmod 0777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 1000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 2000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 3000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 4000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 5000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 6000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 7000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 1777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 2777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 3777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 4777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 5777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 6777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 7777 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP echo > somefile && chmod 0000 somefile] ./somefile\n               [PASS][0m
+[32m[SETUP mkdir -m 0777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 1000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 2000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 3000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 4000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 5000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 6000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 7000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 1777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 2777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 3777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 4777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 5777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 6777 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP mkdir -m 0000 somedir] ./somedir\n                                 [PASS][0m
+[32m[SETUP echo > somefile && chmod 000 somefile] ./Somefile\n                [PASS][0m
+[32m[SETUP echo > somefile && chmod 000 somefile] ./someFILE\n                [PASS][0m
+[34m############################### cmd/redirection ################################[0m
+[32mecho bonjour > test\n                                                     [PASS][0m
+[32mecho > test bonjour\n                                                     [PASS][0m
+[32m> test echo bonjour\n                                                     [PASS][0m
+[32mecho bonjour >> test\n                                                    [PASS][0m
+[32mecho >> test bonjour\n                                                    [PASS][0m
+[32m>> test echo bonjour\n                                                    [PASS][0m
+[32m[SETUP echo bonjour > test] cat < test\n                                  [PASS][0m
+[32mecho bonjour > test\n                                                     [PASS][0m
+[32mecho > test'sticked' bonjour\n                                            [PASS][0m
+[32m> test'sticked' echo bonjour\n                                            [PASS][0m
+[32mecho bonjour >> test'sticked'\n                                           [PASS][0m
+[32mecho >> test'sticked' bonjour\n                                           [PASS][0m
+[32m>> test'sticked' echo bonjour\n                                           [PASS][0m
+[32m[SETUP echo bonjour > test'sticked'] cat < test'sticked'\n                [PASS][0m
+[32m[SETUP echo bonjour > test'sticked'] < test'sticked' cat\n                [PASS][0m
+[32mecho > test"sticked" bonjour\n                                            [PASS][0m
+[32m> test"sticked" echo bonjour\n                                            [PASS][0m
+[32mecho bonjour >> test"sticked"\n                                           [PASS][0m
+[32mecho >> test"sticked" bonjour\n                                           [PASS][0m
+[32m>> test"sticked" echo bonjour\n                                           [PASS][0m
+[32m[SETUP echo bonjour > test"sticked"] cat < test"sticked"\n                [PASS][0m
+[32m[SETUP echo bonjour > test"sticked"] < test"sticked" cat\n                [PASS][0m
+[32mecho > test'yo'"sticked" bonjour\n                                        [PASS][0m
+[32m> test'yo'"sticked" echo bonjour\n                                        [PASS][0m
+[32mecho bonjour >> test'yo'"sticked"\n                                       [PASS][0m
+[32mecho >> test'yo'"sticked" bonjour\n                                       [PASS][0m
+[32m>> test'yo'"sticked" echo bonjour\n                                       [PASS][0m
+[32m[SETUP echo bonjour > test'yo'"sticked"] cat < test'yo'"sticked"\n        [PASS][0m
+[32m[SETUP echo bonjour > test'yo'"sticked"] < test'yo'"sticked" cat\n        [PASS][0m
+[32mecho bonjour > test > je > suis\n                                         [PASS][0m
+[32mecho > test > je bonjour > suis\n                                         [PASS][0m
+[32m> test echo bonjour > je > suis\n                                         [PASS][0m
+[32mecho bonjour >> test > je >> suis\n                                       [PASS][0m
+[32mecho >> test bonjour > je > suis\n                                        [PASS][0m
+[32m>> test echo > je bonjour > suis\n                                        [PASS][0m
+[32m[SETUP echo bonjour > test; echo salut > je] cat < test < je\n            [PASS][0m
+[32mecho bonjour>test>je>suis\n                                               [PASS][0m
+[32m>test echo bonjour>je>suis\n                                              [PASS][0m
+[32mecho bonjour>>test>je>>suis\n                                             [PASS][0m
+[32m[SETUP echo bonjour > test; echo salut > je] cat<test<je\n                [PASS][0m
+[32mecho bonjour > a'b'c'd'e'f'g'h'i'j'k'l'm'n'o'p'q'r's't'u'v'w'x'y'z'\n     [PASS][0m
+[32mecho bonjour > a"b"c"d"e"f"g"h"i"j"k"l"m"n"o"p"q"r"s"t"u"v"w"x"y"z"\n     [PASS][0m
+[32mecho bonjour > a'b'c"d"e'f'g"h"i'j'k"l"m'n'o"p'q'r"s't'u"v"w"x"y'z'\n     [PASS][0m
+[32m> file\n                                                                  [PASS][0m
+[32m[SETUP echo bonjour > file] < file\n                                      [PASS][0m
+[32m>\n                                                                       [PASS][0m
+[32m>>\n                                                                      [PASS][0m
+[32m<\n                                                                       [PASS][0m
+[32mecho >\n                                                                  [PASS][0m
+[32mecho >>\n                                                                 [PASS][0m
+[32mecho <\n                                                                  [PASS][0m
+[32m> test\n                                                                  [PASS][0m
+[32m>> test\n                                                                 [PASS][0m
+[32m[SETUP touch test] < test\n                                               [PASS][0m
+[31mecho foo >>> bar\n                                                        [FAIL][0m
+[31mecho foo >>>> bar\n                                                       [FAIL][0m
+[31mecho foo >>>>> bar\n                                                      [FAIL][0m
+[32m[SETUP echo bonjour > bar] cat << < bar\n                                 [PASS][0m
+[32m[SETUP echo bonjour > bar] cat << << bar\n                                [PASS][0m
+[31m[SETUP echo bonjour > bar] cat <<<<< bar\n                                [FAIL][0m
+[32mcat < doesnotexist\n                                                      [PASS][0m
+[32m[SETUP echo a > a] echo bonjour >> a\n                                    [PASS][0m
+[32m[SETUP echo a > a] echo bonjour >> a >> a\n                               [PASS][0m
+[32m[SETUP echo a > a] echo bonjour > a\n                                     [PASS][0m
+[32m[SETUP echo a > a] echo bonjour > a >> a\n                                [PASS][0m
+[34m################################## cmd/status ##################################[0m
+[32mecho $?\n                                                                 [PASS][0m
+[32mecho; echo $?\n                                                           [PASS][0m
+[32mnotfound; echo $?\n                                                       [PASS][0m
+[32mcat < doesntexist; echo $?\n                                              [PASS][0m
+[32m[SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm; echo $?\n   [PASS][0m
+[32mecho\n                                                                    [PASS][0m
+[32mnotfound\n                                                                [PASS][0m
+[32mcat < doesntexist\n                                                       [PASS][0m
+[32m[SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm\n            [PASS][0m
+[34m################################### flow/end ###################################[0m
+[32mecho bonjour; echo je\n                                                   [PASS][0m
+[32mecho bonjour ;echo je\n                                                   [PASS][0m
+[32mecho bonjour ; echo je\n                                                  [PASS][0m
+[32mecho bonjour;\n                                                           [PASS][0m
+[32mecho; \n                                                                  [PASS][0m
+[32mecho ; \n                                                                 [PASS][0m
+[32mecho ;\n                                                                  [PASS][0m
+[31m; echo\n                                                                  [FAIL][0m
+[31m ;echo\n                                                                  [FAIL][0m
+[31m ; echo\n                                                                 [FAIL][0m
+[32mecho a; echo b; echo c; echo d; echo e; echo f; echo g; echo h; echo i... [PASS][0m
+[32mecho a ; echo b; echo c ;echo d     ;   echo e   ;echo f;        echo ... [PASS][0m
+[32mls doesnotexists ; echo bonjour\n                                         [PASS][0m
+[32mls doesnotexists; echo bonjour\n                                          [PASS][0m
+[32mecho bonjour; ls doesnotexists\n                                          [PASS][0m
+[31mecho a ; ;\n                                                              [FAIL][0m
+[31mecho a ; ;\n                                                              [FAIL][0m
+[31m;\n                                                                       [FAIL][0m
+[31m; ;\n                                                                     [FAIL][0m
+[31m; ; ;\n                                                                   [FAIL][0m
+[31mecho a ; ; echo b\n                                                       [FAIL][0m
+[31m;;\n                                                                      [FAIL][0m
+[31m;;;\n                                                                     [FAIL][0m
+[31m;;;;;\n                                                                   [FAIL][0m
+[31mecho a ;; echo b\n                                                        [FAIL][0m
+[31mecho a ;;;;; echo b\n                                                     [FAIL][0m
+[32m[SETUP touch a b c] ls  ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ;... [PASS][0m
+[32m[SETUP touch a b c] ls  ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ;... [PASS][0m
+[32m[SETUP touch a b c] ls  ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ;... [PASS][0m
+[32m[SETUP touch a b c] ls  ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ; ls ;... [PASS][0m
+[34m################################## flow/pipe ###################################[0m
+[32mcat /etc/shells | head -c 10\n                                            [PASS][0m
+[32mcat -e /etc/shells | head -c 10\n                                         [PASS][0m
+[32mcat -e /etc/shells | cat -e | head -c 10\n                                [PASS][0m
+[32mcat -e /etc/shells | cat -e | cat -e | head -c 10\n                       [PASS][0m
+[32mcat -e /dev/random | head -c 10\n                                         [PASS][0m
+[32mcat -e /dev/random | cat -e | head -c 10\n                                [PASS][0m
+[32mcat -e /dev/random | cat -e | cat -e | head -c 10\n                       [PASS][0m
+[32mecho bonjour | cat\n                                                      [PASS][0m
+[32mecho bonjour | cat -e\n                                                   [PASS][0m
+[32mecho bonjour | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | c... [PASS][0m
+[32m[SETUP touch a b c d; mkdir m1 m2 m3] ls | cat -e\n                       [PASS][0m
+[32m[SETUP touch a b c d; mkdir m1 m2 m3] ls -l | cat -e\n                    [PASS][0m
+[32m[SETUP touch a b c d; mkdir m1 m2 m3] ls -l | cat -e | cat | cat | cat\n  [PASS][0m
+[32m[SETUP touch a b c d; mkdir m1 m2 m3] ls -l | cat -e | cat -e | cat -e... [PASS][0m
+[32m[SETUP touch a b c d; mkdir m1 m2 m3; echo bonjour > a] ls -l | cat -e... [PASS][0m
+[32mecho|\n                                                                   [PASS][0m
+[32mecho |\n                                                                  [PASS][0m
+[32mecho | \n                                                                 [PASS][0m
+[32m|cat\n                                                                    [PASS][0m
+[32m| cat\n                                                                   [PASS][0m
+[32m | cat\n                                                                  [PASS][0m
+[32mecho a | export A=a; echo $A\n                                            [PASS][0m
+[32mexport A=a | cat; echo $A\n                                               [PASS][0m
+[32mecho bonjour | | cat -e\n                                                 [PASS][0m
+[32mecho bonjour | asdf\n                                                     [PASS][0m
+[32masdf | echo bonjour\n                                                     [PASS][0m
+[32mecho a ||| echo b\n                                                       [PASS][0m
+[32m[SETUP touch a b c] ls  | ls | ls | ls | ls | ls | ls | ls | ls | ls |... [PASS][0m
+[32m[SETUP touch a b c] ls  | ls | ls | ls | ls | ls | ls | ls | ls | ls |... [PASS][0m
+[32mecho bonjour  | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | ... [PASS][0m
+[32mecho bonjour  | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | ... [PASS][0m
+[32mls asdfasdf | echo a\n                                                    [PASS][0m
+[32mecho a | ls asdfasdf\n                                                    [PASS][0m
+[32mls asdfasdf | echo a; echo b\n                                            [PASS][0m
+[32mecho a | ls asdfasdf; echo b\n                                            [PASS][0m
+[32mecho a > foo | cat -e\n                                                   [PASS][0m
+[32mecho a >> foo | cat -e\n                                                  [PASS][0m
+[32m[SETUP echo b > foo] echo a | cat -e < foo\n                              [PASS][0m
+[32m[SETUP echo b > foo] echo a > bar | cat -e < foo\n                        [PASS][0m
+[34m############################## flow/syntax_error ###############################[0m
+[31m< | a\n                                                                   [FAIL][0m
+[31m> | a\n                                                                   [FAIL][0m
+[31m>> | a\n                                                                  [FAIL][0m
+[31m< ; a\n                                                                   [FAIL][0m
+[31m> ; a\n                                                                   [FAIL][0m
+[31m>> ; a\n                                                                  [FAIL][0m
+[31m; | a\n                                                                   [FAIL][0m
+[31m; < a\n                                                                   [FAIL][0m
+[31m; > a\n                                                                   [FAIL][0m
+[31m; >> a\n                                                                  [FAIL][0m
+[31m| ; a\n                                                                   [FAIL][0m
+[32m| < a\n                                                                   [PASS][0m
+[32m| > a\n                                                                   [PASS][0m
+[32m| >> a\n                                                                  [PASS][0m
+[32m> a ; a\n                                                                 [PASS][0m
+[32m< a ; a\n                                                                 [PASS][0m
+[32m>> a ; a\n                                                                [PASS][0m
+[32mMollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere... [PASS][0m
+[32mMollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere... [PASS][0m
+[31mMollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere... [FAIL][0m
+[31mMollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere... [FAIL][0m
+[34m################################# misc/lastcmd #################################[0m
+[31mecho $_\n                                                                 [FAIL][0m
+[31mecho; echo $_\n                                                           [FAIL][0m
+[31menv; echo $_\n                                                            [FAIL][0m
+[31mexport A=a; echo $_\n                                                     [FAIL][0m
+[31munset A; echo $_\n                                                        [FAIL][0m
+[31mecho a b c d; echo $_\n                                                   [FAIL][0m
+[31mcat -e /etc/shells; echo $_\n                                             [FAIL][0m
+[31mecho a; echo "$_"\n                                                       [FAIL][0m
+[32mecho a; echo '$_'\n                                                       [PASS][0m
+[31mecho a; echo "@$_@"\n                                                     [FAIL][0m
+[34m################################## misc/shlvl ##################################[0m
+[31mecho $SHLVL\n                                                             [FAIL][0m
+[31m[EXPORTS SHLVL=''] echo $SHLVL\n                                          [FAIL][0m
+[31m[EXPORTS SHLVL=' 1'] echo $SHLVL\n                                        [FAIL][0m
+[31m[EXPORTS SHLVL=' 2'] echo $SHLVL\n                                        [FAIL][0m
+[31m[EXPORTS SHLVL=' 3'] echo $SHLVL\n                                        [FAIL][0m
+[31m[EXPORTS SHLVL=' ' 3''] echo $SHLVL\n                                     [FAIL][0m
+[31m[EXPORTS SHLVL=' '\t3''] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' '\t\f\r 3''] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' '3 ''] echo $SHLVL\n                                     [FAIL][0m
+[31m[EXPORTS SHLVL=' '3\t''] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' '3\r''] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' '3\t\f\r ''] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' '3     a''] echo $SHLVL\n                                [FAIL][0m
+[31m[EXPORTS SHLVL=' '3\t\t\ta''] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' 0'] echo $SHLVL\n                                        [FAIL][0m
+[31m[EXPORTS SHLVL=' -0'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' -1'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' 255'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' 256'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' 2000000'] echo $SHLVL\n                                  [FAIL][0m
+[31m[EXPORTS SHLVL=' -2000000'] echo $SHLVL\n                                 [FAIL][0m
+[31m[EXPORTS SHLVL=' 2147483647'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' -2147483648'] echo $SHLVL\n                              [FAIL][0m
+[31m[EXPORTS SHLVL=' 2147483648'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' -2147483649'] echo $SHLVL\n                              [FAIL][0m
+[31m[EXPORTS SHLVL=' 3147483648'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' -3147483649'] echo $SHLVL\n                              [FAIL][0m
+[31m[EXPORTS SHLVL=' 4294967295'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' 4294967296'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' -9223372036854775808'] echo $SHLVL\n                     [FAIL][0m
+[31m[EXPORTS SHLVL=' 9223372036854775807'] echo $SHLVL\n                      [FAIL][0m
+[31m[EXPORTS SHLVL=' -9223372036854775809'] echo $SHLVL\n                     [FAIL][0m
+[31m[EXPORTS SHLVL=' 9223372036854775808'] echo $SHLVL\n                      [FAIL][0m
+[31m[EXPORTS SHLVL=' 18446744073709551615'] echo $SHLVL\n                     [FAIL][0m
+[31m[EXPORTS SHLVL=' 18446744073709551616'] echo $SHLVL\n                     [FAIL][0m
+[31m[EXPORTS SHLVL=' +1'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' +2'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' +3'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' +0'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' +255'] echo $SHLVL\n                                     [FAIL][0m
+[31m[EXPORTS SHLVL=' +256'] echo $SHLVL\n                                     [FAIL][0m
+[31m[EXPORTS SHLVL=' +2000000'] echo $SHLVL\n                                 [FAIL][0m
+[31m[EXPORTS SHLVL=' +2147483647'] echo $SHLVL\n                              [FAIL][0m
+[31m[EXPORTS SHLVL=' ++1'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' ++2'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' ++3'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' ++0'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' ++255'] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' ++256'] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' ++2000000'] echo $SHLVL\n                                [FAIL][0m
+[31m[EXPORTS SHLVL=' ++2147483647'] echo $SHLVL\n                             [FAIL][0m
+[31m[EXPORTS SHLVL=' --1'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' --2'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' --3'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' --0'] echo $SHLVL\n                                      [FAIL][0m
+[31m[EXPORTS SHLVL=' --255'] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' --256'] echo $SHLVL\n                                    [FAIL][0m
+[31m[EXPORTS SHLVL=' --2000000'] echo $SHLVL\n                                [FAIL][0m
+[31m[EXPORTS SHLVL=' --2147483647'] echo $SHLVL\n                             [FAIL][0m
+[31m[EXPORTS SHLVL=' bonjour'] echo $SHLVL\n                                  [FAIL][0m
+[31m[EXPORTS SHLVL=' 0_'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' _0'] echo $SHLVL\n                                       [FAIL][0m
+[31m[EXPORTS SHLVL=' 0123456789'] echo $SHLVL\n                               [FAIL][0m
+[31m[EXPORTS SHLVL=' -0123456789'] echo $SHLVL\n                              [FAIL][0m
+[31m[EXPORTS SHLVL=' 00000000000000000000000000000000000000000000001'] ech... [FAIL][0m
+[31m[EXPORTS SHLVL=' 00000000000000000000000000000000000000000000000000000... [FAIL][0m
+[34m################################## path/path ###################################[0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 000 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 001 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 002 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 003 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 004 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 005 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 006 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 007 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 010 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 020 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 030 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 040 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 050 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 060 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 070 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 100 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 200 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 300 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 400 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 500 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 600 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 700 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 755 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 644 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 311 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 111 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 222 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 333 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 0777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 1000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 2000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 3000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 4000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 5000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 6000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 7000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 1777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 2777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 3777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 4777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 5777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 6777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 7777 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 0000 ./path/a... [PASS][0m
+[32m[SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 000 ./path/a]... [PASS][0m
+[32m[SETUP mkdir path && ln -s /usr/bin/which ./path/b] [EXPORTS PATH='pat... [PASS][0m
+[32m[SETUP mkdir path && mkfifo path/a] a\n                                   [PASS][0m
+[32m[SETUP mkdir path && mkfifo path/a && chmod 777 path/a] a\n               [PASS][0m
+[32m[SETUP mkdir path1 path2 && cp /usr/bin/which path1/a&& cp /usr/bin/wh... [PASS][0m
+[32m[SETUP mkdir -p path/a; cp /usr/bin/which path/a/b] [EXPORTS PATH='pat... [PASS][0m
+[34m############################## path/path_variable ##############################[0m
+[32m[EXPORTS PATH='doesnotexits'] echo $PATH\n                                [PASS][0m
+[32m[EXPORTS PATH='doesnotexits:asdfasdfas'] echo $PATH\n                     [PASS][0m
+[32m[EXPORTS PATH='a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:x:y:z'] e... [PASS][0m
+[32m[EXPORTS PATH='________'] echo $PATH\n                                    [PASS][0m
+[31m[EXPORTS PATH='        '] echo $PATH\n                                    [FAIL][0m
+[31m[EXPORTS PATH='   :    '] echo $PATH\n                                    [FAIL][0m
+[31m[EXPORTS PATH='     /bin      '] echo $PATH\n                             [FAIL][0m
+[31m[EXPORTS PATH='     /sbin      '] echo $PATH\n                            [FAIL][0m
+[32m[EXPORTS PATH='/bin:/bin:/bin:/bin'] echo $PATH\n                         [PASS][0m
+[32m[EXPORTS PATH='/sbin:/sbin:/sbin:/sbin'] echo $PATH\n                     [PASS][0m
+[32m[EXPORTS PATH=''] echo $PATH\n                                            [PASS][0m
+[32m[EXPORTS PATH=':'] echo $PATH\n                                           [PASS][0m
+[32m[EXPORTS PATH=':::::::::::::::::::'] echo $PATH\n                         [PASS][0m
+[32m[EXPORTS PATH='/asdfasdf'] echo $PATH\n                                   [PASS][0m
+[32m[EXPORTS PATH='/usr/asdf:/usr/lib/asdfasdf'] echo $PATH\n                 [PASS][0m
+[32m[EXPORTS PATH='doesnotexits'] whoami\n                                    [PASS][0m
+[32m[EXPORTS PATH='doesnotexits:asdfasdfas'] whoami\n                         [PASS][0m
+[32m[EXPORTS PATH='a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t:u:v:w:x:y:z'] w... [PASS][0m
+[32m[EXPORTS PATH='________'] whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='        '] whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='   :    '] whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='     /usr/bin      '] whoami\n                             [PASS][0m
+[32m[EXPORTS PATH='/usr/bin:/usr/bin:/usr/bin:/usr/bin'] whoami\n             [PASS][0m
+[32m[EXPORTS PATH='     /sbin      '] whoami\n                                [PASS][0m
+[32m[EXPORTS PATH='/sbin:/sbin:/sbin:/sbin'] whoami\n                         [PASS][0m
+[32m[EXPORTS PATH=''] whoami\n                                                [PASS][0m
+[32munset PATH; whoami\n                                                      [PASS][0m
+[32m[EXPORTS PATH=':'] whoami\n                                               [PASS][0m
+[32m[EXPORTS PATH=':::::::::::::::::::'] whoami\n                             [PASS][0m
+[32m[EXPORTS PATH='/asdfasdf'] whoami\n                                       [PASS][0m
+[32m[EXPORTS PATH='/usr/asdf:/usr/lib/asdfasdf'] whoami\n                     [PASS][0m
+[32m[SETUP unset PATH] whoami\n                                               [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd; uns... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EX... [PASS][0m
+[32m[EXPORTS PATH='/usr/bin'] Whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='/usr/bin'] wHoAMi\n                                        [PASS][0m
+[32m[EXPORTS PATH='/usr/bIn'] whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='/Usr/bin'] whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='/usr/bIn'] Whoami\n                                        [PASS][0m
+[32m[EXPORTS PATH='/Usr/bin'] wHoami\n                                        [PASS][0m
+[32m[EXPORTS PATH=''] Whoami\n                                                [PASS][0m
+[32m[EXPORTS PATH=''] wHoami\n                                                [PASS][0m
+[34m############################## preprocess/escape ###############################[0m
+[31mecho \a\n                                                                 [FAIL][0m
+[31m\e\c\h\o bonjour\n                                                        [FAIL][0m
+[31mecho charles\ \n                                                          [FAIL][0m
+[31mecho \ \ jesuis\ \ charles\n                                              [FAIL][0m
+[31mecho \ \ jesuis\; \ charles\n                                             [FAIL][0m
+[31mecho \ \ jesuis\&\& \ charles\n                                           [FAIL][0m
+[31mecho \ \ jesuis\|\| \ charles\n                                           [FAIL][0m
+[31mecho \ \ jesuis \|\| \ charles\n                                          [FAIL][0m
+[31mecho \ \ jesuis\; \ charles\n                                             [FAIL][0m
+[31mecho \ \ \ \ \ \ \ \ \n                                                   [FAIL][0m
+[31mecho \ \ \ \ \ \ \ \               \ \ \ \ \ \ \n                         [FAIL][0m
+[31mecho \$PATH\n                                                             [FAIL][0m
+[31mecho \$\P\A\T\H\n                                                         [FAIL][0m
+[31mecho\ bonjour\n                                                           [FAIL][0m
+[31m\ echo bonjour\n                                                          [FAIL][0m
+[31m \ echo bonjour\n                                                         [FAIL][0m
+[31m                 \ echo bonjour\n                                         [FAIL][0m
+[31m \                 echo bonjour\n                                         [FAIL][0m
+[31m                 \                    echo bonjour\n                      [FAIL][0m
+[32m/bin/echo " \  "\n                                                        [PASS][0m
+[31m/bin/echo " \" "\n                                                        [FAIL][0m
+[32m/bin/echo " \' "\n                                                        [PASS][0m
+[32m/bin/echo " \a "\n                                                        [PASS][0m
+[32m/bin/echo " \b "\n                                                        [PASS][0m
+[32m/bin/echo " \| "\n                                                        [PASS][0m
+[32m/bin/echo " \! "\n                                                        [PASS][0m
+[32m/bin/echo " \@ "\n                                                        [PASS][0m
+[31m/bin/echo " \$ "\n                                                        [FAIL][0m
+[31m/bin/echo " \$LESS "\n                                                    [FAIL][0m
+[31m/bin/echo " \$? "\n                                                       [FAIL][0m
+[31m/bin/echo " \\ "\n                                                        [FAIL][0m
+[31m/bin/echo " \\\ "\n                                                       [FAIL][0m
+[31m/bin/echo " \\\\ "\n                                                      [FAIL][0m
+[31m/bin/echo " \\\\\ "\n                                                     [FAIL][0m
+[31m/bin/echo " \\\\\\ "\n                                                    [FAIL][0m
+[31m/bin/echo " \\\\\\\ "\n                                                   [FAIL][0m
+[31m/bin/echo " \\\\\\\\ "\n                                                  [FAIL][0m
+[32m/bin/echo ' \  '\n                                                        [PASS][0m
+[32m/bin/echo ' \" '\n                                                        [PASS][0m
+[32m/bin/echo ' \a '\n                                                        [PASS][0m
+[32m/bin/echo ' \b '\n                                                        [PASS][0m
+[32m/bin/echo ' \| '\n                                                        [PASS][0m
+[32m/bin/echo ' \! '\n                                                        [PASS][0m
+[32m/bin/echo ' \@ '\n                                                        [PASS][0m
+[32m/bin/echo ' \$ '\n                                                        [PASS][0m
+[32m/bin/echo ' $LESS '\n                                                     [PASS][0m
+[32m/bin/echo ' \$? '\n                                                       [PASS][0m
+[32m/bin/echo ' \\ '\n                                                        [PASS][0m
+[32m/bin/echo ' \\\ '\n                                                       [PASS][0m
+[31mecho \\n                                                                  [FAIL][0m
+[31mecho "\""'bonjour'\n                                                      [FAIL][0m
+[34m########################### preprocess/interpolation ###########################[0m
+[32m[EXPORTS TEST='bonjour'] echo $TEST\n                                     [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo $TES\n                                      [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo $TEST_\n                                    [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo "|$TEST|"\n                                 [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo "|$TES|"\n                                  [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo "|$TEST_|"\n                                [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo '|$TEST|'\n                                 [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo '|$TES|'\n                                  [PASS][0m
+[32m[EXPORTS TEST='bonjour'] echo '|$TEST_|'\n                                [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo $A$B$C\n                           [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo "$A$B$C"\n                         [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo '$A$B$C'\n                         [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo $A,$B,$C\n                         [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo "$A,$B,$C"\n                       [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo '$A,$B,$C'\n                       [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo $A"$B"$C"A"$B"$C"\n                [PASS][0m
+[32m[EXPORTS A='foo' B='bar' C='baz'] echo $A'$B'$C'A'$B'$C'\n                [PASS][0m
+[31m[EXPORTS A='foo ' B=' bar  ' C='baz '] echo $A"$B"$C"A"$B"$C"\n           [FAIL][0m
+[31m[EXPORTS A='foo ' B=' bar  ' C='baz '] echo $A'$B'$C'A'$B'$C'\n           [FAIL][0m
+[32mecho $A\n                                                                 [PASS][0m
+[32mecho $A$B\n                                                               [PASS][0m
+[32mecho $A$B$C\n                                                             [PASS][0m
+[32mecho $A$B$C$D\n                                                           [PASS][0m
+[32m[EXPORTS A='bonjour\je'] echo [$A]\n                                      [PASS][0m
+[32m[EXPORTS A='\b\\o\\\nj\\\\\\\our\\je\\\\'] echo [$A]\n                    [PASS][0m
+[31m[EXPORTS A='   \b\\o\\\nj\\\\\\\our\\je\\\\'] echo [$A]\n                 [FAIL][0m
+[31m[EXPORTS A='\b\\o\\\nj\\\\\\\our\\je\\\\   '] echo [$A]\n                 [FAIL][0m
+[31m[EXPORTS A='  \b\\o\\\nj\\\\\\\our\\je\\\\ '] echo [$A]\n                 [FAIL][0m
+[31m[EXPORTS A='a  \b\\o\\\nj\\\\\\\our\\je\\\\ b'] echo [$A]\n               [FAIL][0m
+[31m[EXPORTS A=' a  \b\\o\\\nj\\\\\\\our\\je\\\\ b '] echo [$A]\n             [FAIL][0m
+[32m[EXPORTS A=' '] echo [$A]\n                                               [PASS][0m
+[31m[EXPORTS A='    '] echo [$A]\n                                            [FAIL][0m
+[32m[EXPORTS A='\ '] echo [$A]\n                                              [PASS][0m
+[31m[EXPORTS A=' \  '] echo [$A]\n                                            [FAIL][0m
+[31m[EXPORTS A='bonjour'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ \n                 [FAIL][0m
+[31m[EXPORTS A='bonjour je suis'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ \n         [FAIL][0m
+[31m[EXPORTS A='  bonjour je suis  '] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ \n     [FAIL][0m
+[32m[EXPORTS A='bonjour je suis splited'] echo $A\n                           [PASS][0m
+[31m[EXPORTS A='bonjour     je     suis    splited'] echo $A\n                [FAIL][0m
+[31m[EXPORTS A='   bonjour     je     suis    splited   '] echo $A\n          [FAIL][0m
+[32m[EXPORTS A='bonjour je suis splited'] echo [$A]\n                         [PASS][0m
+[31m[EXPORTS A='bonjour     je     suis    splited'] echo [$A]\n              [FAIL][0m
+[31m[EXPORTS A='   bonjour     je     suis    splited   '] echo [$A]\n        [FAIL][0m
+[32m[EXPORTS A='bonjour je suis splited'] echo "[$A]"\n                       [PASS][0m
+[32m[EXPORTS A='bonjour     je     suis    splited'] echo "[$A]"\n            [PASS][0m
+[32m[EXPORTS A='   bonjour     je     suis    splited   '] echo "[$A]"\n      [PASS][0m
+[31m[EXPORTS A='bonjour je suis splited'] echo \ $A\n                         [FAIL][0m
+[31m[EXPORTS A='bonjour     je     suis    splited'] echo \ $A\n              [FAIL][0m
+[31m[EXPORTS A='   bonjour     je     suis    splited   '] echo \ $A\n        [FAIL][0m
+[31m[EXPORTS A='bonjour je suis splited'] echo $A\ \n                         [FAIL][0m
+[31m[EXPORTS A='bonjour     je     suis    splited'] echo $A\ \n              [FAIL][0m
+[31m[EXPORTS A='   bonjour     je     suis    splited   '] echo $A\ \n        [FAIL][0m
+[31m[EXPORTS A='   bonjour     je     suis    splited   '] echo $A$A$A\n      [FAIL][0m
+[31m[EXPORTS A=''Mollitia asperiores assumenda excepturi et ipsa. Nihil co... [FAIL][0m
+[32m[EXPORTS A=''Mollitia asperiores assumenda excepturi et ipsa. Nihil co... [PASS][0m
+[32m[EXPORTS A=''Mollitia asperiores assumenda excepturi et ipsa. Nihil co... [PASS][0m
+[32m[EXPORTS ECHO='echo'] $ECHO $ECHO\n                                       [PASS][0m
+[32m[EXPORTS A='ec' B='ho'] $A$B bonjour\n                                    [PASS][0m
+[31m[SETUP touch a b c] [EXPORTS LS='ls -l'] $LS\n                            [FAIL][0m
+[32mecho $\n                                                                  [PASS][0m
+[31mecho \$\n                                                                 [FAIL][0m
+[31mecho \$\$\$\$\n                                                           [FAIL][0m
+[31mecho \$$\$$\n                                                             [FAIL][0m
+[31m[EXPORTS A='a' B='b'] echo $\A $\B\n                                      [FAIL][0m
+[31m[EXPORTS A='a' B='b'] echo $\A$\B\n                                       [FAIL][0m
+[31m[EXPORTS A=' '] echo $A\n                                                 [FAIL][0m
+[31m[EXPORTS A='  '] echo $A\n                                                [FAIL][0m
+[31m[EXPORTS A='   '] echo $A\n                                               [FAIL][0m
+[31m[EXPORTS A='    '] echo $A\n                                              [FAIL][0m
+[31m[EXPORTS A='  a '] echo $A\n                                              [FAIL][0m
+[31m[EXPORTS A='                                '] echo $A\n                  [FAIL][0m
+[31m[EXPORTS A='                     a          '] echo $A\n                  [FAIL][0m
+[32m[EXPORTS A=' '] echo @$A@\n                                               [PASS][0m
+[31m[EXPORTS A=' '] echo @ $A@\n                                              [FAIL][0m
+[31m[EXPORTS A=' '] echo @$A @\n                                              [FAIL][0m
+[31m[EXPORTS A='       '] echo @$A@\n                                         [FAIL][0m
+[32m[EXPORTS A=' '] echo '@'$A'@'\n                                           [PASS][0m
+[31m[EXPORTS A=' '] echo '@' $A'@'\n                                          [FAIL][0m
+[31m[EXPORTS A=' '] echo '@'$A '@'\n                                          [FAIL][0m
+[32m[EXPORTS A=' '] echo "@"$A"@"\n                                           [PASS][0m
+[31m[EXPORTS A=' '] echo "@" $A"@"\n                                          [FAIL][0m
+[31m[EXPORTS A=' '] echo "@"$A "@"\n                                          [FAIL][0m
+[32m[EXPORTS A=' '] echo @"$A"@\n                                             [PASS][0m
+[32m[EXPORTS A=' '] echo @ "$A"@\n                                            [PASS][0m
+[32m[EXPORTS A=' '] echo @"$A" @\n                                            [PASS][0m
+[32m[EXPORTS A='       '] echo @"$A"@\n                                       [PASS][0m
+[32m[EXPORTS A=' '] echo '@'"$A"'@'\n                                         [PASS][0m
+[32m[EXPORTS A=' '] echo '@' "$A"'@'\n                                        [PASS][0m
+[32m[EXPORTS A=' '] echo '@'"$A" '@'\n                                        [PASS][0m
+[32m[EXPORTS A=' '] echo "@""$A""@"\n                                         [PASS][0m
+[32m[EXPORTS A=' '] echo "@" "$A""@"\n                                        [PASS][0m
+[32m[EXPORTS A=' '] echo "@""$A" "@"\n                                        [PASS][0m
+[32m[EXPORTS A='' B='' C=''] echo $A$B$C\n                                    [PASS][0m
+[32m[EXPORTS A='file'] echo bonjour > $A\n                                    [PASS][0m
+[31m[EXPORTS A='fi le'] echo bonjour > $A\n                                   [FAIL][0m
+[32m[EXPORTS A='fi le'] echo bonjour > "$A"\n                                 [PASS][0m
+[32m[EXPORTS A='fi le'] echo bonjour > '$A'\n                                 [PASS][0m
+[34m############################### preprocess/quote ###############################[0m
+[32m'echo' 'bonjour'\n                                                        [PASS][0m
+[32m'echo' 'je' 'suis' 'charles'\n                                            [PASS][0m
+[32m"echo" "bonjour"\n                                                        [PASS][0m
+[32m"echo" "je" "suis" "charles"\n                                            [PASS][0m
+[32mecho je'suis'"charles"\n                                                  [PASS][0m
+[32mecho "je"suis'charles'\n                                                  [PASS][0m
+[32mecho 'je'"suis"charles\n                                                  [PASS][0m
+[31mecho "\""\n                                                               [FAIL][0m
+[31mecho "\$"\n                                                               [FAIL][0m
+[31mecho "\\"\n                                                               [FAIL][0m
+[32mecho "\a"\n                                                               [PASS][0m
+[32mecho "\A"\n                                                               [PASS][0m
+[32mls ""\n                                                                   [PASS][0m
+[32mls ''\n                                                                   [PASS][0m
+[32mls "" "" "" '' """"\n                                                     [PASS][0m
+[32mls '' '' '''' ''\n                                                        [PASS][0m
+[32m'     echo' bonjour\n                                                     [PASS][0m
+[32m'echo     ' bonjour\n                                                     [PASS][0m
+[32m"     echo" bonjour\n                                                     [PASS][0m
+[32m"echo     " bonjour\n                                                     [PASS][0m
+[32m''echo bonjour\n                                                          [PASS][0m
+[32m""echo bonjour\n                                                          [PASS][0m
+[32m''''''''''''''''''''''''''''''''''''''''''''''''''''''''''echo bonjour\n  [PASS][0m
+[32m""""""""""""""""""""""""""""""""""""""""""""""""""""""""""echo bonjour\n  [PASS][0m
+[32mecho'' bonjour\n                                                          [PASS][0m
+[32mecho"" bonjour\n                                                          [PASS][0m
+[32mecho'''''''''''''''''''''''''''''''''''''''''''''''''''''''''' bonjour\n  [PASS][0m
+[32mecho"""""""""""""""""""""""""""""""""""""""""""""""""""""""""" bonjour\n  [PASS][0m
+[32mec''ho bonjour\n                                                          [PASS][0m
+[32mec""ho bonjour\n                                                          [PASS][0m
+[32mec''''''''''''''''''''''''''''''''''''''''''''''''''''''''''ho bonjour\n  [PASS][0m
+[32mec""""""""""""""""""""""""""""""""""""""""""""""""""""""""""ho bonjour\n  [PASS][0m
+[32m'''''''e''''''''''c''''''''''''h''''''''o''''''''''''''''''''' bonjour\n  [PASS][0m
+[32m"""""""e""""""""""c""""""""""""h""""""""o""""""""""""""""""""" bonjour\n  [PASS][0m
+[32mecho '"'\n                                                                [PASS][0m
+[32mecho '""""""""""""""""""""""""""'\n                                       [PASS][0m
+[32mecho "'"\n                                                                [PASS][0m
+[32mecho "''''''''''''''''''''''''''"\n                                       [PASS][0m
+[31mecho '\n                                                                  [FAIL][0m
+[31mecho "\n                                                                  [FAIL][0m
+[31mecho '''\n                                                                [FAIL][0m
+[31mecho """\n                                                                [FAIL][0m
+[31mecho '''''''''''''''''''''''''''''''''''''''''''\n                        [FAIL][0m
+[31mecho """""""""""""""""""""""""""""""""""""""""""\n                        [FAIL][0m
+[32mecho 'AH\'\n                                                              [PASS][0m
+[31mecho "AH\"\n                                                              [FAIL][0m
+[31mecho "AH\""\n                                                             [FAIL][0m
+[31mecho '\''\n                                                               [FAIL][0m
+[31mecho "\""\n                                                               [FAIL][0m
+[31mecho "\\""\n                                                              [FAIL][0m
+[32mecho bonjour > "fi le"\n                                                  [PASS][0m
+[32mecho bonjour > 'fi le'\n                                                  [PASS][0m
+[34m############################## preprocess/spaces ###############################[0m
+[32mecho foo\n                                                                [PASS][0m
+[32mecho                    foo\n                                             [PASS][0m
+[32m             echo foo\n                                                   [PASS][0m
+[32mecho foo             \n                                                   [PASS][0m
+[32m         echo           foo             \n                                [PASS][0m
+[32mecho\t\t\t\t\t\t\t\t\t\tfoo\n                                             [PASS][0m
+[32m\t\t\t\t\t\techo\tfoo\n                                                   [PASS][0m
+[32mecho\tfoo\t\t\t\t\t\t\n                                                   [PASS][0m
+[32m\t\t\t\techo\t\t\t\tfoo\t\t\t\t\n                                         [PASS][0m
+[31m\fecho\ffoo\n                                                             [FAIL][0m
+[31m\necho\nfoo\n                                                             [FAIL][0m
+[31m\recho\rfoo\n                                                             [FAIL][0m
+[31m\vecho\vfoo\n                                                             [FAIL][0m
+[31m\t\r\v\fecho\v\t\r\vfoo\n                                                 [FAIL][0m
+[32m\n                                                                        [PASS][0m
+[32m                                          \n                              [PASS][0m
+[32m\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n                              [PASS][0m
+[32m            \t\t\t           \t\t\t       \n                              [PASS][0m
+
+Summary:
+builtin/cd ............................................. [32m  84 [PASS][0m [31m   0 [FAIL][0m
+builtin/echo ........................................... [32m  39 [PASS][0m [31m   0 [FAIL][0m
+builtin/env ............................................ [32m   0 [PASS][0m [31m   8 [FAIL][0m
+builtin/exit ........................................... [32m  81 [PASS][0m [31m   0 [FAIL][0m
+builtin/export ......................................... [32m  43 [PASS][0m [31m  29 [FAIL][0m
+builtin/pwd ............................................ [32m  14 [PASS][0m [31m   0 [FAIL][0m
+builtin/unset .......................................... [32m  28 [PASS][0m [31m   0 [FAIL][0m
+cmd/cmd ................................................ [32m   9 [PASS][0m [31m   2 [FAIL][0m
+cmd/cmd_path ........................................... [32m  91 [PASS][0m [31m   0 [FAIL][0m
+cmd/redirection ........................................ [32m  61 [PASS][0m [31m   4 [FAIL][0m
+cmd/status ............................................. [32m   9 [PASS][0m [31m   0 [FAIL][0m
+flow/end ............................................... [32m  16 [PASS][0m [31m  14 [FAIL][0m
+flow/pipe .............................................. [32m  39 [PASS][0m [31m   0 [FAIL][0m
+flow/syntax_error ...................................... [32m   8 [PASS][0m [31m  13 [FAIL][0m
+misc/lastcmd ........................................... [32m   1 [PASS][0m [31m   9 [FAIL][0m
+misc/shlvl ............................................. [32m   0 [PASS][0m [31m  66 [FAIL][0m
+path/path .............................................. [32m  50 [PASS][0m [31m   0 [FAIL][0m
+path/path_variable ..................................... [32m  45 [PASS][0m [31m   4 [FAIL][0m
+preprocess/escape ...................................... [32m  19 [PASS][0m [31m  32 [FAIL][0m
+preprocess/interpolation ............................... [32m  52 [PASS][0m [31m  45 [FAIL][0m
+preprocess/quote ....................................... [32m  38 [PASS][0m [31m  14 [FAIL][0m
+preprocess/spaces ...................................... [32m  13 [PASS][0m [31m   5 [FAIL][0m
+TOTAL .................................................. [32m 740 [PASS][0m [31m 245 [FAIL][0m
+See /Users/skoh/mini/minishell_test.log for more information
