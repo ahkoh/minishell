@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/17 02:10:50 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 06:58:09 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,82 +18,45 @@
 #include "libft.h"
 #include "minishell.h"
 
-// must ended '/' to work
-static char	*trim_path(char *c)
+static void	set_pwd(t_prompt *prompt, const char *dir)
 {
-	const int	l = ft_strlen(c);
-	int			i;
-	int			j;
-
-	i = 0;
-	while (c[i])
-	{
-		if (ft_strncmp(c + i, "//", 2) == 0)
-			ft_strlcpy(c + i, c + i + 1, l);
-		else if (ft_strncmp(c + i, "/./", 3) == 0)
-			ft_strlcpy(c + i, c + i + 2, l);
-		else if (ft_strncmp(c + i, "/../", 4) == 0)
-		{
-			j = i + 3;
-			while (i > 0 && i--)
-				if (c[i] == '/')
-					break ;
-			ft_strlcpy(c + i, c + j, l);
-		}
-		else if (i && c[i] == '/' && c[i + 1] == '\0')
-			c[i] = '\0';
-		else
-			i++;
-	}
-	return (c);
-}
-
-static char	*combine_path(char *a, char *b)
-{
-	char	*aa;
-	char	*c;
-
-	c = ft_strjoin(a, "/");
-	aa = ft_strjoin(c, b);
-	free(c);
-	c = ft_strjoin(aa, "/");
-	free(aa);
-	return (trim_path(c));
-}
-
-static void	set_pwd(t_prompt *prompt, char *dir)
-{
-	char	*param[4];
+	char		*param[3];
+	const char	*oldpwd;
 
 	param[1] = NULL;
+	oldpwd = get_const_value_by_key(prompt->env, "PWD");
+	if (!oldpwd)
+		oldpwd = "";
+	param[0] = ft_strjoin("OLDPWD=", oldpwd);
+	mini_export(prompt, param);
+	free(param[0]);
 	if (*dir == '/')
 		param[2] = combine_path("", dir);
+	else if (oldpwd && *oldpwd)
+		param[2] = combine_path(oldpwd, dir);
 	else
-	{
-		param[3] = get_value_by_key(prompt->env, "PWD");
-		if (param[3] == NULL)
-			return ;
-		param[2] = combine_path(param[3], dir);
-		free(param[3]);
-	}
+		param[2] = getcwd(NULL, 0);
 	param[0] = ft_strjoin("PWD=", param[2]);
 	mini_export(prompt, param);
 	free(param[0]);
 	free(param[2]);
 }
 
-static int	change_dir(t_prompt *prompt, char *path)
+int	change_dir(t_prompt *prompt, const char *path)
 {
 	int	exit_status;
 
-	exit_status = chdir(path);
+	if (*path)
+		exit_status = chdir(path);
+	else
+		exit_status = EXIT_SUCCESS;
 	if (exit_status == EXIT_SUCCESS)
 		set_pwd(prompt, path);
 	else
 	{
 		exit_status = EXIT_FAILURE;
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd((char *)path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	}
@@ -102,12 +65,11 @@ static int	change_dir(t_prompt *prompt, char *path)
 
 int	cd(char **argv, t_prompt *prompt)
 {
-	char	*home;
-	int		exit_status;
+	const char	*home;
 
 	if (argv[1] == NULL)
 	{
-		home = get_value_by_key(prompt->env, "HOME");
+		home = get_const_value_by_key(prompt->env, "HOME");
 		if (!home)
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
@@ -115,12 +77,9 @@ int	cd(char **argv, t_prompt *prompt)
 		}
 		else if (*home == '\0')
 		{
-			free(home);
 			return (EXIT_SUCCESS);
 		}
-		exit_status = change_dir(prompt, home);
-		free(home);
-		return (exit_status);
+		return (change_dir(prompt, home));
 	}
 	return (change_dir(prompt, argv[1]));
 }

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/17 02:19:23 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/17 18:42:13 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	run_script(char *line, char **envp)
 
 	ft_bzero(&prompt, sizeof(prompt));
 	prompt.env = init_env(envp);
+	change_dir(&prompt, ".");
 	lines = ft_split(line, ';');
 	i = -1;
 	while (lines[++i])
@@ -72,6 +73,7 @@ static int	minishell(char **envp)
 
 	ft_bzero(&prompt, sizeof(prompt));
 	prompt.env = init_env(envp);
+	change_dir(&prompt, ".");
 	while (true)
 	{
 		signal(SIGINT, reprompt);

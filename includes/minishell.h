@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:41:15 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/17 15:10:43 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 08:00:53 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,57 +68,59 @@ typedef struct s_expand
 }				t_expand;
 
 //parse
-void	free_cmds(t_cmd **cmd, int total_cmd);
-void	split_cmds(t_cmd **cmd, char *line);
-int		count_total_cmd(char *line);
-void	expand_cmd(t_cmd **cmd, t_prompt *prompt);
-int		get_total_split(char *s);
-void	malloc_arg(t_cmd **cmd, int a, int total_split, char *s);
-int		split_arg(t_cmd **cmd, t_prompt *prompt);
-int		is_quote(char c);
-int		is_op(char c);
-int		check_quote_status(char c, t_split_space_var *var);
-int		check_operator(char c, t_split_space_var *var, bool *is_op);
-int		mini_env(t_prompt *prompt);
-int		mini_export(t_prompt *prompt, char **argv);
-int		mini_unset(t_prompt *prompt, char **argv);
+void		free_cmds(t_cmd **cmd, int total_cmd);
+void		split_cmds(t_cmd **cmd, char *line);
+int			count_total_cmd(char *line);
+void		expand_cmd(t_cmd **cmd, t_prompt *prompt);
+int			get_total_split(char *s);
+void		malloc_arg(t_cmd **cmd, int a, int total_split, char *s);
+int			split_arg(t_cmd **cmd, t_prompt *prompt);
+int			is_quote(char c);
+int			is_op(char c);
+int			check_quote_status(char c, t_split_space_var *var);
+int			check_operator(char c, t_split_space_var *var, bool *is_op);
+int			mini_env(t_prompt *prompt);
+int			mini_export(t_prompt *prompt, char **argv);
+int			mini_unset(t_prompt *prompt, char **argv);
 //get_cmd
-char	**init_env(char **envp);
-int		get_cmds(t_cmd **cmd, t_prompt *prompt);
+char		**init_env(char **envp);
+int			get_cmds(t_cmd **cmd, t_prompt *prompt);
 //executor/utils
-bool	ft_isempty(char *line);
-void	ft_split_free(char ***tab);
-char	*get_value_by_key(char **env, char *key);
+bool		ft_isempty(char *line);
+void		ft_split_free(char ***tab);
+const char	*get_const_value_by_key(char **env, const char *key);
+char		*combine_path(const char *a, const char *b);
 //fd_helper
-void	fd_dup_io(int *fin, int *fout, bool dup_io);
-void	fd_close(int f1, int f2);
-void	fd_replace(int *fd_dest, int fd_src);
+void		fd_dup_io(int *fin, int *fout, bool dup_io);
+void		fd_close(int f1, int f2);
+void		fd_replace(int *fd_dest, int fd_src);
 //syntax
-bool	check_syntax(t_cmd *cmd, int count);
+bool		check_syntax(t_cmd *cmd, int count);
 //builin/builtin.c
-bool	get_builtin_function(char *cmd, t_builtin_func *f);
+bool		get_builtin_function(char *cmd, t_builtin_func *f);
 //builtin/*
-int		cd(char **argv, t_prompt *prompt);
-int		echo(char **argv, t_prompt *prompt);
-int		env(char **argv, t_prompt *prompt);
-int		quit(char **argv, t_prompt *prompt);
-int		export(char **argv, t_prompt *prompt);
-int		pwd(char **argv, t_prompt *prompt);
-char	*get_pwd(t_prompt *prompt);
-int		unset(char **argv, t_prompt *prompt);
-bool	check_env_identifier(char *s, bool has_equal);
-int		debug(char **argv, t_prompt *prompt);
+int			cd(char **argv, t_prompt *prompt);
+int			change_dir(t_prompt *prompt, const char *path);
+int			echo(char **argv, t_prompt *prompt);
+int			env(char **argv, t_prompt *prompt);
+int			quit(char **argv, t_prompt *prompt);
+int			export(char **argv, t_prompt *prompt);
+int			pwd(char **argv, t_prompt *prompt);
+char		*get_pwd(t_prompt *prompt);
+int			unset(char **argv, t_prompt *prompt);
+bool		check_env_identifier(char *s, bool has_equal);
+int			debug(char **argv, t_prompt *prompt);
 //pipex_utils
-int		px_execfile(char **argv, char **env);
+int			px_execfile(char **argv, char **env);
 //heredoc
-bool	handle_heredocs(t_prompt *prompt, t_list **heredocs);
+bool		handle_heredocs(t_prompt *prompt, t_list **heredocs);
 //redirect
-int		open_redirections(t_cmd *cmd, t_list *heredocs);
+int			open_redirections(t_cmd *cmd, t_list *heredocs);
 //executor
-int		execute_line(t_cmd *cmd, t_prompt *prompt);
+int			execute_line(t_cmd *cmd, t_prompt *prompt);
 //cleanup
-void	cleanup(t_prompt *prompt);
-void	cleanup_cmd(t_prompt *prompt);
-void	cleanup_heredocs(t_list **heredocs);
-void	cleanup_redirections(int fd1, int fd2);
+void		cleanup(t_prompt *prompt);
+void		cleanup_cmd(t_prompt *prompt);
+void		cleanup_heredocs(t_list **heredocs);
+void		cleanup_redirections(int fd1, int fd2);
 #endif

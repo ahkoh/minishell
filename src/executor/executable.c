@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/11 14:17:34 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/16 10:57:44 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/18 08:12:39 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,80 +20,96 @@
 
 // locate executable, handle file exist/permission & execve error
 
-static bool	is_executable(char *fp)
+static void	print_error(const char *item, char *error)
 {
-	struct stat	buf;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd((char *)item, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(error, STDERR_FILENO);
+}
 
-	if (stat(fp, &buf) == -1)
+static bool	next_path(char **search, char **dir)
+{
+	char	*end;
+
+	*dir = NULL;
+	if (*search == NULL)
 		return (false);
-	return (S_ISREG(buf.st_mode) && buf.st_mode & 0111);
-}
-
-static char	**px_get_env_paths(char **env)
-{
-	const char	path[] = "PATH";
-	const int	len = sizeof(path) / sizeof(*path);
-
-	while (*env && !ft_strnstr(*env, "PATH=", len))
-		env++;
-	if (*env)
-		return (ft_split(*env + len, ':'));
-	return (NULL);
-}
-
-static char	*px_get_fp(const char *filename, char **env)
-{
-	char		**paths;
-	const int	filename_len = ft_strlen(filename);
-	char		*filepath;
-	int			filepath_size;
-	int			i;
-
-	paths = px_get_env_paths(env);
-	i = -1;
-	while (paths && paths[++i])
+	end = ft_strchr(*search, ':');
+	if (end)
 	{
-		filepath_size = ft_strlen(paths[i]) + filename_len + 2;
-		filepath = malloc(filepath_size);
-		ft_strlcpy(filepath, paths[i], filepath_size);
-		ft_strlcat(filepath, "/", filepath_size);
-		ft_strlcat(filepath, filename, filepath_size);
-		if (is_executable(filepath))
-			return (ft_split_free(&paths), filepath);
-		free(filepath);
+		*dir = ft_strndup(*search, end - *search);
+		*search = end + 1;
 	}
-	ft_split_free(&paths);
-	if (ft_strchr(filename, '/'))
-		return (ft_strdup(filename));
+	else
+	{
+		*dir = ft_strdup(*search);
+		*search = NULL;
+	}
+	return (true);
+}
+
+// allow emtpy (current dir) in PATH=":/bin"
+static char	*search_path(const char *filename, const char *path,
+	struct stat *st)
+{
+	char		*dup;
+	char		*search;
+	char		*dir;
+	char		*fp;
+
+	search = (dup = ft_strdup(path));
+	while (next_path(&search, &dir))
+	{
+		if (*dir)
+			fp = combine_path(dir, filename);
+		else
+			fp = ft_strdup(filename);
+		free(dir);
+		if (stat(fp, st) == 0 && S_ISREG(st->st_mode))
+			return (free(dup), fp);
+		free(fp);
+	}
+	if (*path)
+		print_error(filename, "command not found");
+	else
+		print_error(filename, strerror(ENOENT));
+	ft_bzero(st, sizeof(struct stat));
+	free(dup);
 	return (NULL);
+}
+
+//not strerror(EISDIR) because first character in capital letter
+static char	*px_get_fp(const char *filename, const char *path, struct stat *st)
+{
+	ft_bzero(st, sizeof(struct stat));
+	if (path == NULL || ft_strchr(filename, '/'))
+	{
+		if (stat(filename, st) == -1)
+			return (print_error(filename, strerror(ENOENT)), NULL);
+		if (S_ISDIR(st->st_mode))
+			return (print_error(filename, "is a directory"), NULL);
+		return (ft_strdup(filename));
+	}
+	return (search_path(filename, path, st));
 }
 
 // exe-file without path must exist in env-path or Command-not-found
 // exe-file with path will use errno
+// return permission-denied (dir or execve failed)
+// or return not-found (with/without path)
 int	px_execfile(char **argv, char **env)
 {
-	char	*fp;
+	char		*fp;
+	struct stat	st;
 
-	fp = px_get_fp(*argv, env);
-	if (fp)
-		execve(fp, argv, env);
-	if (!fp || (errno == 2 && !ft_strchr(*argv, '/')))
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(*argv, STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(*argv, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-	}
-	free(fp);
-	if (!fp || errno == ENOENT)
-		return (127);
-	if (errno == EACCES)
+	fp = px_get_fp(*argv, get_const_value_by_key(env, "PATH"), &st);
+	if (!fp & S_ISDIR(st.st_mode))
 		return (126);
-	return (EXIT_FAILURE);
+	else if (!fp)
+		return (127);
+	execve(fp, argv, env);
+	print_error(fp, strerror(EACCES));
+	free(fp);
+	return (126);
 }
