@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/18 21:58:41 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 04:06:36 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ long	ft_atol_try(const char *str, long *out)
 }
 
 // cleanup_heredocs() is called before quit()
+// exit return $? unless number argument provided
 int	quit(char **argv, t_prompt *prompt)
 {
 	long	exit_status;
 
 	(void)prompt;
-	exit_status = EXIT_SUCCESS;
+	exit_status = prompt->e_status;
 	if (argv[1])
 	{
 		if (!ft_atol_try(argv[1], &exit_status))
