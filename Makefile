@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/18 23:58:06 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/19 09:09:53 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,3 +104,8 @@ v: x
 
 t:
 	less -r minishell_test.out
+	less -r minishell_tester.out
+
+test: x
+	git clone https://github.com/thallard/minishell_tester.git test
+	cd test && bash test.sh --valgrind

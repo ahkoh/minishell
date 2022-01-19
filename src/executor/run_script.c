@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 21:22:27 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/18 21:23:10 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/19 00:21:36 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static char	*next_string_find(char *search, char delimiter)
 	char	quote;
 
 	--search;
+	quote = '\0';
 	while (*++search)
 	{
 		if (quote == '"' && *search == '\\' && *search && ++search)
