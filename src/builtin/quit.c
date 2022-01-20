@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/20 04:06:36 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 08:45:44 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int	quit(char **argv, t_prompt *prompt)
 			exit_status = EXIT_FAILURE;
 		}
 	}
-	if (isatty(STDOUT_FILENO) && isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "exit\n", 5);
+	write(STDIN_FILENO, "exit\n", 5);
 	cleanup(prompt);
 	exit((int)exit_status);
 }

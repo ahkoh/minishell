@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/18 21:47:04 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 08:45:08 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	minishell(char **envp)
 		}
 		cleanup_cmd(&prompt);
 	}
-	write(STDOUT_FILENO, "exit\n", 5);
+	write(STDIN_FILENO, "exit\n", 5);
 	cleanup(&prompt);
 	return (prompt.e_status);
 }

@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:39:28 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/18 17:21:45 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 04:20:25 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 bool	check_env_identifier(char *s, bool has_equal)
 {
-	if (!(*s == '_' || ('A' <= *s && *s <= 'Z') || ('a' <= *s && *s <= 'z')))
+	if (!(*s == '_' || ft_isalpha(*s)))
 		return (false);
 	while (*s && (ft_isalnum(*s) || *s == '_'))
 		s++;
@@ -37,7 +37,7 @@ void	find_and_unset(t_prompt *prompt, char *s)
 	while (prompt->env[i])
 	{
 		a = 0;
-		while (s[a] && ft_isalnum(s[a]) && prompt->env[i][a] == s[a])
+		while (s[a] && prompt->env[i][a] == s[a])
 			a++;
 		if (s[a] == '\0' && prompt->env[i][a] == '=')
 		{

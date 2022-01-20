@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 13:40:17 by zhliew            #+#    #+#             */
-/*   Updated: 2022/01/18 17:16:26 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 04:34:07 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ static void	add_env(t_prompt *prompt, char *s)
 }
 
 /* get a copy of the env variable */
-static char	**cpy_env(char **envp)
-{
-	int		a;
-	char	**env;
+// static char	**cpy_env(char **envp)
+// {
+// 	int		a;
+// 	char	**env;
 
-	env = malloc(sizeof(char *) * 1001);
-	a = 0;
-	while (envp[a])
-	{
-		env[a] = ft_strdup(envp[a]);
-		a++;
-	}
-	env[a] = NULL;
-	return (env);
-}
+// 	env = malloc(sizeof(char *) * 1001);
+// 	a = 0;
+// 	while (envp[a])
+// 	{
+// 		env[a] = ft_strdup(envp[a]);
+// 		a++;
+// 	}
+// 	env[a] = NULL;
+// 	return (env);
+// }
 
 /* if export has no arg, make a copy of env variable
    then sort and display them in order */
@@ -68,19 +68,18 @@ static void	display_ordered_env(char **env)
 	a = 0;
 	while (env[a])
 		a++;
-	cpy = cpy_env(env);
+	cpy = malloc(sizeof(char *) * a);
+	ft_memcpy(cpy, env, sizeof(char *) * a);
 	ft_str_qsort(cpy, 0, a - 1);
-	a = 0;
-	while (cpy[a])
+	a = -1;
+	while (env[++a])
 	{
 		kv = ft_split(cpy[a], '=');
 		if (kv[1])
 			printf("declare -x %s=\"%s\"\n", kv[0], kv[1]);
 		else
 			printf("declare -x %s=\"\"\n", kv[0]);
-		free(cpy[a]);
 		ft_split_free(&kv);
-		a++;
 	}
 	free(cpy);
 }

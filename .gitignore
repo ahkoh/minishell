@@ -9,7 +9,7 @@
 # hidden dirs
 .*/
 
-readline-7.0/
+readline-*/
 
 # Prerequisites
 *.d

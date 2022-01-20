@@ -6,13 +6,14 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 10:16:17 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/18 12:52:40 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/20 08:51:41 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <sys/wait.h>
 #include "libft.h"
 #include "minishell.h"
 

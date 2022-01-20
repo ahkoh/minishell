@@ -6,7 +6,7 @@
 #    By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/09 13:50:14 by skoh              #+#    #+#              #
-#    Updated: 2022/01/19 09:09:53 by skoh             ###   ########.fr        #
+#    Updated: 2022/01/20 09:00:02 by skoh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,17 @@ readline-7.0:
 	&& make &>/dev/null \
 	&& make install &>/dev/null
 	@rm readline-7.0.tar.gz
+
+readline-8.1:
+	curl -LO https://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
+	@echo "f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02  readline-8.1.tar.gz" | shasum -c
+	@tar xzf readline-8.1.tar.gz
+	@echo Compiling libreadline...  \
+	&& cd $@ \
+	&& ./configure --prefix=$$(pwd) &>/dev/null \
+	&& make &>/dev/null \
+	&& make install &>/dev/null
+	@rm readline-8.1.tar.gz
 
 .PHONY: all clean fclean re h b x v test
 
