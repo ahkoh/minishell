@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 04:18:29 by Koh               #+#    #+#             */
-/*   Updated: 2022/01/20 08:45:08 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/28 05:04:55 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "libft.h"
 #include "minishell.h"
 
+// todo set $? to 1(Mac bash)/130(wsl bash)
 static void	reprompt(int signum)
 {
 	(void)signum;
@@ -63,7 +64,7 @@ static int	minishell(char **envp)
 			if (get_cmds(&prompt.cmds, &prompt))
 				prompt.e_status = execute_line(prompt.cmds, &prompt);
 			add_history(prompt.full_cmds);
-			if (prompt.e_status == 130)
+			if (prompt.e_status == 130 || prompt.e_status == 131)
 				printf("\n");
 		}
 		cleanup_cmd(&prompt);
@@ -85,5 +86,6 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	}
 	signal(SIGQUIT, SIG_IGN);
+	rl_outstream = stderr;
 	return (minishell(envp));
 }

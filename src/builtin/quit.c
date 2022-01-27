@@ -6,7 +6,7 @@
 /*   By: skoh <skoh@student.42kl.edu.my>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 21:00:37 by skoh              #+#    #+#             */
-/*   Updated: 2022/01/20 08:45:44 by skoh             ###   ########.fr       */
+/*   Updated: 2022/01/28 04:57:26 by skoh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ long	ft_atol_try(const char *str, long *out)
 
 // cleanup_heredocs() is called before quit()
 // exit return $? unless number argument provided
+// "exit <num> <extra>"" print error and does not exit!
 int	quit(char **argv, t_prompt *prompt)
 {
 	long	exit_status;
@@ -80,7 +81,7 @@ int	quit(char **argv, t_prompt *prompt)
 		else if (argv[2])
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-			exit_status = EXIT_FAILURE;
+			return (EXIT_FAILURE);
 		}
 	}
 	write(STDIN_FILENO, "exit\n", 5);
